@@ -1,0 +1,1 @@
+json.partial! "admin_tournaments_players/admin_tournaments_player", admin_tournaments_player: @admin_tournaments_player

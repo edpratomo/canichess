@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <% content_for :page_title do %>Tournaments<% end %>
-<table class="table table-bordered">
+<table class="table table-bordered table-hover text-nowrap">
   <thead>
     <tr>
       <th>Name</th>
@@ -13,7 +13,7 @@
     <% @admin_tournaments.each do |tournament| %>
       <tr>
         <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
-        <td><%= link_to 'Edit', edit_admin_tournament_path(tournament) %></td>
+        <td><%= link_to 'Standings', tournament_admin_tournaments_players_path(tournament)  %></td>
         <td><%= link_to 'Destroy', '#', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title do %>Tournament <%= @tournament.name %><% end %>
+
+<table class="table table-bordered table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tournaments_players.each do |player| %>
+      <tr>
+        <td><%= player.name %></td>
+        <td><%= player.points %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

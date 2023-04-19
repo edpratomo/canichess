@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title do %>Tournaments<% end %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @admin_tournaments.each do |tournament| %>
+      <tr>
+        <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
+        <td><%= link_to 'Edit', edit_admin_tournament_path(tournament) %></td>
+        <td><%= link_to 'Destroy', '#', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Create New Tournament', new_admin_tournament_path %>

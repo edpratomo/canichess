@@ -1,1 +1,1 @@
-require "render_grade_component"
+require 'my_player'

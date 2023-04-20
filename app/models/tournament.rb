@@ -10,6 +10,7 @@ class Tournament < ApplicationRecord
     last_board ? last_board.round + 1 : 1
   end
 
+  # must add validation that previous round must be completed
   def generate_pairings
     my_players = tournaments_players.map {|e| MyPlayer.new(e.player.id, e.name, e.rating, e.points)}
     pairs = Swissper.pair(my_players, delta_key: :tournament_points)
@@ -24,7 +25,7 @@ class Tournament < ApplicationRecord
       end
     end.reverse
 
-    sorted_boards.each do |board|
+    sorted_boards.each_with_index do |board, idx|
       w_player, b_player = board.map do |e|
         unless e.is_a? MyPlayer
           nil
@@ -33,7 +34,7 @@ class Tournament < ApplicationRecord
         end
       end
       # create board pairing for this round
-      Board.create!(tournament: self, round: round, white: w_player, black: b_player)
+      Board.create!(tournament: self, number: idx + 1, round: round, white: w_player, black: b_player)
     end
   end
 end

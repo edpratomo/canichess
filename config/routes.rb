@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :boards do
+      collection do
+        get ':tournament_id/:round_id' => 'boards#index_by_round', as: "round"
+      end
+    end
+  end
+
+  resources :boards
   get 'players/index'
   get 'players/show'
   get 'home/index'

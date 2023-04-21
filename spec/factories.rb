@@ -1,4 +1,14 @@
 FactoryBot.define do
+  factory :admin_board, class: 'Admin::Board' do
+    index { "MyString" }
+    update { "MyString" }
+  end
+
+  factory :board do
+    index { "MyString" }
+    update { "MyString" }
+  end
+
   factory :product do
     
   end

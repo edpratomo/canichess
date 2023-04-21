@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title do %>Tournament: <%= @tournament.name %>
+Round <%= @round %><% end %>
+
+<table class="table table-bordered table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>Board #</th>
+      <th>White</th>
+      <th>Black</th>
+      <th>Result</th>
+      <th/>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @boards.each do |board| %>
+      <tr>
+        <td><%= board.number %></td>
+        <td><%= board.white ? board.white.name : '<BYE>' %></td>
+        <td><%= board.black ? board.black.name : '<BYE>' %></td>
+        <td><%= board.result %></td>
+        <td><%= link_to 'Edit', edit_admin_board_path(board) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

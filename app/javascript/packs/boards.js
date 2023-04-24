@@ -12,33 +12,40 @@ $(document).on('turbolinks:load ready', function () {
 
   getCheckedRadio = function(radios) {
     for (var i = 0; i < radios.length; i++) {       
-        if (radios[i].checked) {
-            return radios[i];
-        }
+      if (radios[i].checked) {
+        return radios[i];
+      }
     }
   }
 
   updateRadio = function(element) {
+    var form_action = element.form.action;
     var form_id = element.form.id;
     var found_form = document.querySelector("#" + form_id);
     var radios = found_form.elements[element.name];
     var last_state = last_radio_state[form_id];
 
-    console.log("last_state: " + last_state);
-    
-    if (last_state) {
-      var found_radio = getRadioByValue(radios, last_state);
-      console.log("found_radio.value: " + found_radio.value);
-      console.log("found_radio.checked: " + found_radio.checked);
-      found_radio.checked = true;
-    } else {
-      console.log("reverting radio");
-      element.checked = false;
-    }
+    $.ajax({
+      url: form_action + '.json',
+      type: 'PATCH',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: { _method:'patch', board: { result: element.value } },
+      dataType: 'json',
+      'error' : function(response) {
+          console.log("response: " + response.status);
+          console.log("reverting to: " + last_state);
+          // revert the change
+          if (last_state) {
+            var found_radio = getRadioByValue(radios, last_state);
+            found_radio.checked = true;
+          } else {
+            element.checked = false;
+          }
+      },
+    });
   }
 
   checkRadio = function(element) {
-    var form_action = element.form.action;
     var form_id = element.form.id;
     var found_form = document.querySelector("#" + form_id);
     

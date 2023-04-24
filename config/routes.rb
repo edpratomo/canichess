@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :boards do
       collection do
-        get ':tournament_id/:round_id' => 'boards#index_by_round', as: "round"
+        get ':tournament_id/:round_id/show' => 'boards#index_by_round', as: "round"
       end
     end
   end

@@ -8,7 +8,7 @@ class Admin::BoardsController < ApplicationController
 
   # GET /admin/boards or /admin/boards.json
   def index
-    @admin_boards = Admin::Board.all
+    @boards = Board.all
   end
 
   # GET /admin/boards/1 or /admin/boards/1.json
@@ -17,7 +17,7 @@ class Admin::BoardsController < ApplicationController
 
   # GET /admin/boards/new
   def new
-    @admin_board = Admin::Board.new
+    @board = Board.new
   end
 
   # GET /admin/boards/1/edit
@@ -26,7 +26,7 @@ class Admin::BoardsController < ApplicationController
 
   # POST /admin/boards or /admin/boards.json
   def create
-    @admin_board = Admin::Board.new(admin_board_params)
+    @board = Board.new(admin_board_params)
 
     respond_to do |format|
       if @admin_board.save
@@ -42,19 +42,19 @@ class Admin::BoardsController < ApplicationController
   # PATCH/PUT /admin/boards/1 or /admin/boards/1.json
   def update
     respond_to do |format|
-      if @admin_board.update(admin_board_params)
-        format.html { redirect_to admin_board_url(@admin_board), notice: "Board was successfully updated." }
-        format.json { render :show, status: :ok, location: @admin_board }
+      if @board.update(admin_board_params)
+        format.html { redirect_to admin_board_url(@board), notice: "Board was successfully updated." }
+        format.json { render :show, status: :ok, location: @board }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @admin_board.errors, status: :unprocessable_entity }
+        format.json { render json: @board.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /admin/boards/1 or /admin/boards/1.json
   def destroy
-    @admin_board.destroy
+    @board.destroy
 
     respond_to do |format|
       format.html { redirect_to admin_boards_url, notice: "Board was successfully destroyed." }
@@ -65,7 +65,7 @@ class Admin::BoardsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_board
-      @admin_board = Admin::Board.find(params[:id])
+      @board = Board.find(params[:id])
     end
 
     def set_tournament_round
@@ -75,6 +75,7 @@ class Admin::BoardsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_board_params
-      params.require(:admin_board).permit(:tournament_id, :round_id)
+      logger.debug(params)
+      params.require(:board).permit(:result) #permit(:tournament_id, :round_id, :id, :result)
     end
 end

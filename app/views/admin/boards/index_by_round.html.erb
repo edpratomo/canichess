@@ -3,26 +3,42 @@
 <% content_for :page_title do %>Tournament: <%= @tournament.name %>
 Round <%= @round %><% end %>
 
-<table class="table table-bordered table-hover text-nowrap">
+<div class="row">
+<div class="col-md-6">
+<div class="card">
+<div class="card-body table-responsive p-0">
+<table class="table table-hover text-nowrap">
   <thead>
     <tr>
-      <th>Board #</th>
+      <th>#</th>
       <th>White</th>
       <th>Black</th>
-      <th>Result</th>
-      <th/>
+      <th colspan="3" style="text-align:center;">Result</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @boards.each do |board| %>
+    <% @boards.each_with_index do |board, idx| %>
       <tr>
         <td><%= board.number %></td>
         <td><%= board.white ? board.white.name : '<BYE>' %></td>
         <td><%= board.black ? board.black.name : '<BYE>' %></td>
-        <td><%= board.result %></td>
-        <td><%= link_to 'Edit', edit_admin_board_path(board) %></td>
+        <%= form_for(board, url: admin_board_path(board), method: :patch, html: { role: "form"}) do |f| %>
+        <td>
+          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "white" %>
+        </td>
+        <td>
+          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "black" %>
+        </td>
+        <td>
+          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "draw" %>
+        </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
+</div>
+</div>
+</div>
+</div>

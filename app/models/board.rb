@@ -16,4 +16,19 @@ class Board < ApplicationRecord
       update!(result: white ? 'white' : 'black')
     end
   end
+
+  def result_option_disabled? opt_result
+    if [white, black].any? {|e| e.nil? }
+      case opt_result
+      when 'draw'
+        true
+      when 'white'
+        result == 'black'
+      when 'black'
+        result == 'white'
+      end
+    else
+      false
+    end
+  end
 end

@@ -1,14 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Index:</strong>
-  <%= @admin_board.index %>
+  <strong>Result:</strong>
+  <%= @board.result %>
 </p>
 
-<p>
-  <strong>Update:</strong>
-  <%= @admin_board.update %>
-</p>
-
-<%= link_to 'Edit', edit_admin_board_path(@admin_board) %> |
+<%= link_to 'Edit', edit_admin_board_path(@board) %> |
 <%= link_to 'Back', admin_boards_path %>

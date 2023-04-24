@@ -1,26 +1,22 @@
-<%= form_with(model: admin_board) do |form| %>
-  <% if admin_board.errors.any? %>
+<%= form_with(model: board, url: admin_board_path(board)) do |form| %>
+  <% if board.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(admin_board.errors.count, "error") %> prohibited this admin_board from being saved:</h2>
+      <h2><%= pluralize(board.errors.count, "error") %> prohibited this admin_board from being saved:</h2>
 
       <ul>
-        <% admin_board.errors.each do |error| %>
+        <% board.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :index %>
-    <%= form.text_field :index %>
-  </div>
-
-  <div class="field">
-    <%= form.label :update %>
-    <%= form.text_field :update %>
-  </div>
-
+            <%= form.hidden_field :tournament_id, value: board.tournament.id %>
+            <%= form.hidden_field :round, value: board.round %>
+            <%= form.hidden_field :white_id, value: board.white.id %>
+            <%= form.hidden_field :black_id, value: board.black.id %>
+            <%= form.hidden_field :number, value: board.number %>
+  <% form.hidden_field :result, value: "white" %>
   <div class="actions">
     <%= form.submit %>
   </div>

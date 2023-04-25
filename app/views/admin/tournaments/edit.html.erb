@@ -1,4 +1,4 @@
-<h1>Editing Admin Tournament</h1>
+<%= content_for :page_title do %>Edit Tournament: <%= @admin_tournament.name %><% end %>
 
 <%= render 'form', admin_tournament: @admin_tournament %>
 

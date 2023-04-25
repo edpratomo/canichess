@@ -12,9 +12,13 @@ class Board < ApplicationRecord
   end
 
   def update_bye_result
-    if [white, black].any? {|e| e.nil? }
+    if contains_bye? #[white, black].any? {|e| e.nil? }
       update!(result: white ? 'white' : 'black')
     end
+  end
+
+  def contains_bye?
+    [white, black].any? {|e| e.nil? }
   end
 
   def result_option_disabled? opt_result

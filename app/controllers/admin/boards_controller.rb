@@ -70,7 +70,7 @@ class Admin::BoardsController < ApplicationController
 
     def set_tournament_round
       @tournament = Tournament.find(params[:tournament_id])
-      @round = params[:round_id]
+      @round = params[:round_id].to_i
     end
 
     # Only allow a list of trusted parameters through.

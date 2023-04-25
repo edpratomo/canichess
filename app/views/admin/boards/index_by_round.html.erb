@@ -2,7 +2,7 @@
 
 <% content_for :page_title do %>Tournament: <%= @tournament.name %>
 Round <%= @round %><% end %>
-
+<% is_round_completed = @tournament.completed_round >= @round %>
 <div class="row">
 <div class="col-md-6">
 <div class="card">
@@ -19,19 +19,20 @@ Round <%= @round %><% end %>
 
   <tbody>
     <% @boards.each_with_index do |board, idx| %>
+      <% is_board_disabled = is_round_completed || board.contains_bye? %>
       <tr>
         <td><%= board.number %></td>
         <td><%= board.white ? board.white.name : '<BYE>' %></td>
         <td><%= board.black ? board.black.name : '<BYE>' %></td>
         <%= form_for(board, url: admin_board_path(board), method: :patch, html: { role: "form"}) do |f| %>
         <td>
-          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "white" %>
+          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "white", is_disabled: is_board_disabled %>
         </td>
         <td>
-          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "black" %>
+          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "black", is_disabled: is_board_disabled %>
         </td>
         <td>
-          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "draw" %>
+          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "draw", is_disabled: is_board_disabled %>
         </td>
         <% end %>
       </tr>

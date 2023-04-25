@@ -1,4 +1,4 @@
            <div class="form-check">
-            <%= form.radio_button :result, opt_result, disabled: board.result_option_disabled?(opt_result), onmousedown: 'checkRadio(this)', onchange: 'updateRadio(this)' %>
+            <%= form.radio_button :result, opt_result, disabled: is_disabled, onmousedown: 'checkRadio(this)', onchange: 'updateRadio(this)' %>
             <%= form.label :result, opt_result, value: opt_result %>
           </div>

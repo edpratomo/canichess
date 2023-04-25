@@ -5,9 +5,25 @@ class Tournament < ApplicationRecord
   has_many :tournaments_players, dependent: :destroy
   has_many :players, through: :tournaments_players
 
-  def next_round
+  validate :all_boards_finished, on: :update, if: :completed_round_changed?
+
+  def finalize_round
+    transaction do
+      update!(completed_round: completed_round + 1)
+      snapshoot_points
+      if completed_round < rounds
+        generate_pairings
+      end
+    end
+  end
+
+  def current_round
     last_board = boards.order(:round).last
-    last_board ? last_board.round + 1 : 1
+    last_board ? last_board.round : 0
+  end
+
+  def next_round
+    current_round + 1
   end
 
   # must add validation that previous round must be completed
@@ -35,6 +51,20 @@ class Tournament < ApplicationRecord
       end
       # create board pairing for this round
       Board.create!(tournament: self, number: idx + 1, round: round, white: w_player, black: b_player)
+    end
+  end
+
+  def snapshoot_points
+    tournaments_players.each do |t_player|
+      Standing.create!(round: current_round, tournaments_player: t_player, points: t_player.points)
+    end
+  end
+
+  protected
+  def all_boards_finished
+    Rails.logger.debug(">>>>>>> all_boards_finished called")
+    if boards.find_by(result: nil, round: completed_round)
+      errors.add(:completed_round, "All boards must have finished first")
     end
   end
 end

@@ -1,9 +1,21 @@
 class TournamentsPlayer < ApplicationRecord
-  attr_accessor :exclude
-
   belongs_to :tournament
   belongs_to :player
   has_many :standings
+
+  def prev_opps
+    black_opps = Board.where(tournament: tournament, white: self).map {|e| e.black}
+    white_opps = Board.where(tournament: tournament, black: self).map {|e| e.white}
+    black_opps | white_opps
+  end
+
+  def playing_black
+    Board.where(tournament: tournament, black: self).size
+  end
+
+  def prev_color
+    
+  end
 
   def name
     player.name

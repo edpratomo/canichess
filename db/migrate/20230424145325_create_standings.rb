@@ -9,8 +9,7 @@ CREATE TABLE standings (
   median NUMERIC(3,1),
   solkoff NUMERIC(3,1),
   cumulative NUMERIC(3,1),
-  cumulative_oo NUMERIC(3,1),
-  playing_black INTEGER          -- how many times this player played black
+  cumulative_oo NUMERIC(3,1)
 );
 SQL
 

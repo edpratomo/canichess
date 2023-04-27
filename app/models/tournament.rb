@@ -77,6 +77,7 @@ class Tournament < ApplicationRecord
   end
 
   def snapshoot_points
+    return if current_round < 1
     tournaments_players.each do |t_player|
       Standing.create!(round: current_round, tournaments_player: t_player, points: t_player.points)
     end

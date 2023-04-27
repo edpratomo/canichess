@@ -1,5 +1,14 @@
 module ApplicationHelper
   def chess_result val
-    val == "white" ? "1 - 0" : (val == "black" ? "0 - 1" : raw("&#189; - &#189;"))
+    case val
+    when "white"
+      "1 - 0"
+    when "black"
+      "0 - 1"
+    when "draw"
+      raw("&#189; - &#189;")
+    else
+      ''
+    end
   end
 end

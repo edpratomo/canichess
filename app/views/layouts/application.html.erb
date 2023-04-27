@@ -6,10 +6,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'true' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'true' %>
-    <%= javascript_pack_tag 'boards' %>
-    <%= javascript_pack_tag 'hello_erb' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'boards', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body data-scrollbar-auto-hide="n" class="hold-transition sidebar-mini layout-fixed">

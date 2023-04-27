@@ -9,6 +9,10 @@ class TournamentsPlayer < ApplicationRecord
     black_opps | white_opps
   end
 
+  def games
+    Board.where(tournament: tournament, white: self).or(Board.where(tournament: tournament, black: self)).order(:round)
+  end
+
   def playing_black
     Board.where(tournament: tournament, black: self).size
   end

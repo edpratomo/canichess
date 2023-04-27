@@ -4,7 +4,6 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
-    #@tournaments_players = @tournament.players.order(points: :desc, rating: :desc, name: :asc)
     logger.debug("tournament: #{@tournament}")
     @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(points: :desc, rating: :desc, name: :asc)
 
@@ -17,11 +16,12 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # GET /admin/tournaments_players/1 or /admin/tournaments_players/1.json
   def show
+    @games = @tournaments_player.games
   end
 
   # GET /admin/tournaments_players/new
   def new
-    @admin_tournaments_player = Admin::TournamentsPlayer.new
+    @admin_tournaments_player = TournamentsPlayer.new
   end
 
   # GET /admin/tournaments_players/1/edit
@@ -30,7 +30,7 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # POST /admin/tournaments_players or /admin/tournaments_players.json
   def create
-    @admin_tournaments_player = Admin::TournamentsPlayer.new(admin_tournaments_player_params)
+    @admin_tournaments_player = TournamentsPlayer.new(admin_tournaments_player_params)
 
     respond_to do |format|
       if @admin_tournaments_player.save
@@ -69,7 +69,7 @@ class Admin::TournamentsPlayersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_tournaments_player
-      @admin_tournaments_player = Admin::TournamentsPlayer.find(params[:id])
+      @tournaments_player = TournamentsPlayer.find(params[:id])
     end
 
     def set_tournament

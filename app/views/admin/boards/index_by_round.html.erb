@@ -7,38 +7,12 @@ Round <%= @round %><% end %>
 <div class="col-md-6">
 <div class="card">
 <div class="card-body table-responsive p-0">
-<table class="table table-hover text-nowrap">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>White</th>
-      <th>Black</th>
-      <th colspan="3" style="text-align:center;">Result</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @boards.each_with_index do |board, idx| %>
-      <% is_board_disabled = is_round_completed || board.contains_bye? %>
-      <tr>
-        <td><%= board.number %></td>
-        <td><%= board.white ? board.white.name : '<BYE>' %></td>
-        <td><%= board.black ? board.black.name : '<BYE>' %></td>
-        <%= form_for(board, url: admin_board_path(board), method: :patch, html: { role: "form"}) do |f| %>
-        <td>
-          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "white", is_disabled: is_board_disabled %>
-        </td>
-        <td>
-          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "black", is_disabled: is_board_disabled %>
-        </td>
-        <td>
-          <%= render 'form_board', form: f, board: board, tournament: @tournament, round: @round, opt_result: "draw", is_disabled: is_board_disabled %>
-        </td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% if is_round_completed %>
+  <%= render 'completed_table', boards: @boards %>
+<% else %>
+  <%= render 'in_progress_table', boards: @boards %>
+<% end %>
 </div>
 </div>
 </div>

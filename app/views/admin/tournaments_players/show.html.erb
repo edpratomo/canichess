@@ -1,4 +1,41 @@
 <p id="notice"><%= notice %></p>
+<% content_for :page_title do %>Tournament: <%= @tournaments_player.tournament.name %><% end %>
+<h4 class="text-info"><%= @tournaments_player.name %></h4>
 
-<%= link_to 'Edit', edit_admin_tournaments_player_path(@admin_tournaments_player) %> |
+<div class="row">
+<div class="col-md-6">
+<div class="card">
+<div class="card-body table-responsive p-0">
+<table class="table table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>Round</th>
+      <th>White</th>
+      <th>Black</th>
+      <th style="text-align:center;">Result</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% (1..@tournaments_player.tournament.rounds).each do |round| %>
+    <tr>
+    <% board = @games[round - 1] %>
+    <% if round <= @games.size %>
+      <td><%= link_to board.round, round_admin_boards_path(@tournaments_player.tournament, board.round) %></td>
+      <td <%= same_player?(@tournaments_player, board.white) ? raw('class="text-info"') : ''  %>><%= board.white ? board.white.name : '<BYE>' %></td>
+      <td <%= same_player?(@tournaments_player, board.black) ? raw('class="text-info"') : ''  %>><%= board.black ? board.black.name : '<BYE>' %></td>
+      <td style="text-align:center;"><%= chess_result(board.result) %></td>
+    <% else %>
+      <td><%= round %></td><td/><td/><td/>
+    <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<%= link_to 'Edit', edit_admin_tournaments_player_path(@tournaments_player) %> |
 <%= link_to 'Back', admin_tournaments_players_path %>

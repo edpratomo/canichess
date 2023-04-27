@@ -20,11 +20,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :tournaments_players do
-      collection do
-        get ':id' => 'tournaments_players#index_by_tournament', as: "tournament"
-      end
-    end
+    resources :tournaments_players #do
+      #collection do
+      #  get ':id' => 'tournaments_players#index_by_tournament', as: "tournament"
+      #end
+    #end
   end
 
   devise_for :users, skip: [:registrations]

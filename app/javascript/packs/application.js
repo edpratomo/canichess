@@ -27,7 +27,6 @@ document.addEventListener("turbolinks:load", () => {
 
 import '../stylesheets/application'; // This file will contain your custom CSS
 require('admin-lte');
-require("admissions");
 
 import "@fortawesome/fontawesome-free/js/all";
 

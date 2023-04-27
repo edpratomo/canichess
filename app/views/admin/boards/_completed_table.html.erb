@@ -1,0 +1,23 @@
+<table class="table table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>White</th>
+      <th>Black</th>
+      <th style="text-align:center;">Result</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% boards.each_with_index do |board, idx| %>
+      <tr>
+        <td><%= board.number %></td>
+        <td><%= board.white ? link_to(board.white.name, admin_tournaments_player_path(board.white)) : '<BYE>' %></td>
+        <td><%= board.black ? link_to(board.black.name, admin_tournaments_player_path(board.black)) : '<BYE>' %></td>
+        <td style="text-align:center;">
+          <%= chess_result(board.result) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

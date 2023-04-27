@@ -1,11 +1,46 @@
 class Tournament < ApplicationRecord
   has_many :boards
-  
+  has_many :standings
+
   # many-to-many players
   has_many :tournaments_players, dependent: :destroy
   has_many :players, through: :tournaments_players
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
+
+  def compute_tiebreaks round=nil
+    round ||= rounds
+    t_players = tournaments_players.joins(:standings).where('standings.round': round).order('standings.points': :desc)
+    t_players.each do |t_player|
+      standing = t_player.standings.find_by(round: round)
+      opponents_points = t_player.prev_opps.reject(&:nil?).map do |opponent|
+        Standing.find_by(tournaments_player: opponent, round: round).points
+      end.sort
+
+      # solkoff
+      tb_solkoff = opponents_points.sum
+
+      # modified median
+      t_player_points = standing.points
+      tb_modified_median = if t_player_points == rounds / 2
+        opponents_points.shift
+        opponents_points.pop
+        opponents_points.sum
+      elsif t_player_points > rounds / 2
+        opponents_points.shift
+        opponents_points.sum
+      else
+        opponents_points.pop
+        opponents_points.sum
+      end
+      
+      # cumulative
+      tb_cumulative = t_player.standings.where(round: (1..round).to_a).map(&:points).sum
+
+      # update standing for t_player
+      standing.update!(median: tb_modified_median, solkoff: tb_solkoff, cumulative: tb_cumulative)
+    end
+  end
 
   def finalize_round
     transaction do
@@ -79,7 +114,7 @@ class Tournament < ApplicationRecord
   def snapshoot_points
     return if current_round < 1
     tournaments_players.each do |t_player|
-      Standing.create!(round: current_round, tournaments_player: t_player, points: t_player.points)
+      Standing.create!(tournament: tournament, round: current_round, tournaments_player: t_player, points: t_player.points)
     end
   end
 

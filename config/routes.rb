@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :standings
   namespace :admin do
     resources :boards do
       collection do

@@ -5,7 +5,9 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th colspan="2"></th>
+      <th></th>
+      <th>Status</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -13,7 +15,8 @@
     <% @admin_tournaments.each do |tournament| %>
       <tr>
         <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
-        <td><%= link_to 'Standings', tournament_admin_tournaments_players_path(tournament)  %></td>
+        <td><%= link_to 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
+        <td><%= tournament.completed_round == tournament.rounds ? "Completed" : "On going" %></td>
         <td><%= link_to 'Destroy', '#', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

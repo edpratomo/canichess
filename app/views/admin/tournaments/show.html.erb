@@ -1,4 +1,29 @@
 <p id="notice"><%= notice %></p>
+<% content_for :page_title do %>Tournament: <%= @admin_tournament.name %><% end %>
+
+<p>Number of rounds: <%= @admin_tournament.rounds %></p>
+<p>Number of players: <%= @admin_tournament.players.size %></p>
+
+<table class="table table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>Round</th>
+      <th>Pairings</th>
+      <th>Standings</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% (1..@admin_tournament.rounds).each do |round| %>
+      <tr>
+        <td><%= round %></td>
+        <td><%= link_to "Pairings", round_admin_boards_path(@admin_tournament, round) %></td>
+        <td><%= link_to "Result", round_admin_standings_path(@admin_tournament, round) %></td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'Edit', edit_admin_tournament_path(@admin_tournament) %> |
 <%= link_to 'Back', admin_tournaments_path %>

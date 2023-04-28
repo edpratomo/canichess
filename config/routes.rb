@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  resources :standings
+  namespace :admin do
+    resources :standings do
+      collection do
+        get ':tournament_id/:round_id/show' => 'standings#index_by_round', as: "round"
+      end
+    end
+  end
+
   namespace :admin do
     resources :boards do
       collection do

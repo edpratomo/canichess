@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title do %>Tournament: <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %> standing after round <%= @round %><% end %>
+
+<table class="table table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Points</th>
+      <th>TB 1</th>
+      <th>TB 2</th>
+      <th>TB 3</th>
+      <th>TB 4</th>
+      <th>TB 5</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @standings.each_with_index do |standing, idx| %>
+      <tr>
+        <td><%= idx + 1 %></td>
+        <td><%= standing.tournaments_player.name %></td>
+        <td><%= standing.points %></td>
+        <td><%= standing.median %></td>
+        <td><%= standing.solkoff %></td>
+        <td><%= standing.cumulative %></td>
+        <td><%= standing.opposition_cumulative %></td>
+        <td><%= standing.playing_black %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

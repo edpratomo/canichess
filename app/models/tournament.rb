@@ -8,6 +8,11 @@ class Tournament < ApplicationRecord
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
+  def sorted_standings round=nil
+    round ||= completed_round
+    standings.where(round: round).order(points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, playing_black: :desc)
+  end
+
   def compute_tiebreaks round=nil
     round ||= completed_round
     t_players = tournaments_players.joins(:standings).where('standings.round': round).order('standings.points': :desc)

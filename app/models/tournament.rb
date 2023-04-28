@@ -1,6 +1,4 @@
 class Tournament < ApplicationRecord
-  alias :start :finalize_round
-
   has_many :boards
   has_many :standings
 
@@ -140,6 +138,8 @@ class Tournament < ApplicationRecord
                        playing_black: t_player.playing_black)
     end
   end
+
+  alias :start :finalize_round
 
   protected
   def all_boards_finished

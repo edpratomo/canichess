@@ -1,4 +1,6 @@
 class Tournament < ApplicationRecord
+  alias :start :finalize_round
+
   has_many :boards
   has_many :standings
 
@@ -9,8 +11,17 @@ class Tournament < ApplicationRecord
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
   def compute_tiebreaks round=nil
-    round ||= rounds
+    round ||= completed_round
     t_players = tournaments_players.joins(:standings).where('standings.round': round).order('standings.points': :desc)
+
+    # first pass: cumulative
+    t_players.each do |t_player|
+      standing = t_player.standings.find_by(round: round)
+      # cumulative
+      tb_cumulative = t_player.standings.where(round: (1..round).to_a).map(&:points).sum
+      standing.update!(cumulative: tb_cumulative)
+    end
+
     t_players.each do |t_player|
       standing = t_player.standings.find_by(round: round)
       opponents_points = t_player.prev_opps.reject(&:nil?).map do |opponent|
@@ -34,20 +45,30 @@ class Tournament < ApplicationRecord
         opponents_points.sum
       end
       
-      # cumulative
-      tb_cumulative = t_player.standings.where(round: (1..round).to_a).map(&:points).sum
+      # opposition cumulative
+      tb_opposition_cumulative = t_player.prev_opps.reject(&:nil?).map do |opponent|
+        Standing.find_by(tournaments_player: opponent, round: round).cumulative
+      end.sum
 
       # update standing for t_player
-      standing.update!(median: tb_modified_median, solkoff: tb_solkoff, cumulative: tb_cumulative)
+      standing.update!(median: tb_modified_median, solkoff: tb_solkoff, opposition_cumulative: tb_opposition_cumulative)
     end
   end
 
   def finalize_round
+    return if completed_round == rounds # tournament is finished already
+
     transaction do
-      update!(completed_round: completed_round + 1)
-      snapshoot_points
+      # check if no pairing has been created yet
+      if current_round > 0
+        update!(completed_round: completed_round + 1)
+        snapshoot_points
+      end
       if completed_round < rounds
         generate_pairings
+      else
+        # final round
+        compute_tiebreaks
       end
     end
   end
@@ -111,10 +132,12 @@ class Tournament < ApplicationRecord
     end
   end
 
+  # create snapshots of every player for a specific round
   def snapshoot_points
     return if current_round < 1
     tournaments_players.each do |t_player|
-      Standing.create!(tournament: tournament, round: current_round, tournaments_player: t_player, points: t_player.points)
+      Standing.create!(tournament: tournament, round: current_round, tournaments_player: t_player, points: t_player.points, 
+                       playing_black: t_player.playing_black)
     end
   end
 

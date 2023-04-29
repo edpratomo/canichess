@@ -16,6 +16,11 @@
             <%= form.hidden_field :white_id, value: board.white.id %>
             <%= form.hidden_field :black_id, value: board.black.id %>
             <%= form.hidden_field :number, value: board.number %>
+
+<%= render 'form_board', form: form, opt_result: "white", is_disabled: false %>
+<%= render 'form_board', form: form, opt_result: "black", is_disabled: false %>
+<%= render 'form_board', form: form, opt_result: "draw", is_disabled: false %>
+
   <% form.hidden_field :result, value: "white" %>
   <div class="actions">
     <%= form.submit %>

@@ -6,9 +6,16 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-tourney = Tournament.create(name: "Springfield Cup", rounds: 5)
+tournament_name = ENV['TOURNAMENT'] || "Springfield Cup"
+number_of_rounds = ENV['ROUNDS'] || ENV['ROUND'] || 5
+names_file = ENV['INPUT']
 
-names_txt = <<-EOF
+tourney = Tournament.create(name: tournament_name, rounds: number_of_rounds)
+
+names_txt = if names_file
+  File.read(names_file)
+else
+  <<-EOF
 Adam Johnson
 Ben Smith
 Charles Brown
@@ -49,18 +56,18 @@ Lucas Hernandez
 Marcus Johnson
 Nathan Martinez
 EOF
+end
 
 names = names_txt.split("\n").map(&:strip).reject(&:empty?)
 
 names.each do |name|
-  Player.create(name: name)
-end
-
-Player.all.each do |player|
+  player = Player.create(name: name)
   tourney.players << player
 end
 
 # create first devise user
-fullname, username, email, password = ENV['DEVISE_FIRST_USER'].split(",").map(&:strip)
-user = User.new(fullname: fullname, username: username, email: email, password: password, password_confirmation: password)
-user.save(validate: false)
+unless User.first
+  fullname, username, email, password = ENV['DEVISE_FIRST_USER'].split(",").map(&:strip)
+  user = User.new(fullname: fullname, username: username, email: email, password: password, password_confirmation: password)
+  user.save(validate: false)
+end

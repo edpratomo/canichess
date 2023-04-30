@@ -22,7 +22,7 @@
 
 <%= form_tag(start_admin_tournaments_path, {method: :patch, class: "form-horizontal", role: "form"}) do %>
   <% if @admin_tournament.current_round > 0 %>
-  <button type="submit" class="btn btn-primary disabled" disabled>Start!</button>
+  <button type="submit" class="btn btn-secondary disabled" disabled>Start!</button>
   <% else %>
   <button type="submit" class="btn btn-primary">Start!</button>
   <% end %>

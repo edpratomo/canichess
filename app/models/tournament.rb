@@ -145,6 +145,10 @@ class Tournament < ApplicationRecord
     end
   end
 
+  def all_boards_finished? round
+    not boards.find_by(result: nil, round: round)
+  end
+
   alias :start :finalize_round
 
   protected

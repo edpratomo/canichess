@@ -4,11 +4,13 @@
 Round <%= @round %><% end %>
 <% is_round_completed = @tournament.completed_round >= @round %>
 
-<%= form_tag(start_admin_tournaments_path(@tournament), {method: :patch, class: "form-horizontal", role: "form"}) do %>
   <% if is_round_completed %>
-    <button type="submit" class="btn btn-secondary disabled" disabled>Finalize this round</button>
+  <div class="row">
+    <%= button_to "Finalize this round", start_admin_tournaments_path(@tournament), method: :patch, class: "btn btn-secondary disabled", disabled: true %>
     <%= button_to "Standings", round_admin_standings_path(@tournament, @round), method: :get, class: "btn btn-primary" %>
+  </div>
   <% else %>
+<%= form_tag(start_admin_tournaments_path(@tournament), {method: :patch, class: "form-horizontal", role: "form"}) do %>
     <%# if this round is not completed, check if all boards have finished %>
     <% if @tournament.all_boards_finished?(@round) %>
     <button type="submit" class="btn btn-primary">Finalize this round</button>

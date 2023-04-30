@@ -42,6 +42,13 @@ $(document).on('turbolinks:load', function () {
             element.checked = false;
           }
       },
+      'success': function(data) {
+        console.log("all_completed? " + data["tournament"]["all_completed"]);
+        if (data["tournament"]["all_completed"]) {
+          $("#finalize_enabled").show();
+          $("#finalize_disabled").hide();
+        }
+      },
     });
   }
 

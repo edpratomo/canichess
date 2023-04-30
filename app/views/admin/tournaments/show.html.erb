@@ -4,6 +4,10 @@
 <p>Number of rounds: <%= @admin_tournament.rounds %></p>
 <p>Number of players: <%= @admin_tournament.players.size %></p>
 
+<p>
+<%= link_to "List of players", tournament_admin_tournaments_players_path(@admin_tournament) %>
+</p>
+
 <p>Pairings: 
 <% (1..@admin_tournament.rounds).each do |round| %>
   <%= link_to_if round <= @admin_tournament.current_round, "Round #{round}", round_admin_boards_path(@admin_tournament, round) %>
@@ -16,5 +20,13 @@
 <% end %>
 </p>
 
-<%= link_to 'Edit', edit_admin_tournament_path(@admin_tournament) %> |
-<%= link_to 'Back', admin_tournaments_path %>
+<%= form_tag(start_admin_tournaments_path, {method: :patch, class: "form-horizontal", role: "form"}) do %>
+  <% if @admin_tournament.current_round > 0 %>
+  <button type="submit" class="btn btn-primary disabled" disabled>Start!</button>
+  <% else %>
+  <button type="submit" class="btn btn-primary">Start!</button>
+  <% end %>
+<% end %>
+
+<br/>
+<%= link_to_if @admin_tournament.current_round == 0, 'Edit', edit_admin_tournament_path(@admin_tournament) %>

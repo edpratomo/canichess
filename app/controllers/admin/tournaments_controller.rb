@@ -1,5 +1,17 @@
 class Admin::TournamentsController < ApplicationController
-  before_action :set_admin_tournament, only: %i[ show edit update destroy ]
+  before_action :set_admin_tournament, only: %i[ show edit update destroy start ]
+
+  def start
+    respond_to do |format|
+      if @admin_tournament.start
+        format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
+        format.json { render :show, status: :ok, location: @admin_tournament }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @admin_tournament.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # GET /admin/tournaments or /admin/tournaments.json
   def index

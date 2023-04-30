@@ -24,15 +24,19 @@ Rails.application.routes.draw do
     resources :players
   end
   namespace :admin do
-    resources :tournaments
+    resources :tournaments do
+      collection do
+        patch ':id/start' => 'tournaments#start', as: "start"
+      end
+    end
   end
 
   namespace :admin do
-    resources :tournaments_players #do
-      #collection do
-      #  get ':id' => 'tournaments_players#index_by_tournament', as: "tournament"
-      #end
-    #end
+    resources :tournaments_players do
+      collection do
+        get ':id/list' => 'tournaments_players#index_by_tournament', as: "tournament"
+      end
+    end
   end
 
   devise_for :users, skip: [:registrations]

@@ -3,6 +3,17 @@
 <% content_for :page_title do %>Tournament: <%= link_to @tournament.name, admin_tournament_path(@tournament) %>
 Round <%= @round %><% end %>
 <% is_round_completed = @tournament.completed_round >= @round %>
+
+<%= form_tag(start_admin_tournaments_path(@tournament), {method: :patch, class: "form-horizontal", role: "form"}) do %>
+  <% if is_round_completed %>
+  <button type="submit" class="btn btn-primary disabled" disabled>Finalize this round</button>
+  <% else %>
+  <button type="submit" class="btn btn-primary">Finalize this round</button>
+  <% end %>
+<% end %>
+
+<br/>
+
 <div class="row">
 <div class="col-md-6">
 <div class="card">

@@ -74,6 +74,7 @@ class Tournament < ApplicationRecord
         compute_tiebreaks
       end
     end
+    true
   end
 
   def current_round
@@ -139,7 +140,7 @@ class Tournament < ApplicationRecord
   def snapshoot_points
     return if current_round < 1
     tournaments_players.each do |t_player|
-      Standing.create!(tournament: tournament, round: current_round, tournaments_player: t_player, points: t_player.points, 
+      Standing.create!(tournament: self, round: current_round, tournaments_player: t_player, points: t_player.points, 
                        playing_black: t_player.playing_black)
     end
   end

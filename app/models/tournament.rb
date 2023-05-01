@@ -8,6 +8,16 @@ class Tournament < ApplicationRecord
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
+  def import_players players_file
+    File.foreach(players_file.path).with_index do |line, index|
+      name = line.strip
+      g_player = Player.find_by(name: name) || Player.create!(name: name)
+      unless players.find_by(name: name)
+        players << g_player
+      end
+    end
+  end
+
   def sorted_standings round=nil
     round ||= completed_round
     standings.where(round: round).order(points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, playing_black: :desc)

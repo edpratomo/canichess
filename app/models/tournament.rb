@@ -14,7 +14,7 @@ class Tournament < ApplicationRecord
     boards_per_round = (players.size.to_f / 2).ceil
     total_boards = boards_per_round * rounds
     boards_finished_current_round = boards.where(round: current_round).where.not(result: nil).size
-    ((boards_per_round * completed_round + boards_finished_current_round * 100) / (boards_per_round * rounds)).floor 
+    (((boards_per_round * completed_round + boards_finished_current_round) * 100) / (boards_per_round * rounds)).floor 
   end
 
   def import_players players_file

@@ -1,5 +1,5 @@
 <%= content_for :page_title do %>Edit Tournament: <%= @admin_tournament.name %><% end %>
 
-<%= render 'form', admin_tournament: @admin_tournament %>
+<%= render 'form', admin_tournament: @admin_tournament, form_url: admin_tournament_path(@admin_tournament) %>
 
 <%= link_to 'Show', admin_tournament_path(@admin_tournament) %>

@@ -1,4 +1,4 @@
 <% content_for :page_title do %>Create New Tournament<% end %>
-<%= render 'form', admin_tournament: @admin_tournament %>
+<%= render 'form', admin_tournament: @admin_tournament, form_url: admin_tournaments_path %>
 <br/>
 <%= link_to 'Back', admin_tournaments_path %>

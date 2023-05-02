@@ -4,7 +4,7 @@
 
 <div class="row">
 <div class="col-md-6">
-<div class="card">
+<div class="card card-primary card-outline">
 <div class="card-body table-responsive p-0">
 <table class="table table-bordered table-hover text-nowrap">
   <thead>
@@ -19,7 +19,7 @@
     <% @tournaments_players.each_with_index do |player,idx| %>
       <tr>
         <td><%= idx + 1 %></td>
-        <td><%= player.name %></td>
+        <td><%= link_to(player.name, admin_tournaments_player_path(player)) %></td>
         <td style="text-align:center;"><%= player.points %></td>
       </tr>
     <% end %>

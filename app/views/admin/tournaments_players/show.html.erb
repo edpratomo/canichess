@@ -1,15 +1,16 @@
 <p id="notice"><%= notice %></p>
-<% content_for :page_title do %>Tournament: <%= @tournaments_player.tournament.name %><% end %>
-<h4 class="text-info"><%= @tournaments_player.name %></h4>
-
+<% content_for :page_title do %>Tournament: <%= link_to @tournaments_player.tournament.name, admin_tournament_path(@tournaments_player.tournament) %><% end %>
 <div class="row">
 <div class="col-md-6">
-<div class="card">
+<div class="card card-primary card-outline">
+<div class="card-header">
+  <h3 class="card-title text-info"><%= @tournaments_player.name %></h3>
+</div>
 <div class="card-body table-responsive p-0">
 <table class="table table-hover text-nowrap">
   <thead>
     <tr>
-      <th>Round</th>
+      <th style="width: 2%">Round</th>
       <th>White</th>
       <th>Black</th>
       <th style="text-align:center;">Result</th>
@@ -37,5 +38,3 @@
 </div>
 </div>
 
-<%= link_to 'Edit', edit_admin_tournaments_player_path(@tournaments_player) %> |
-<%= link_to 'Back', admin_tournaments_players_path %>

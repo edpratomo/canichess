@@ -16,27 +16,27 @@ BEGIN
   IF (TG_OP = 'UPDATE') THEN
     --- substract old results
     IF (OLD.result = 'white') THEN
-        UPDATE tournaments_players SET points = points - 1   WHERE tournament_id = OLD.tournament_id AND player_id = OLD.white_id;
+        UPDATE tournaments_players SET points = points - 1   WHERE id = OLD.white_id;
     ELSIF (OLD.result = 'black') THEN
-        UPDATE tournaments_players SET points = points - 1   WHERE tournament_id = OLD.tournament_id AND player_id = OLD.black_id;
+        UPDATE tournaments_players SET points = points - 1   WHERE id = OLD.black_id;
     ELSIF (OLD.result = 'draw') THEN
-        UPDATE tournaments_players SET points = points - 0.5 WHERE tournament_id = OLD.tournament_id AND player_id IN (OLD.white_id, OLD.black_id);
+        UPDATE tournaments_players SET points = points - 0.5 WHERE id IN (OLD.white_id, OLD.black_id);
     END IF;
     --- update new results
     IF (NEW.result = 'white') THEN
-        UPDATE tournaments_players SET points = points + 1   WHERE tournament_id = OLD.tournament_id AND player_id = OLD.white_id;
+        UPDATE tournaments_players SET points = points + 1   WHERE id = OLD.white_id;
     ELSIF (NEW.result = 'black') THEN
-        UPDATE tournaments_players SET points = points + 1   WHERE tournament_id = OLD.tournament_id AND player_id = OLD.black_id;
+        UPDATE tournaments_players SET points = points + 1   WHERE id = OLD.black_id;
     ELSIF (NEW.result = 'draw') THEN
-        UPDATE tournaments_players SET points = points + 0.5 WHERE tournament_id = OLD.tournament_id AND player_id IN (OLD.white_id, OLD.black_id);
+        UPDATE tournaments_players SET points = points + 0.5 WHERE id IN (OLD.white_id, OLD.black_id);
     END IF;
   ELSIF (TG_OP = 'DELETE') THEN
     IF (OLD.result = 'white') THEN
-        UPDATE tournaments_players SET points = points - 1   WHERE tournament_id = OLD.tournament_id AND player_id = OLD.white_id;
+        UPDATE tournaments_players SET points = points - 1   WHERE id = OLD.white_id;
     ELSIF (OLD.result = 'black') THEN
-        UPDATE tournaments_players SET points = points - 1   WHERE tournament_id = OLD.tournament_id AND player_id = OLD.black_id;
+        UPDATE tournaments_players SET points = points - 1   WHERE id = OLD.black_id;
     ELSIF (OLD.result = 'draw') THEN
-        UPDATE tournaments_players SET points = points - 0.5 WHERE tournament_id = OLD.tournament_id AND player_id IN (OLD.white_id, OLD.black_id);
+        UPDATE tournaments_players SET points = points - 0.5 WHERE id IN (OLD.white_id, OLD.black_id);
     END IF;
   END IF;
   RETURN NULL;

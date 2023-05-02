@@ -8,6 +8,15 @@ class Tournament < ApplicationRecord
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
+  def percentage_completion
+    return 100 if completed_round == rounds
+    return 0 if current_round == 0
+    boards_per_round = (players.size.to_f / 2).ceil
+    total_boards = boards_per_round * rounds
+    boards_finished_current_round = boards.where(round: current_round).where.not(result: nil).size
+    ((boards_per_round * completed_round + boards_finished_current_round * 100) / (boards_per_round * rounds)).floor 
+  end
+
   def import_players players_file
     File.foreach(players_file.path).with_index do |line, index|
       name = line.strip

@@ -1,24 +1,44 @@
 <p id="notice"><%= notice %></p>
 
 <% content_for :page_title do %>Tournaments<% end %>
-<table class="table table-bordered table-hover text-nowrap">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th></th>
-      <th>Status</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @admin_tournaments.each do |tournament| %>
+<div class="card">
+  <div class="card-body p0">
+  <table class="table table-striped projects">
+    <thead>
       <tr>
-        <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
-        <td><%= link_to_if tournament.completed_round > 0, 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
-        <td><%= tournament.current_round == 0 ? "Not started yet" : (tournament.completed_round == tournament.rounds ? "Completed" : "On going") %></td>
-        <td><%= link_to 'Destroy', '#', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th style="width: 20%">Name</th>
+        <th></th>
+        <th>Progress</th>
+        <th style="width: 8%" class="text-center">Status</th>
+        <th style="width: 20%"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @admin_tournaments.each do |tournament| %>
+        <% percentage = tournament.percentage_completion %>
+        <tr>
+          <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
+          <td><%= link_to_if tournament.completed_round > 0, 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
+          <td class="project_progress">
+                          <div class="progress progress-sm">
+                              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percentage %>%">
+                              </div>
+                          </div>
+                          <small>
+                              <%= percentage %>% Complete
+                          </small>
+          </td>
+          <td class="project-state">
+            <%= status_badge(tournament) %>
+          </td>
+<td><%= link_to admin_tournament_path(tournament), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
+              <i class="fas fa-trash"></i>Delete
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>

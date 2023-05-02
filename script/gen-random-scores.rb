@@ -12,7 +12,7 @@ def random_result
   end
 end
 
-tr1 = Tournament.first
+tr1 = Tournament.last
 next_round = tr1.next_round
 
 curr_round = next_round - 1

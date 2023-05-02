@@ -2,14 +2,19 @@
 
 <% content_for :page_title do %>
 Tournament: <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %>
-<br/>
-Standings after <%= link_to "Round #{@round}", round_admin_boards_path(@tournament, @round) %>
 <% end %>
 
-<table class="table table-hover text-nowrap">
-  <thead>
+<div class="card card-primary card-outline">
+  <div class="card-header">
+    <h3 class="card-title">
+Standings after <%= link_to "Round #{@round}", round_admin_boards_path(@tournament, @round) %>
+    </h3>
+  </div>
+  <div class="card-body p0">
+  <table class="table table-hover text-nowrap">
+    <thead>
     <tr>
-      <th>Rank</th>
+      <th style="width: 2%">Rank</th>
       <th>Name</th>
       <th>Points</th>
       <th>TB 1</th>
@@ -18,9 +23,9 @@ Standings after <%= link_to "Round #{@round}", round_admin_boards_path(@tourname
       <th>TB 4</th>
       <th>TB 5</th>
     </tr>
-  </thead>
+    </thead>
 
-  <tbody>
+    <tbody>
     <% @standings.each_with_index do |standing, idx| %>
       <tr>
         <td><%= idx + 1 %></td>
@@ -33,7 +38,7 @@ Standings after <%= link_to "Round #{@round}", round_admin_boards_path(@tourname
         <td><%= standing.playing_black %></td>
       </tr>
     <% end %>
-  </tbody>
-</table>
-
-
+    </tbody>
+  </table>
+  </div>
+</div>

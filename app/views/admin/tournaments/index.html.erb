@@ -15,7 +15,7 @@
     <% @admin_tournaments.each do |tournament| %>
       <tr>
         <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
-        <td><%= link_to 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
+        <td><%= link_to_if tournament.completed_round > 0, 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
         <td><%= tournament.current_round == 0 ? "Not started yet" : (tournament.completed_round == tournament.rounds ? "Completed" : "On going") %></td>
         <td><%= link_to 'Destroy', '#', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

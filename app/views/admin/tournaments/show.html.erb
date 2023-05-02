@@ -1,32 +1,37 @@
 <p id="notice"><%= notice %></p>
 <% content_for :page_title do %>Tournament: <%= @admin_tournament.name %><% end %>
 
-<p>Number of rounds: <%= @admin_tournament.rounds %></p>
-<p>Number of players: <%= @admin_tournament.players.size %></p>
+<div class="card card-primary card-outline">
+  <div class="card-body p0">
 
-<p>
-<%= link_to "List of players", tournament_admin_tournaments_players_path(@admin_tournament) %>
-</p>
+  <p>Number of rounds: <%= @admin_tournament.rounds %></p>
+  <p>Number of players: <%= @admin_tournament.players.size %></p>
 
-<p>Pairings: 
-<% (1..@admin_tournament.rounds).each do |round| %>
-  <%= link_to_if round <= @admin_tournament.current_round, "Round #{round}", round_admin_boards_path(@admin_tournament, round) %>
-<% end %>
-</p>
+  <p>
+  <%= link_to "List of players", tournament_admin_tournaments_players_path(@admin_tournament) %>
+  </p>
 
-<p>Standings:
-<% (1..@admin_tournament.rounds).each do |round| %>
-  <%= link_to_if round <= @admin_tournament.completed_round, "Round #{round}", round_admin_standings_path(@admin_tournament, round) %>
-<% end %>
-</p>
-
-<%= form_tag(start_admin_tournaments_path, {method: :patch, class: "form-horizontal", role: "form"}) do %>
-  <% if @admin_tournament.current_round > 0 %>
-  <button type="submit" class="btn btn-secondary disabled" disabled>Start!</button>
-  <% else %>
-  <button type="submit" class="btn btn-primary">Start!</button>
+  <p>Pairings: 
+  <% (1..@admin_tournament.rounds).each do |round| %>
+    <%= link_to_if round <= @admin_tournament.current_round, "Round #{round}", round_admin_boards_path(@admin_tournament, round) %>
   <% end %>
-<% end %>
+  </p>
 
-<br/>
-<%= link_to_if @admin_tournament.current_round == 0, 'Edit', edit_admin_tournament_path(@admin_tournament) %>
+  <p>Standings:
+  <% (1..@admin_tournament.rounds).each do |round| %>
+    <%= link_to_if round <= @admin_tournament.completed_round, "Round #{round}", round_admin_standings_path(@admin_tournament, round) %>
+  <% end %>
+  </p>
+
+  <% if @admin_tournament.current_round == 0 %>
+    <%= link_to start_admin_tournaments_path(@admin_tournament), method: :patch, class: "btn btn-primary btn-sm" do %>
+        <i class="fas fa-flag-checkered"></i> Start
+    <% end %>
+
+    <%= link_to edit_admin_tournament_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
+        <i class="fas fa-pencil-alt"></i> Edit
+    <% end %>
+  <% end %>
+
+  </div>
+</div>

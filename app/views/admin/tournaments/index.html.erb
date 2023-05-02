@@ -32,8 +32,8 @@
           <td class="project-state">
             <%= status_badge(tournament) %>
           </td>
-<td><%= link_to admin_tournament_path(tournament), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
-              <i class="fas fa-trash"></i>Delete
+          <td><%= link_to admin_tournament_path(tournament), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
+              <i class="fas fa-trash"></i> Delete
             <% end %>
           </td>
         </tr>

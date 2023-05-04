@@ -18,7 +18,7 @@
       <% @admin_tournaments.each do |tournament| %>
         <% percentage = tournament.percentage_completion %>
         <tr>
-          <td><%= link_to tournament.name, admin_tournament_path(tournament) %></td>
+          <td><%= link_to tournament.name, admin_tournament_path(tournament) %><%= raw(' <i class="fas fa-solid fa-star text-warning"></i>') if tournament.fp %></td>
           <td><%= link_to_if tournament.completed_round > 0, 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
           <td class="project_progress">
                           <div class="progress progress-sm">

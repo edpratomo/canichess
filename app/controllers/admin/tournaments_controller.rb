@@ -15,7 +15,7 @@ class Admin::TournamentsController < ApplicationController
 
   # GET /admin/tournaments or /admin/tournaments.json
   def index
-    @admin_tournaments = Tournament.all
+    @admin_tournaments = Tournament.all.order(fp: :desc, id: :desc)
   end
 
   # GET /admin/tournaments/1 or /admin/tournaments/1.json

@@ -1,5 +1,12 @@
 <%= content_for :page_title do %>Edit Tournament: <%= @admin_tournament.name %><% end %>
 
-<%= render 'form', admin_tournament: @admin_tournament, form_url: admin_tournament_path(@admin_tournament) %>
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-6">
+    <div class="card card-primary card-outline">
+    <%= render 'form2', admin_tournament: @admin_tournament, form_url: admin_tournament_path(@admin_tournament) %>
+    </div>
+  </div>
+</div>
 
-<%= link_to 'Show', admin_tournament_path(@admin_tournament) %>
+<%#= link_to 'Show', admin_tournament_path(@admin_tournament) %>

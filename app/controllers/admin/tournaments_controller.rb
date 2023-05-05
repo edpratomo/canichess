@@ -1,5 +1,6 @@
 class Admin::TournamentsController < ApplicationController
   before_action :set_admin_tournament, only: %i[ show edit update destroy start ]
+  before_action :redirect_cancel, only: [:create, :update]
 
   def start
     respond_to do |format|
@@ -85,5 +86,15 @@ class Admin::TournamentsController < ApplicationController
     def admin_tournament_params
       #params.fetch(:tournament, {})
       params.require(:tournament).permit(:name, :fp, :rounds, :tournaments_players, :players_file)
+    end
+
+    def redirect_cancel
+      if params[:cancel]
+        if action_name == "create"
+          redirect_to new_admin_tournament_path
+        else
+          redirect_to edit_admin_tournament_path(@admin_tournament)
+        end
+      end
     end
 end

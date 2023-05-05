@@ -89,12 +89,6 @@ class Admin::TournamentsController < ApplicationController
     end
 
     def redirect_cancel
-      if params[:cancel]
-        if action_name == "create"
-          redirect_to new_admin_tournament_path
-        else
-          redirect_to edit_admin_tournament_path(@admin_tournament)
-        end
-      end
+      redirect_to admin_tournaments_path if params[:cancel]
     end
 end

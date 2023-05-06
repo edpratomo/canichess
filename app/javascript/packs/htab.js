@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function () {
 var Nav = (function() {
   
   var nav 		= $('.nav__'),
-  	burger	= $('.burger'),
+    burger	= $('.burger'),
     page 		= $('.page'),
     section = $('.section'),
     link		= nav.find('.nav__link'),

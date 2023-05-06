@@ -176,7 +176,7 @@ ul {
 }
 .section__wrapper {
   width: 100%;
-  max-width: 800px;
+  max-width: 1800px;
   padding: 0 8vw;
 }
 .section__title {
@@ -194,7 +194,7 @@ ul {
   margin-bottom: 0;
 }
 .color1 {
-  background: #1abc9c;
+  background: #0047AB;
 }
 .color2 {
   background: #e74c3c;

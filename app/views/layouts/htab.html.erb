@@ -35,14 +35,8 @@
     </li>
     <li class="nav__item">
       <a href="" class="nav__link">
-        <div class="nav__thumb color3" data-letter="q"></div>
-        <p class="nav__label">Questions</p>
-      </a>
-    </li>
-    <li class="nav__item">
-      <a href="" class="nav__link">
-        <div class="nav__thumb color4" data-letter="e"></div>
-        <p class="nav__label">Events</p>
+        <div class="nav__thumb color3" data-letter="r"></div>
+        <p class="nav__label">Results</p>
       </a>
     </li>
     <li class="nav__item">
@@ -61,9 +55,6 @@
   <div class="burger burger--close">
     <div class="burger__patty"></div>
   </div>
-   <a href="http://ettrics.com/code/horizontal-tab-menu/" class="logo" target="_blank">
-   <img class="logo" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/45226/ettrics-logo.svg" alt="" /> 
-  </a>
 </nav>
 
 <div class="page">
@@ -76,72 +67,13 @@
   <section class="section color2" data-letter="p">
     <article class="section__wrapper">
       <h1 class="section__title">Pairings</h1>
-                <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Task</th>
-                      <th>Progress</th>
-                      <th style="width: 40px">Label</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1.</td>
-                      <td>Update software</td>
-                      <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-danger">55%</span></td>
-                    </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Clean database</td>
-                      <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar bg-warning" style="width: 70%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-warning">70%</span></td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Cron job running</td>
-                      <td>
-                        <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar bg-primary" style="width: 30%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-primary">30%</span></td>
-                    </tr>
-                    <tr>
-                      <td>4.</td>
-                      <td>Fix and squish bugs</td>
-                      <td>
-                        <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar bg-success" style="width: 90%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-success">90%</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-
-      <p>Use your 'left' and 'right' arrow keys to navigate.<br> Quos vel omnis quibusdam at inventore atque assumenda dignissimos ipsa magni perferendis, minima neque saepe reprehenderit quisquam numquam voluptas quo placeat quaerat!</p>
+      <%= yield :boards %>
     </article>
   </section>
   <section class="section color3" data-letter="q">
     <article class="section__wrapper">
       <h1 class="section__title">Questions</h1>
       <p>Use your 'left' and 'right' arrow keys to navigate.<br> Labore iure tempora magnam aliquid voluptatum sit placeat necessitatibus, adipisci est, ipsum doloremque. Id quia consequatur labore repellendus. Ab eligendi voluptatibus doloribus.</p>
-    </article>
-  </section>
-  <section class="section color4" data-letter="e">
-    <article class="section__wrapper">
-      <h1 class="section__title">Events</h1>
-     <p>Use your 'left' and 'right' arrow keys to navigate.<br> Earum porro, at odit. Dolorem velit asperiores quam obcaecati ex numquam aspernatur at et! Possimus blanditiis, distinctio est qui deleniti nisi dolorem!</p>
     </article>
   </section>
   <section class="section color5" data-letter="s">

@@ -1,11 +1,34 @@
 class HomeController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :set_tournament
+  before_action :set_round, only: %i[ pairings_by_round standings_by_round ]
+
   layout 'htab.html.erb'
   
   def index
-    @tournament = Tournament.find_by(fp: true)
     half_of_boards = (@tournament.boards_per_round.to_f / 2).ceil
-    @boards_1 = Board.where(tournament: @tournament, round: @tournament.current_round).order(:number).limit(half_of_boards)
-    @boards_2 = Board.where(tournament: @tournament, round: @tournament.current_round).order(:number).offset(half_of_boards)
+    @round = @tournament.current_round
+    @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number).limit(half_of_boards)
+    @boards_2 = Board.where(tournament: @tournament, round: @round).order(:number).offset(half_of_boards)
+  end
+
+  def pairings_by_round
+    half_of_boards = (@tournament.boards_per_round.to_f / 2).ceil
+    @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number).limit(half_of_boards)
+    @boards_2 = Board.where(tournament: @tournament, round: @round).order(:number).offset(half_of_boards)
+    render :index
+  end
+
+  def standings_by_round
+  
+  end
+
+  private
+  def set_tournament
+    @tournament = Tournament.find_by(fp: true)
+  end
+  
+  def set_round
+    @round = params[:id].to_i
   end
 end

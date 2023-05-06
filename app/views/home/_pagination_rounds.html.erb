@@ -1,0 +1,9 @@
+<% if tournament.current_round > 1 %>
+               <div class="card-tools">
+                  <ul class="pagination pagination-sm float-right">
+  <% (1..tournament.current_round).each do |rd_num| %>
+                    <li class="page-item"><%= link_to(rd_num, pairings_path(rd_num), class: "page-link") %></li>
+  <% end %>
+                  </ul>
+                </div>
+ <% end %>

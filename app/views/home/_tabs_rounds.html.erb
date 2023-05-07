@@ -1,0 +1,7 @@
+<% if tournament.current_round > 1 %>
+                <ul class="nav nav-pills ml-auto p-2 float-right">
+  <% (1..tournament.current_round).each do |rd_num| %>
+                  <li class="nav-item"><%= link_to("Rd #{rd_num}", pairings_path(rd_num), class: "nav-link" + (round == rd_num ? " active" : "")) %></li>
+  <% end %>
+                </ul>
+<% end %>

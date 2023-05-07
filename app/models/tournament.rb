@@ -33,7 +33,7 @@ class Tournament < ApplicationRecord
 
   def sorted_standings round=nil
     round ||= completed_round
-    standings.where(round: round).order(points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, playing_black: :desc)
+    standings.where(round: round).order(blacklisted: :asc, points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, playing_black: :desc)
   end
 
   def compute_tiebreaks round=nil
@@ -112,7 +112,7 @@ class Tournament < ApplicationRecord
   # must add validation that previous round must be completed
   def generate_pairings
     # mapping AR instances to MyPlayer instances
-    ar_my_players = tournaments_players.inject({}) do |m,o|
+    ar_my_players = tournaments_players.where(blacklisted: false).inject({}) do |m,o|
       m[o.id] = MyPlayer.new(o.id, o.name, o.rating, o.points)
       m
     end
@@ -164,7 +164,7 @@ class Tournament < ApplicationRecord
     return if current_round < 1
     tournaments_players.each do |t_player|
       Standing.create!(tournament: self, round: current_round, tournaments_player: t_player, points: t_player.points, 
-                       playing_black: t_player.playing_black)
+                       playing_black: t_player.playing_black, blacklisted: t_player.blacklisted)
     end
   end
 

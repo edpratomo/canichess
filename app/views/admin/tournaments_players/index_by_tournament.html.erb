@@ -19,7 +19,9 @@
     <% @tournaments_players.each_with_index do |player,idx| %>
       <tr>
         <td><%= idx + 1 %></td>
-        <td><%= link_to(player.name, admin_tournaments_player_path(player)) %></td>
+        <td><%= link_to(player.name, admin_tournaments_player_path(player)) %> 
+            <% if player.blacklisted %><i class="fa fa-ban" aria-hidden="true" style="color:red"></i><% end %>
+        </td>
         <td style="text-align:center;"><%= player.points %></td>
       </tr>
     <% end %>

@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function () {
 
-console.log("current tab_index: " + Cookies.get('tab_index'));
+
 
 var Nav = (function() {
   
@@ -42,7 +42,39 @@ var Nav = (function() {
     var a = $('section.section--active');
     var t = $(e.target);
 
+    console.log("i: " + i);
     Cookies.set('tab_index', i);
+
+    if (!hasT) {
+      if (i == a.index()) {
+        return false;
+      }
+      a
+      .addClass('section--hidden')
+      .removeClass('section--active');
+
+      s.addClass('section--active');
+
+      hasT = true;
+
+      a.on('transitionend webkitTransitionend', function() {
+        $(this).removeClass('section--hidden');
+        hasT = false;
+        a.off('transitionend webkitTransitionend');
+      });
+    }
+
+    return false;
+  };
+
+  var switchPage2 = function(i, e) {
+    var self = $(this);
+    var s = section.eq(i);
+    var a = $('section.section--active');
+    var t = $(e.target);
+
+    console.log("e: " + e);
+    console.log("i: " + i);
 
     if (!hasT) {
       if (i == a.index()) {
@@ -133,6 +165,16 @@ var Nav = (function() {
   
   var init = function() {
     bindActions();
+
+    var cookie_tab_index = Cookies.get('tab_index');
+    console.log("current tab_index: " + cookie_tab_index);
+
+    if (cookie_tab_index) {
+      var nav_tab_id = "#nav_tab_" + cookie_tab_index;
+      console.log("nav_tab: " + $(nav_tab_id));
+      switchPage2(cookie_tab_index, $(nav_tab_id));
+    }
+
   };
   
   return {
@@ -142,5 +184,6 @@ var Nav = (function() {
 }());
 
 Nav.init();
+
 
 });

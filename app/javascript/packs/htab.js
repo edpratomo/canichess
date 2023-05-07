@@ -1,5 +1,7 @@
 $(document).on('turbolinks:load', function () {
 
+console.log("current tab_index: " + Cookies.get('tab_index'));
+
 var Nav = (function() {
   
   var nav 		= $('.nav__'),
@@ -39,7 +41,9 @@ var Nav = (function() {
     var s = section.eq(i);
     var a = $('section.section--active');
     var t = $(e.target);
-    
+
+    Cookies.set('tab_index', i);
+
     if (!hasT) {
       if (i == a.index()) {
         return false;

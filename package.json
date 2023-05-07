@@ -11,6 +11,7 @@
     "bootstrap": "^4.6.0",
     "bootstrap4-dialog": "^4.4.4",
     "jquery": "^3.6.0",
+    "js-cookie": "^3.0.5",
     "popper.js": "^1.16.1",
     "rails-erb-loader": "^5.5.2",
     "tempusdominus-bootstrap-4": "^5.39.2",

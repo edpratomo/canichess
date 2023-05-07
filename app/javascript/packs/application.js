@@ -21,6 +21,8 @@ import 'bootstrap';
 window.jQuery = $;
 window.$ = $;
 
+window.Cookies = require("js-cookie");
+
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
 });

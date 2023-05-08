@@ -3,7 +3,7 @@ class HomeController < ApplicationController
   before_action :set_tournament
   before_action :set_round, only: %i[ pairings_by_round standings_by_round ]
 
-  layout 'htab.html.erb'
+  layout 'top-nav.html.erb'
   
   def index
     half_of_boards = (@tournament.boards_per_round.to_f / 2).ceil

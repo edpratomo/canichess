@@ -13,4 +13,10 @@ module ApplicationHelper
       ''
     end
   end
+
+  def blacklisted_icon tournaments_player
+    if tournaments_player.blacklisted
+      raw('<i class="fa fa-ban" aria-hidden="true" style="color:red"></i>')
+    end
+  end
 end

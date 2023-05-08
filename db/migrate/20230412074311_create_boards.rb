@@ -8,7 +8,7 @@ CREATE TABLE boards (
   white_id INTEGER REFERENCES players(id),
   black_id INTEGER REFERENCES players(id),
   result TEXT,
-  CONSTRAINT boards_result_check CHECK ((result = ANY (ARRAY['white'::text, 'black'::text, 'draw'::text])))
+  CONSTRAINT boards_result_check CHECK ((result = ANY (ARRAY['white'::text, 'black'::text, 'draw'::text, 'noshow'::text])))
 );
 SQL
   end

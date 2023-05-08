@@ -7,6 +7,8 @@ module ApplicationHelper
       "0 - 1"
     when "draw"
       raw("&#189; - &#189;")
+    when "noshow"
+      "0 - 0"
     else
       ''
     end

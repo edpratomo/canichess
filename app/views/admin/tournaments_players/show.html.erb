@@ -4,7 +4,12 @@
 <div class="col-md-6">
 <div class="card card-primary card-outline">
 <div class="card-header">
-  <h3 class="card-title text-info"><%= @tournaments_player.name %></h3>
+  <h3 class="card-title text-info"><%= @tournaments_player.name %> <% if @tournaments_player.blacklisted %><i class="fa fa-ban" aria-hidden="true" style="color:red"></i><% end %></h3>
+
+<%= button_to "Add to blacklist", admin_tournaments_player_path(@tournaments_player), form_class: "form-horizontal", method: :patch, 
+              disabled: @tournaments_player.blacklisted,
+              data: { confirm: "Are you sure?" }, class: "btn btn-warning float-right", params: {"tournaments_player[blacklisted]": "true"} %>
+
 </div>
 <div class="card-body table-responsive p-0">
 <table class="table table-hover text-nowrap">

@@ -46,9 +46,9 @@ class Admin::TournamentsPlayersController < ApplicationController
   # PATCH/PUT /admin/tournaments_players/1 or /admin/tournaments_players/1.json
   def update
     respond_to do |format|
-      if @admin_tournaments_player.update(admin_tournaments_player_params)
-        format.html { redirect_to admin_tournaments_player_url(@admin_tournaments_player), notice: "Tournaments player was successfully updated." }
-        format.json { render :show, status: :ok, location: @admin_tournaments_player }
+      if @tournaments_player.update(admin_tournaments_player_params)
+        format.html { redirect_to admin_tournaments_player_url(@tournaments_player), notice: "Tournaments player was successfully updated." }
+        format.json { render :show, status: :ok, location: @tournaments_player }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @admin_tournaments_player.errors, status: :unprocessable_entity }
@@ -78,6 +78,7 @@ class Admin::TournamentsPlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_tournaments_player_params
-      params.fetch(:admin_tournaments_player, {})
+      #params.fetch(:tournaments_player, {})
+      params.require(:tournaments_player).permit(:blacklisted)
     end
 end

@@ -1,6 +1,6 @@
 <% if @boards_1.empty? %>
-  <% content_for :page_title do %> Top Navigation <small>Example 3.0</small><% end %>
-  <p class="lead">Oops! Pairings not available yet. Please come back later.</p>
+  <% content_for :page_title do %> <%= @tournament.name %> - <small>Pairings</small><% end %>
+  <p class="lead">Oops! Pairings not available yet. Please check again later.</p>
 <% elsif @boards_2.empty? %>
   <% content_for :page_title do %> <%= @tournament.name %> - <small>Round <%= @round %></small><% end %>
   <%= render('boards_1_col', boards: @boards_1, tournament: @tournament, round: @round) %>

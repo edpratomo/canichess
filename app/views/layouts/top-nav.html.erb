@@ -42,7 +42,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <%= link_to_if @tournament.current_round > 0, "Pairings", pairings_path(@tournament.current_round), class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Standings</a>
+            <%= link_to_if @tournament.completed_round > 0, "Standings", standings_path(@tournament.completed_round), class: "nav-link" %>
           </li>
          <li class="nav-item">
             <a href="#" class="nav-link">Sponsors</a>

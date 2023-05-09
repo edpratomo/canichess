@@ -6,10 +6,6 @@ class HomeController < ApplicationController
   layout 'top-nav.html.erb'
   
   def index
-    half_of_boards = (@tournament.boards_per_round.to_f / 2).ceil
-    @round = @tournament.current_round
-    @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number).limit(half_of_boards)
-    @boards_2 = Board.where(tournament: @tournament, round: @round).order(:number).offset(half_of_boards)
   end
 
   def pairings_by_round
@@ -20,7 +16,8 @@ class HomeController < ApplicationController
   end
 
   def standings_by_round
-  
+    @standings = @tournament.sorted_standings(@round)
+    render :standings
   end
 
   private

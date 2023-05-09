@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="../../index3.html" class="navbar-brand">
+      <a href="/" class="navbar-brand">
         <%= image_tag("LogoCanichess.png", alt: "Canichess Logo", class: "brand-image img-circle elevation-3", style: "opacity: .8") %>
         <span class="brand-text font-weight-light">Canichess Alumni</span>
       </a>
@@ -36,7 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="index3.html" class="nav-link">Home</a>
+            <a href="/" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
             <%= link_to_if @tournament.current_round > 0, "Pairings", pairings_path(@tournament.current_round), class: "nav-link" %>
@@ -63,7 +63,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0"> Top Navigation <small>Example 3.0</small></h1>
+            <h1 class="m-0"><%= yield :page_title %></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

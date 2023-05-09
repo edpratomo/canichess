@@ -1,0 +1,5 @@
+<% if @boards_2.empty? %>
+  <%= render('boards_1_col', boards: @boards_1, tournament: @tournament, round: @round) %>
+<% else %>
+  <%= render('boards_2_col', boards_1: @boards_1, boards_2: @boards_2, tournament: @tournament, round: @round) %>
+<% end %>

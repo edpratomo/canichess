@@ -38,11 +38,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <a href="/" class="nav-link">Home</a>
           </li>
+          <% current_round = @tournament ? @tournament.current_round : 0 %>
+          <% completed_round = @tournament ? @tournament.completed_round : 0 %>
           <li class="nav-item">
-            <%= link_to_if @tournament.current_round > 0, "Pairings", pairings_path(@tournament.current_round), class: "nav-link" %>
+            <%= link_to_if current_round > 0, "Pairings", pairings_path(current_round), class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <%= link_to_if @tournament.completed_round > 0, "Standings", standings_path(@tournament.completed_round), class: "nav-link" %>
+            <%= link_to_if completed_round > 0, "Standings", standings_path(completed_round), class: "nav-link" %>
           </li>
          <li class="nav-item">
             <a href="#" class="nav-link">Sponsors</a>

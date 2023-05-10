@@ -21,13 +21,12 @@
           <td><%= link_to tournament.name, admin_tournament_path(tournament) %><%= raw(' <i class="fas fa-solid fa-star text-warning"></i>') if tournament.fp %></td>
           <td><%= link_to_if tournament.completed_round > 0, 'Standings', round_admin_standings_path(tournament, tournament.completed_round)  %></td>
           <td class="project_progress">
-                          <div class="progress progress-sm">
-                              <div class="progress-bar bg-<%= percentage == 100 ? 'info' : 'green' %>" role="progressbar" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percentage %>%">
-                              </div>
-                          </div>
-                          <small>
-                              <%= percentage %>% Complete
-                          </small>
+            <div class="progress progress-sm">
+              <div class="progress-bar bg-<%= percentage == 100 ? 'info' : 'green' %>" role="progressbar" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= percentage %>%"></div>
+            </div>
+            <small>
+              <%= percentage %>% Complete
+            </small>
           </td>
           <td class="project-state">
             <%= status_badge(tournament) %>

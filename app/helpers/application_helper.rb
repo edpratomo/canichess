@@ -19,4 +19,17 @@ module ApplicationHelper
       raw('<i class="fa fa-ban" aria-hidden="true" style="color:red"></i>')
     end
   end
+
+  def winner_icon rank
+    case rank
+    when 1
+      raw('<i class="fa fa-regular fa-trophy" aria-hidden="true" style="color:#FFD700"></i>')
+    when 2
+      raw('<i class="fa fa-regular fa-trophy" aria-hidden="true" style="color:#C0C0C0"></i>')
+    when 3
+      raw('<i class="fa fa-regular fa-trophy" aria-hidden="true" style="color:#CD7F32"></i>')
+    else
+      ''
+    end
+  end
 end

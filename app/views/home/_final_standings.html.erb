@@ -23,7 +23,7 @@
     <% standings.each_with_index do |standing, idx| %>
       <tr>
         <td><%= idx + 1 %></td>
-        <td><%= standing.tournaments_player.name %> <%= blacklisted_icon(standing) %></td>
+        <td><%= standing.tournaments_player.name %> <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %></td>
         <td><%= standing.points %></td>
         <td><%= standing.median %></td>
         <td><%= standing.solkoff %></td>

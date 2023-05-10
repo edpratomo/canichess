@@ -1,5 +1,5 @@
 {
-  "name": "siblksdb-v2",
+  "name": "canichess",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
@@ -22,5 +22,8 @@
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

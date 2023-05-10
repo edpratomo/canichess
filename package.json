@@ -6,7 +6,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "5.4.3",
+    "@rails/webpacker": "5.4.4",
     "admin-lte": "^3.1",
     "bootstrap": "^4.6.0",
     "bootstrap4-dialog": "^4.4.4",

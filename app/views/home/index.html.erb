@@ -8,13 +8,17 @@
   <p class="lead"><%= @tournament ? @tournament.description : 
      "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information." %>
   </p>
-<hr>
-                <i class="fa fa-calendar mr-1"></i> <%= @tournament.date.strftime("%B %d, %Y") %>
                 <hr>
-                <i class="fas fa-map-marker-alt mr-1"></i> <%= @tournament.location.split("\n").join(", ") %>
-<hr>
+                <% if @tournament && @tournament.date %>
+                  <i class="fa fa-calendar mr-1"></i> <%= @tournament.date.strftime("%B %d, %Y") %>
+                  <hr>
+                <% end %>
+                <% if @tournament && @tournament.location %>
+                  <i class="fas fa-map-marker-alt mr-1"></i> <%= @tournament.location.split("\n").join(", ") %>
+                  <hr>
+                <% end %>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Check out pairings for Round 1</a>
+  <%= front_page_button(@tournament) %>
   </p>
 </div>
               </div> <!-- /.card-body -->

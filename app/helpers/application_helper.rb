@@ -32,4 +32,13 @@ module ApplicationHelper
       ''
     end
   end
+
+  def breadcrumb_items active_idx, paths
+    items = ['<ol class="breadcrumb float-sm-right">']
+    links.each_with_index do |link,idx|
+      items.push '<li class="breadcrumb-item' + (idx == active_idx ? ' active">' : '">') + link + '</li>'
+    end
+    items.push("</ol>")
+    return items.join("\n")
+  end
 end

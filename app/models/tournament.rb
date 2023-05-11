@@ -79,6 +79,11 @@ class Tournament < ApplicationRecord
         Standing.find_by(tournaments_player: opponent, round: round).cumulative
       end.sum
 
+      Rails.logger.info("standing id: #{standing.id}")
+      Rails.logger.info("opposition_cumulative: #{tb_opposition_cumulative}")
+      Rails.logger.info("solkoff: #{tb_solkoff}")
+      Rails.logger.info("modified median: #{tb_modified_median}")
+
       # update standing for t_player
       standing.update!(median: tb_modified_median, solkoff: tb_solkoff, opposition_cumulative: tb_opposition_cumulative)
     end

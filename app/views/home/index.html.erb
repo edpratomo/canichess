@@ -26,13 +26,18 @@
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
                   </ol>
                   <div class="carousel-inner">
+
                     <div class="carousel-item active">
-                      <img class="d-block w-100" src="https://placehold.it/900x500/39CCCC/ffffff&text=I+Love+Bootstrap" alt="First slide">
+                      <%= link_to image_tag("siree-slide.png", alt: "Siree Chess Cafe", class: "d-block w-100"), "https://instagram.com/sireechesscafe", target: "_blank" %>
                     </div>
                     <div class="carousel-item">
-                      <img class="d-block w-100" src="https://placehold.it/900x500/3c8dbc/ffffff&text=I+Love+Bootstrap" alt="Second slide">
+                      <%= link_to image_tag("coeyoe-slide.png", alt: "Coeyoe Clothing", class: "d-block w-100"), "https://instagram.com/coeyoe.id", target: "_blank" %>
+                    </div>
+                    <div class="carousel-item">
+                      <%= link_to image_tag("gramps-slide.png", alt: "Gramps Cafe", class: "d-block w-100"), "https://gramps.id/", target: "_blank" %>
                     </div>
                     <div class="carousel-item">
                       <%= link_to image_tag("osk-slide.png", alt: "OSK Green Tea", class: "d-block w-100"), "https://www.oskgreentea.id/", target: "_blank" %>

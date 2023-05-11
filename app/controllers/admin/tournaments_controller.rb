@@ -34,7 +34,7 @@ class Admin::TournamentsController < ApplicationController
 
   # POST /admin/tournaments or /admin/tournaments.json
   def create
-    @admin_tournament = Tournament.new(admin_tournament_params.slice(:name, :rounds, :fp))
+    @admin_tournament = Tournament.new(admin_tournament_params.except(:players_file))
     if admin_tournament_params[:players_file]
       @admin_tournament.import_players(admin_tournament_params[:players_file])
     end
@@ -56,7 +56,7 @@ class Admin::TournamentsController < ApplicationController
       @admin_tournament.import_players(admin_tournament_params[:players_file])
     end
     respond_to do |format|
-      if @admin_tournament.update(admin_tournament_params.slice(:name, :rounds, :fp))
+      if @admin_tournament.update(admin_tournament_params.except(:players_file))
         format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
@@ -85,7 +85,7 @@ class Admin::TournamentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_tournament_params
       #params.fetch(:tournament, {})
-      params.require(:tournament).permit(:name, :fp, :rounds, :tournaments_players, :players_file)
+      params.require(:tournament).permit(:name, :fp, :rounds, :tournaments_players, :players_file, :description, :location, :date)
     end
 
     def redirect_cancel

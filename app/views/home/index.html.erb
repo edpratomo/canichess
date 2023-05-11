@@ -10,7 +10,7 @@
   </p>
                 <hr>
                 <% if @tournament && @tournament.date %>
-                  <i class="fa fa-calendar mr-1"></i> <%= @tournament.date.strftime("%B %d, %Y") %>
+                  <i class="fa fa-calendar mr-1"></i> <%= @tournament.date.strftime("%A, %B %d, %Y") %>
                   <hr>
                 <% end %>
                 <% if @tournament && @tournament.location %>

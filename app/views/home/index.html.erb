@@ -8,15 +8,39 @@
   <p class="lead"><%= @tournament ? @tournament.description : 
      "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information." %>
   </p>
-                <hr>
-                <% if @tournament && @tournament.date %>
-                  <i class="fa fa-calendar mr-1"></i> <%= @tournament.date.strftime("%A, %B %d, %Y") %>
-                  <hr>
-                <% end %>
-                <% if @tournament && @tournament.location %>
-                  <i class="fas fa-map-marker-alt mr-1"></i> <%= @tournament.location.split("\n").join(", ") %>
-                  <hr>
-                <% end %>
+  <hr>
+  <% if @tournament && @tournament.date %>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2">
+        <i class="fa fa-calendar mr-1"></i>
+      </div>
+      <div class="col-xs-10" style="padding-left: 10px;"> 
+        <%= @tournament.date.strftime("%A, %B %d, %Y") %>
+      </div>
+    </div>  
+  </div>
+  <hr/>
+  <% end %>
+  <% if @tournament && @tournament.location %>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2">
+        <i class="fas fa-map-marker-alt mr-1"></i>
+      </div>
+      <div class="col-xs-10" style="padding-left: 10px;">
+        <% @tournament.location.split("\n").each_with_index do |line,idx| %>
+          <% if idx > 0 %>
+          <div style="font-size: 0.85em"><%= line %></div>
+          <% else %>
+          <div><%= line %></div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <% end %>
   <p class="lead">
   <%= front_page_button(@tournament) %>
   </p>

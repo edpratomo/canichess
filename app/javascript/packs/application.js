@@ -33,5 +33,3 @@ import '../stylesheets/application'; // This file will contain your custom CSS
 require('admin-lte');
 
 import "@fortawesome/fontawesome-free/js/all";
-
-import '../stylesheets/scaffolds';

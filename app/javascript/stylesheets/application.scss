@@ -5,3 +5,16 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4";
 @import "~bootstrap4-dialog/src/scss/bootstrap-dialog";
+
+/* large devices */
+@media (min-width: 1200px) {
+  .container {
+     max-width: 1300px;
+   }
+}
+/* extra large devices */
+@media screen and (min-width: 1800px) {
+  .container {
+    max-width: 1500px;
+  }
+}

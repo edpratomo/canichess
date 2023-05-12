@@ -16,12 +16,11 @@ Rails.application.routes.draw do
   end
 
   resources :boards
-  #get 'players/index'
-  #get 'players/show'
 
   get 'home/index'
   get 'home/:id/pairings' => 'home#pairings_by_round', as: "pairings"
   get 'home/:id/standings' => 'home#standings_by_round', as: "standings"
+  get 'home/contact' => 'home#contact', as: "contact"
   
   namespace :admin do
     resources :players

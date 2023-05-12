@@ -20,6 +20,9 @@ class HomeController < ApplicationController
     render :standings
   end
 
+  def contact
+  end
+
   private
   def set_tournament
     @tournament = Tournament.find_by(fp: true)

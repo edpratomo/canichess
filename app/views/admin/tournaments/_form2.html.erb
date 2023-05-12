@@ -33,7 +33,13 @@
       </div>
     </div>
     <div class="form-group row">
-      <%= form.label :name, "Location", class: "col-sm-4 col-form-label" %>
+      <%= form.label :date, "Date", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-4">
+        <%= form.date_select :date %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <%= form.label :location, "Location", class: "col-sm-4 col-form-label" %>
       <div class="col-sm-8">
         <%= form.text_area :location, size: "70x3", class: "form-control", placeholder: "Venue for this event" %>
       </div>

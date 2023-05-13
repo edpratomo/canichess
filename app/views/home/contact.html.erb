@@ -1,0 +1,36 @@
+
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card card-primary">
+              <div class="card-body pad table-responsive">
+<table class="table table-bordered text-center">
+  <tr>
+    <td>
+    <%= button_to "https://instagram.com/canichessalumni4fun", method: :get, class: "btn btn-danger btn-block btn-lg", form: {target: "_blank"} do %>
+      <i class="fa fa-instagram"></i><span style="margin-left: 10px;"> Follow us on Instagram!</span>
+    <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <%= button_to "https://chat.whatsapp.com/82lLSA2NGcfK23YehChxZD", method: :get, class: "btn btn-success btn-block btn-lg", form: {target: "_blank"} do %>
+      <i class="fa fa-whatsapp"></i><span style="margin-left: 10px;"> Let's talk anything chess!</span>
+    <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= button_to "https://www.chess.com/club/canichess-alumni", method: :get, class: "btn btn-secondary btn-block btn-lg", form: {target: "_blank"} do %>
+        <%= image_tag("chesscom_logo_white.png", width: 150) %><span style="margin-left: 10px;"> Lets play!</span>
+      <% end %>
+    </td>
+  </tr>
+</table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>

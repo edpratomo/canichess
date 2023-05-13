@@ -27,7 +27,7 @@
             <%= link_to admin_tournaments_player_path(player), class: "btn btn-primary btn-sm" do %>
               <i class="fas fa-folder"></i>View
             <% end %>
-            <%= link_to edit_admin_tournaments_player_path(player), class: "btn btn-info btn-sm" do %>
+            <%= link_to edit_admin_player_path(player.player), class: "btn btn-info btn-sm" do %>
               <i class="fas fa-pencil-alt"></i>Edit
             <% end %>
             <%= link_to admin_tournaments_player_path(player), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>

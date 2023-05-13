@@ -59,11 +59,18 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # DELETE /admin/tournaments_players/1 or /admin/tournaments_players/1.json
   def destroy
-    @admin_tournaments_player.destroy
+    @tournaments_player.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_tournaments_players_url, notice: "Tournaments player was successfully destroyed." }
-      format.json { head :no_content }
+      if @tournaments_player.destroy
+        format.html { redirect_to tournament_admin_tournaments_players_url(@tournaments_player.tournament),
+                      notice: "Tournaments player was successfully destroyed." }
+        format.json { head :ok, status: :ok }
+      else
+        format.html { redirect_to tournament_admin_tournaments_players_url(@tournaments_player.tournament),
+                      alert: "Failed to remove tournament player." }
+        format.json { head :no_content, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -3,6 +3,8 @@ class TournamentsPlayer < ApplicationRecord
   belongs_to :player
   has_many :standings
 
+  before_destroy :check_already_started
+
   def prev_opps
     black_opps = Board.where(tournament: tournament, white: self).map {|e| e.black}
     white_opps = Board.where(tournament: tournament, black: self).map {|e| e.white}
@@ -27,5 +29,12 @@ class TournamentsPlayer < ApplicationRecord
 
   def rating
     player.rating
+  end
+
+  def check_already_started
+    if tournament.current_round > 0
+      errors.add 'Tournament already started. Could not delete player.'
+      throw :abort
+    end
   end
 end

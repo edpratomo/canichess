@@ -1,6 +1,4 @@
-<h1>Editing Admin Tournaments Player</h1>
+<%= content_for :page_title do %>Editing Admin Tournaments Player<% end %>
+<%= render 'form', admin_tournaments_player: @tournaments_player %>
 
-<%= render 'form', admin_tournaments_player: @admin_tournaments_player %>
-
-<%= link_to 'Show', @admin_tournaments_player %> |
-<%= link_to 'Back', admin_tournaments_players_path %>
+<%= link_to 'Show', admin_tournaments_player_path(@tournaments_player) %> 

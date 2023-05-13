@@ -6,21 +6,35 @@
 <div class="col-md-6">
 <div class="card card-primary card-outline">
 <div class="card-body table-responsive p-0">
-<table class="table table-bordered table-hover text-nowrap">
-  <thead>
-    <tr>
-      <th style="width: 1%">#</th>
-      <th>Name</th>
-      <th style="text-align:center; width: 8%">Points</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @tournaments_players.each_with_index do |player,idx| %>
+  <table class="table table-bordered table-hover text-nowrap">
+    <thead>
       <tr>
-        <td><%= idx + 1 %></td>
-        <td><%= link_to(player.name, admin_tournaments_player_path(player)) %> <%= blacklisted_icon(player) %></td>
-        <td style="text-align:center;"><%= player.points %></td>
+        <th style="width: 1%">#</th>
+        <th>Name</th>
+        <th style="text-align:center; width: 8%">Points</th>
+        <th style="width: 20%"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @tournaments_players.each_with_index do |player,idx| %>
+        <tr>
+          <td><%= idx + 1 %></td>
+          <td><%= link_to(player.name, admin_tournaments_player_path(player)) %> <%= blacklisted_icon(player) %></td>
+          <td style="text-align:center;"><%= player.points %></td>
+
+          <td class="project-actions text-right">
+            <%= link_to admin_tournaments_player_path(player), class: "btn btn-primary btn-sm" do %>
+              <i class="fas fa-folder"></i>View
+            <% end %>
+            <%= link_to edit_admin_tournaments_player_path(player), class: "btn btn-info btn-sm" do %>
+              <i class="fas fa-pencil-alt"></i>Edit
+            <% end %>
+            <%= link_to admin_tournaments_player_path(player), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
+              <i class="fas fa-trash"></i> Delete
+            <% end %>
+          </td>
+
       </tr>
     <% end %>
   </tbody>

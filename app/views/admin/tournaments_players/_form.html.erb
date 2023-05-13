@@ -1,4 +1,4 @@
-<%= form_with(model: admin_tournaments_player) do |form| %>
+<%= form_with(model: admin_tournaments_player, url: admin_tournaments_players_path(admin_tournaments_player)) do |form| %>
   <% if admin_tournaments_player.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(admin_tournaments_player.errors.count, "error") %> prohibited this admin_tournaments_player from being saved:</h2>

@@ -5,7 +5,8 @@ class Admin::TournamentsPlayersController < ApplicationController
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
     logger.debug("tournament: #{@tournament}")
-    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(blacklisted: :asc, points: :desc, rating: :desc, name: :asc)
+#    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(blacklisted: :asc, points: :desc, rating: :desc, name: :asc)
+    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(name: :asc)
 
     respond_to do |format|
       format.html

@@ -3,11 +3,9 @@
             <div class="card">
               <div class="card-body">
 
-<div style="background:transparent !important class="jumbotron">
+<div style="background:transparent !important" class="text-center">
   <h1 class="display-6"><%= @tournament ? @tournament.name : "Hello, world!" %></h1>
-  <p class="lead"><%= @tournament ? @tournament.description : 
-     "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information." %>
-  </p>
+  <p class="lead"><%= @tournament ? @tournament.description : '' %></p>
   <hr>
   <% if @tournament && @tournament.date %>
   <div class="container">

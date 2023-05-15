@@ -25,6 +25,9 @@ $(document).on('turbolinks:load', function () {
     var radios = found_form.elements[element.name];
     var last_state = last_radio_state[form_id];
 
+    var form_ary = form_id.split("_");
+    var td_board_id = "#td_board_" + form_ary.slice(-1);
+
     $.ajax({
       url: form_action + '.json',
       type: 'PATCH',
@@ -43,6 +46,7 @@ $(document).on('turbolinks:load', function () {
           }
       },
       'success': function(data) {
+        $(td_board_id).removeClass("bg-warning");
         console.log("all_completed? " + data["tournament"]["all_completed"]);
         if (data["tournament"]["all_completed"]) {
           $("#finalize_enabled").show();

@@ -20,14 +20,14 @@
                       <td><% if board.white %>
                         <%= link_to board.white.name, player_path(board.white) %> <%= points(board.white, board.round) %>
                       <% else %>
-                        <BYE>
+                        &lt;BYE&gt;
                       <% end %>
                       </td>
                       <td style="text-align:center;"><%= chess_result(board.result) %></td>
                       <td><% if board.black %>
                         <%= link_to board.black.name, player_path(board.black) %> <%= points(board.black, board.round) %>
                       <% else %>
-                        <BYE>
+                        &lt;BYE&gt;
                       <% end %>
                       </td>
                     </tr>

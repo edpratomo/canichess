@@ -17,9 +17,19 @@
                   <% boards.each_with_index do |board, idx| %>
                     <tr>
                       <td><%= board.number %></td>
-                      <td><%= board.white ? board.white.name : '<BYE>' %> <%= points(board.white, board.round) %></td>
+                      <td><% if board.white %>
+                        <%= link_to board.white.name, player_path(board.white) %> <%= points(board.white, board.round) %>
+                      <% else %>
+                        <BYE>
+                      <% end %>
+                      </td>
                       <td style="text-align:center;"><%= chess_result(board.result) %></td>
-                      <td><%= board.black ? board.black.name : '<BYE>' %> <%= points(board.black, board.round) %></td>
+                      <td><% if board.black %>
+                        <%= link_to board.black.name, player_path(board.black) %> <%= points(board.black, board.round) %>
+                      <% else %>
+                        <BYE>
+                      <% end %>
+                      </td>
                     </tr>
                   <% end %>
                   </tbody>

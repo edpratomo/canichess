@@ -2,10 +2,15 @@ class HomeController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :set_tournament
   before_action :set_round, only: %i[ pairings_by_round standings_by_round ]
+  before_action :set_tournament_player, only: %i[ player]
 
   layout 'top-nav.html.erb'
   
   def index
+  end
+
+  def player
+    @games = @tournament_player.games
   end
 
   def pairings_by_round
@@ -30,5 +35,9 @@ class HomeController < ApplicationController
   
   def set_round
     @round = params[:id].to_i
+  end
+
+  def set_tournament_player
+    @tournament_player = TournamentsPlayer.find(params[:id])
   end
 end

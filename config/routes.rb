@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'home/:id/pairings' => 'home#pairings_by_round', as: "pairings"
   get 'home/:id/standings' => 'home#standings_by_round', as: "standings"
+  get 'home/:id/player' => 'home#player', as: "player"
   get 'home/contact' => 'home#contact', as: "contact"
   
   namespace :admin do

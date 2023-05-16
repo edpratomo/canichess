@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :boards do
       collection do
         get ':tournament_id/:round_id/show' => 'boards#index_by_round', as: "round"
+        delete ':tournament_id/:round_id/delete' => 'boards#delete_by_round'
       end
     end
   end

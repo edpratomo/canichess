@@ -52,6 +52,14 @@ class Admin::BoardsController < ApplicationController
     end
   end
 
+  def destroy_by_round
+    Board.where(tournament: @tournament, round: @round).delete_all
+    respond_to do |format|
+      format.html { redirect_to admin_tournaments_url, notice: "Pairings for round #{@round} were successfully deleted." }
+      format.json { head :no_content }
+    end
+  end
+
   # DELETE /admin/boards/1 or /admin/boards/1.json
   def destroy
     @board.destroy

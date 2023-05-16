@@ -14,9 +14,15 @@ class HomeController < ApplicationController
   end
 
   def pairings_by_round
-    half_of_boards = (@tournament.boards_per_round.to_f / 2).ceil
-    @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number).limit(half_of_boards)
-    @boards_2 = Board.where(tournament: @tournament, round: @round).order(:number).offset(half_of_boards)
+    boards_per_round = @tournament.boards_per_round
+    if boards_per_round > 15
+      half_of_boards = (boards_per_round.to_f / 2).ceil
+      @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number).limit(half_of_boards)
+      @boards_2 = Board.where(tournament: @tournament, round: @round).order(:number).offset(half_of_boards)
+    else
+      @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number)
+      @boards_2 = []
+    end
     render :pairings
   end
 

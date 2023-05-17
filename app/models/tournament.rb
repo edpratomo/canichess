@@ -171,8 +171,10 @@ class Tournament < ApplicationRecord
   def snapshoot_points
     return if current_round < 1
     tournaments_players.each do |t_player|
-      Standing.create!(tournament: self, round: current_round, tournaments_player: t_player, points: t_player.points, 
-                       playing_black: t_player.playing_black, blacklisted: t_player.blacklisted)
+      standing = Standing.find_or_create_by(tournaments_player: t_player, round: current_round)
+      standing.update!(tournament: self, points: t_player.points, playing_black: t_player.playing_black, blacklisted: t_player.blacklisted)
+#      Standing.create_or_update(tournament: self, round: current_round, tournaments_player: t_player, points: t_player.points, 
+#                                playing_black: t_player.playing_black, blacklisted: t_player.blacklisted)
     end
   end
 

@@ -13,21 +13,30 @@ Round <%= @round %><% end %>
             <% if is_round_completed %>
               <%= disable_finalize_round %>
             <% else %>
-                <%# if this round is not completed, check if all boards have finished %>
-                <% if @tournament.all_boards_finished?(@round) %>
-                  <%= enable_finalize_round %>
-                <% else %>
-                  <% disable_finalize_round %>
-                <% end %>
-              <% end %>
-          <% end %>
-            <%= form_tag(delete_admin_boards_path(@tournament, @round), {method: :delete, class: "form-horizontal", role: "form"}) do %>
-              <% if @tournament.any_board_finished?(@round) %>
-                <%= disable_delete_round %>
+              <%# if this round is not completed, check if all boards have finished %>
+              <% if @tournament.all_boards_finished?(@round) %>
+                <%= enable_finalize_round %>
               <% else %>
-                <%= enable_delete_round %>
+                <% disable_finalize_round %>
               <% end %>
             <% end %>
+          <% end %>
+          <%# standings button %>
+          <%= form_tag(round_admin_standings_path(@tournament, @round), {method: :get}) do %>
+            <% if is_round_completed %>
+              <%= enable_standings %>
+            <% else %>
+              <%= disable_standings %>
+            <% end %>
+          <% end %>
+          <%# delete button %>
+          <%= form_tag(delete_admin_boards_path(@tournament, @round), {method: :delete, class: "form-horizontal", role: "form"}) do %>
+            <% if @tournament.any_board_finished?(@round) %>
+              <%= disable_delete_round %>
+            <% else %>
+              <%= enable_delete_round %>
+            <% end %>
+          <% end %>
         </tr>
       </table>
     </div>

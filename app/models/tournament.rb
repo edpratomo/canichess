@@ -180,6 +180,10 @@ class Tournament < ApplicationRecord
     not boards.find_by(result: nil, round: round)
   end
 
+  def any_board_finished? round
+    boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
+  end
+
   alias :start :finalize_round
 
   protected

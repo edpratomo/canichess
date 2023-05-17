@@ -16,7 +16,7 @@
                   <% standings.each_with_index do |standing, idx| %>
                     <tr>
                       <td><%= idx + offset + 1 %></td>
-                      <td><%= standing.tournaments_player.name %> <%= blacklisted_icon(standing) %></td>
+                      <td><%= link_to standing.tournaments_player.name, player_path(standing.tournaments_player) %> <%= blacklisted_icon(standing) %></td>
                       <td><%= standing.points %></td>
                     </tr>
                   <% end %>

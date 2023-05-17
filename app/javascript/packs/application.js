@@ -29,7 +29,6 @@ document.addEventListener("turbolinks:load", () => {
 
 import '../stylesheets/scaffolds';
 import '../stylesheets/application'; // This file will contain your custom CSS
-// import '../stylesheets/fancy';
 
 require('admin-lte');
 

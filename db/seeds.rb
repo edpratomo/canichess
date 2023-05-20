@@ -64,7 +64,7 @@ Marcus Johnson
 Nathan Martinez
 EOF
 else
-  []
+  ''
 end
 
 names = names_txt.split("\n").map(&:strip).reject(&:empty?)

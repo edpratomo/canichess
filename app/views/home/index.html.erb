@@ -41,6 +41,20 @@
   <hr/>
   <% end %>
 
+  <% if @tournament %>
+  <div class="container hidden-mobile">
+    <div class="row justify-content-center">
+      <div class="col-xs-2">
+        <i class="fa fa-solid fa-users mr-1"></i>
+      </div>
+      <div class="col-xs-10" style="padding-left: 10px;">
+        <%= @tournament.players.size %> registered players
+      </div>
+    </div>
+  </div>
+  <hr class="hidden-mobile"/>
+  <% end %>
+
   <p class="lead">
   <%= front_page_button(@tournament) %>
   </p>

@@ -5,6 +5,9 @@
   <% content_for :page_title do %> <%= @tournament.name %> - <small>Round <%= @round %></small><% end %>
   <%= render('boards_1_col', boards: @boards_1, tournament: @tournament, round: @round) %>
 <% else %>
-  <% content_for :page_title do %> <%= @tournament.name %> - <small>Round <%= @round %></small><% end %>
+  <% content_for :page_title do %>
+    <%= image_tag("logo-canichess-ccad-2023.png", alt: "CCE CCAD Logo", style: "max-width: 8%; opacity: .8") %>
+    <%= @tournament.name %> - <small>Round <%= @round %></small>
+  <% end %>
   <%= render('boards_2_col', boards_1: @boards_1, boards_2: @boards_2, tournament: @tournament, round: @round) %>
 <% end %>

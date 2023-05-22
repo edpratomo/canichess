@@ -9,7 +9,7 @@
                 <table class="table table-bordered table-striped text-nowrap">
                   <thead>
                     <tr>
-      <th style="width: 2%">#</th>
+      <th class="text-center" style="width: 2%">#</th>
       <th>Name</th>
       <th>Points</th>
       <th>TB 1</th>
@@ -22,7 +22,7 @@
                   <tbody>
     <% standings.each_with_index do |standing, idx| %>
       <tr>
-        <td><%= idx + 1 %></td>
+        <td class="text-right"><%= idx + 1 %></td>
         <td><%= standing.tournaments_player.name %> <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %></td>
         <td><%= standing.points %></td>
         <td><%= standing.median %></td>

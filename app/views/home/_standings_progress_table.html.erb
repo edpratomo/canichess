@@ -7,17 +7,17 @@
                 <table class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th style="width: 2%">#</th>
+                      <th class="text-center" style="width: 2%">#</th>
                       <th>Name</th>
-                      <th style="width: 2%">Points</th>
+                      <th style="width: 2%">Pts</th>
                     </tr>
                   </thead>
                   <tbody>
                   <% standings.each_with_index do |standing, idx| %>
                     <tr>
-                      <td><%= idx + offset + 1 %></td>
+                      <td class="text-right"><%= idx + offset + 1 %></td>
                       <td><%= link_to standing.tournaments_player.name, player_path(standing.tournaments_player) %> <%= blacklisted_icon(standing) %></td>
-                      <td><%= standing.points %></td>
+                      <td class="text-center"><%= standing.points %></td>
                     </tr>
                   <% end %>
                   </tbody>

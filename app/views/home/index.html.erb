@@ -4,11 +4,13 @@
               <div class="card-body">
 
 <div style="background:transparent !important" class="text-center">
-  <h1 class="display-6"><%= @tournament ? @tournament.name : "Hello, fellow Canisians!" %></h1>
-  <p class="lead"><%= @tournament ? @tournament.description : '' %></p>
-  <hr>
   <% if @tournament %>
+    <h1 class="display-6"><%= @tournament.name %></h1>
+    <p class="lead"><%= @tournament.description %></p>
+    <hr>
     <%= render 'tournament', tournament: @tournament %>
+  <% else %>
+    <h1 class="display-6">Hello, fellow Canisians!</h1>
   <% end %>
   <p class="lead">
   <%= front_page_button(@tournament) %>

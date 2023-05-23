@@ -11,12 +11,12 @@
                     <tr>
       <th class="text-center" style="width: 2%">#</th>
       <th>Name</th>
-      <th>Points</th>
-      <th>TB 1</th>
-      <th>TB 2</th>
-      <th>TB 3</th>
-      <th>TB 4</th>
-      <th>TB 5</th>
+      <th class="text-center" >Pts</th>
+      <th class="text-center" >TB 1</th>
+      <th class="text-center" >TB 2</th>
+      <th class="text-center" >TB 3</th>
+      <th class="text-center" >TB 4</th>
+      <th class="text-center" style="width: 2%">TB 5</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -24,12 +24,12 @@
       <tr>
         <td class="text-right"><%= idx + 1 %></td>
         <td><%= standing.tournaments_player.name %> <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %></td>
-        <td><%= standing.points %></td>
-        <td><%= standing.median %></td>
-        <td><%= standing.solkoff %></td>
-        <td><%= standing.cumulative %></td>
-        <td><%= standing.opposition_cumulative %></td>
-        <td><%= standing.playing_black %></td>
+        <td class="text-center" ><%= standing.points %></td>
+        <td class="text-center" ><%= standing.median %></td>
+        <td class="text-center" ><%= standing.solkoff %></td>
+        <td class="text-center" ><%= standing.cumulative %></td>
+        <td class="text-center" ><%= standing.opposition_cumulative %></td>
+        <td class="text-center" ><%= standing.playing_black %></td>
       </tr>
     <% end %>
 

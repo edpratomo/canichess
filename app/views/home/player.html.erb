@@ -9,6 +9,7 @@
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title"><%= @tournament_player.name %> </h3>
+          <div class="text-right">Points: <%= @tournament_player.points %></div>
         </div>
         <div class="card-body table-responsive p0">
           <table class="table table-bordered table-striped text-nowrap">
@@ -28,8 +29,16 @@
               <% if round <= @games.size %>
                 <td class="text-center"><%= link_to board.round, pairings_path(round) %></td>
                 <td class="text-center"><%= board.number %></td>
-                <td <%= same_player?(@tournament_player, board.white) ? raw('class="text-info"') : ''  %>><%= board.white ? board.white.name : '<BYE>' %></td>
-                <td <%= same_player?(@tournament_player, board.black) ? raw('class="text-info"') : ''  %>><%= board.black ? board.black.name : '<BYE>' %></td>
+                <% if same_player?(@tournament_player, board.white) %>
+                  <td class="text-info"><%= board.white.name %></td>
+                <% else %>
+                  <td><%= board.white ? "#{board.white.name} (#{board.white.points})" : '<BYE>' %></td>
+                <% end %>
+                <% if same_player?(@tournament_player, board.black) %>
+                  <td class="text-info"><%= board.black.name %></td>
+                <% else %>
+                  <td><%= board.black ? "#{board.black.name} (#{board.black.points})" : '<BYE>' %></td>
+                <% end %>
                 <td style="text-align:center;"><%= chess_result(board.result) %></td>
               <% else %>
                 <td class="text-center"><%= round %></td><td/><td/><td/><td/>

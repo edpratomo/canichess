@@ -30,14 +30,14 @@
                 <td class="text-center"><%= link_to board.round, pairings_path(round) %></td>
                 <td class="text-center"><%= board.number %></td>
                 <% if same_player?(@tournament_player, board.white) %>
-                  <td class="text-info"><%= board.white.name %></td>
+                  <td><%= board.white.name %></td>
                 <% else %>
-                  <td><%= board.white ? "#{board.white.name} (#{board.white.points})" : '<BYE>' %></td>
+                  <td><%= board.white ? link_to("#{board.white.name} (#{board.white.points})", player_path(board.white)) : '<BYE>' %></td>
                 <% end %>
                 <% if same_player?(@tournament_player, board.black) %>
-                  <td class="text-info"><%= board.black.name %></td>
+                  <td><%= board.black.name %></td>
                 <% else %>
-                  <td><%= board.black ? "#{board.black.name} (#{board.black.points})" : '<BYE>' %></td>
+                  <td><%= board.black ? link_to("#{board.black.name} (#{board.black.points})", player_path(board.black)) : '<BYE>' %></td>
                 <% end %>
                 <td style="text-align:center;"><%= chess_result(board.result) %></td>
               <% else %>

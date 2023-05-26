@@ -2,14 +2,17 @@
   <% content_for :page_title do %> <%= @tournament.name %> - <small>Error</small><% end %>
   <p class="lead">Oops! Player not found.</p>
 <% else %>
-  <% content_for :page_title do %> <%= @tournament.name %> - <small>Player's Progress</small><% end %>
+  <% content_for :page_title do %>
+    <%= image_tag("logo-canichess-ccad-2023.png", alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+    <%= @tournament.name %> - <small>Player's Progress</small>
+  <% end %>
   <div class="row justify-content-center">
     <div class="col-lg-6">
       <!-- Custom Tabs -->
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title"><%= @tournament_player.name %> </h3>
-          <div class="text-right">Points: <%= @tournament_player.points %></div>
+          <div class="text-right" style="font-size: 0.8em;">Points: <%= @tournament_player.points %></div>
         </div>
         <div class="card-body table-responsive p0">
           <table class="table table-bordered table-striped text-nowrap">

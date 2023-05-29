@@ -108,6 +108,31 @@ class Tournament < ApplicationRecord
     true
   end
 
+  def update_ratings
+    result_to_rank = {
+      'white' => [1, 2],
+      'black' => [2, 1],
+      'draw'  => [1, 1]
+    }
+
+    games = boards.reject {|e| e.contains_bye? or e.result == 'noshow' or e.result.nil? }
+
+    period = Glicko2::RatingPeriod.from_objs(players)
+
+    transaction do
+      games.each do |game|
+        period.game([game.white.player, game.black.player], result_to_rank[game.result])
+      end
+      # tau constant = 0.5
+      period.generate_next(0.5).players.each(&:update_obj)
+
+      #players.each do |ply|
+      #  pp ply.rating
+      #end
+      players.each(&:save!)
+    end
+  end
+
   def current_round
     last_board = boards.order(:round).last
     last_board ? last_board.round : 0

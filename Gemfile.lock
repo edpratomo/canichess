@@ -112,6 +112,7 @@ GEM
       railties (>= 5.0.0)
     ffi (1.15.4)
     filterrific (5.2.2)
+    glicko2 (0.2.3)
     globalid (1.0.0)
       activesupport (>= 5.0)
     graph_matching (0.2.1)
@@ -309,6 +310,7 @@ DEPENDENCIES
   factory_bot_rails
   faker!
   filterrific
+  glicko2
   gravtastic
   jbuilder (~> 2.7)
   listen (~> 3.3)

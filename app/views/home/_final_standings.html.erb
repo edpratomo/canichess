@@ -23,10 +23,10 @@
     <% standings.each_with_index do |standing, idx| %>
       <tr>
         <td class="text-right"><%= idx + 1 %></td>
-        <td><span style="font-size: 1.1em"><%= link_to standing.tournaments_player.name, player_path(standing.tournaments_player), class: "text-white" %></span>
+        <td><span style="font-size: 1.0em"><%= link_to standing.tournaments_player.name, player_path(standing.tournaments_player), class: "text-white" %></span>
             <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %>
             <%= rating_badge(standing.tournaments_player) %> 
-            <span style="padding-right: 10px;" class="float-right"><%= standing.tournaments_player.player.rating %></span>
+            <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.player.rating %></span>
         </td>
         <td class="text-center" ><%= standing.points %></td>
         <td class="text-center" ><%= standing.median %></td>

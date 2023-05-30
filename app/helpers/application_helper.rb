@@ -60,7 +60,7 @@ module ApplicationHelper
     if delta > 0
       raw %Q(<span class="badge bg-info float-right">+ #{delta}</span>)
     elsif delta < 0
-      raw %Q(<span class="badge bg-danger float-right">- #{delta}</span>)
+      raw %Q(<span class="badge bg-danger float-right">- #{delta.abs}</span>)
     else
       raw %Q(<span class="badge bg-light float-right">+ #{delta}</span>)
     end

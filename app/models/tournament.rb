@@ -115,21 +115,28 @@ class Tournament < ApplicationRecord
       'draw'  => [1, 1]
     }
 
+    # mapping AR instances to MyPlayer instances
+    ar_my_players = tournaments_players.inject({}) do |m,o|
+      m[o.id] = MyPlayer.new(o)
+      m
+    end
+
     games = boards.reject {|e| e.contains_bye? or e.result == 'noshow' or e.result.nil? }
 
-    period = Glicko2::RatingPeriod.from_objs(players)
+    period = Glicko2::RatingPeriod.from_objs(ar_my_players.values)
 
     transaction do
       games.each do |game|
-        period.game([game.white.player, game.black.player], result_to_rank[game.result])
+        period.game([ar_my_players[game.white.id], ar_my_players[game.black.id]], result_to_rank[game.result])
       end
       # tau constant = 0.5
       period.generate_next(0.5).players.each(&:update_obj)
 
-      #players.each do |ply|
-      #  pp ply.rating
+      #ar_my_players.values.each do |t_player|
+      #  pp t_player.rating
       #end
-      players.each(&:save!)
+
+      ar_my_players.values.each(&:save_rating)
     end
   end
 
@@ -146,13 +153,13 @@ class Tournament < ApplicationRecord
   def generate_pairings
     # mapping AR instances to MyPlayer instances
     ar_my_players = tournaments_players.where(blacklisted: false).inject({}) do |m,o|
-      m[o.id] = MyPlayer.new(o.id, o.name, o.rating, o.points)
+      m[o.id] = MyPlayer.new(o) #.id, o.name, o.rating, o.points)
       m
     end
 
     # add excluded players
     ar_my_players.each do |k,my_player|
-      t_player = TournamentsPlayer.find(k)
+      t_player = my_player.ar_obj #TournamentsPlayer.find(k)
       my_player.exclude = t_player.prev_opps.map {|e| e.nil? ? Swissper::Bye : ar_my_players[e.id] }
     end
 
@@ -174,7 +181,7 @@ class Tournament < ApplicationRecord
         unless e.is_a? MyPlayer
           nil
         else
-          TournamentsPlayer.find(e.ar_id)
+          e.ar_obj
         end
       end
 

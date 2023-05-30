@@ -97,12 +97,23 @@ class Tournament < ApplicationRecord
       if current_round > 0
         update!(completed_round: completed_round + 1)
         snapshoot_points
+      else
+        # first round, save start_rating for each tournament player
+        tournaments_players.each do |t_player|
+          t_player.update!(start_rating: t_player.rating)
+        end
       end
       if completed_round < rounds
         generate_pairings
       else
         # final round
         compute_tiebreaks
+
+        # update total games played by each player
+        tournaments_players.each do |t_player|
+          games_played = t_player.games.reject {|e| e.contains_bye? }.size
+          t_player.player.update!(games_played: t_player.games_played + games_played)
+        end
       end
     end
     true
@@ -137,7 +148,13 @@ class Tournament < ApplicationRecord
       #end
 
       ar_my_players.values.each(&:save_rating)
+
+      # update end_rating for each tournament_player
+      tournaments_players.each do |t_player|
+        t_player.update!(end_rating: t_player.rating)
+      end
     end
+
   end
 
   def current_round

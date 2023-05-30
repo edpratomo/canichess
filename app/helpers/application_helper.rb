@@ -51,4 +51,18 @@ module ApplicationHelper
               class: "btn btn-primary btn-lg", role: "button")
     end
   end
+
+  def rating_badge tournament_player
+    delta = if tournament_player.start_rating and tournament_player.end_rating
+      tournament_player.end_rating - tournament_player.start_rating
+    end
+    return unless delta
+    if delta > 0
+      raw %Q(<span class="badge bg-info float-right">+ #{delta}</span>)
+    elsif delta < 0
+      raw %Q(<span class="badge bg-danger float-right">- #{delta}</span>)
+    else
+      raw %Q(<span class="badge bg-light float-right">+ #{delta}</span>)
+    end
+  end
 end

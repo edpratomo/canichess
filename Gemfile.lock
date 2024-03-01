@@ -159,18 +159,15 @@ GEM
     net-sftp (4.0.0)
       net-ssh (>= 5.0.0, < 8.0.0)
     net-ssh (7.2.1)
-    nio4r (2.7.0)
+    nio4r (2.5.8)
     nokogiri (1.13.6-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pairing_heap (3.0.1)
     pg (1.2.3)
     public_suffix (4.0.6)
-    puma (5.6.8)
+    puma (5.5.2)
       nio4r (~> 2.0)
-    puma-daemon (0.3.2)
-      puma (>= 5.0)
-      rack
     pundit (2.1.1)
       activesupport (>= 3.0.0)
     racc (1.6.0)
@@ -348,7 +345,6 @@ DEPENDENCIES
   listen (~> 3.3)
   pg
   puma (~> 5.0)
-  puma-daemon
   pundit
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.5, >= 6.1.4.4)

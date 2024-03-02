@@ -13,8 +13,8 @@
       <% is_board_disabled = board.contains_bye? %>
       <tr>
         <td id="td_board_<%= board.id %>" <%= board.result.nil? ? raw('class="bg-warning"') : '' %>><%= board.number %></td>
-        <td><%= board.white ? link_to(board.white.name, admin_tournaments_player_path(board.white)) : '<BYE>' %> <%= points(board.white, board.round) %></td>
-        <td><%= board.black ? link_to(board.black.name, admin_tournaments_player_path(board.black)) : '<BYE>' %> <%= points(board.black, board.round) %></td>
+        <td><%= board.white ? link_to(board.white.name + " (#{board.white.rating})", admin_tournaments_player_path(board.white)) : '<BYE>' %> <%= points(board.white, board.round) %></td>
+        <td><%= board.black ? link_to(board.black.name + " (#{board.black.rating})", admin_tournaments_player_path(board.black)) : '<BYE>' %> <%= points(board.black, board.round) %></td>
         <%= form_for(board, url: admin_board_path(board), method: :patch, html: { role: "form"}) do |f| %>
         <td>
           <%= render 'form_board', form: f, board: board, tournament: board.tournament, round: board.round, opt_result: "white", is_disabled: is_board_disabled %>

@@ -17,11 +17,13 @@ tournament_name = ENV['TOURNAMENT'] || "Springfield Cup"
 number_of_rounds = ENV['ROUNDS'] || ENV['ROUND'] || 5
 names_file = ENV['INPUT']
 
-tourney = Tournament.create(name: tournament_name, rounds: number_of_rounds, date: Date.today, location: <<ADDR)
+tourney = Tournament.first
+tourney ||= Tournament.create(name: tournament_name, rounds: number_of_rounds, date: Date.today, location: <<ADDR)
 Bukit Modern
 Pondok Cabe
 Tangerang Selatan
 ADDR
+
 
 names_txt = if names_file
   File.read(names_file)

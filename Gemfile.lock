@@ -17,6 +17,12 @@ GIT
       responders
       warden (~> 1.2.3)
 
+GIT
+  remote: https://github.com/pH14/graphmatch.git
+  revision: 52a7a488bae334cdeb37ec188cb793258f49922d
+  specs:
+    graphmatch (1.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -311,6 +317,7 @@ DEPENDENCIES
   faker!
   filterrific
   glicko2
+  graphmatch!
   gravtastic
   jbuilder (~> 2.7)
   listen (~> 3.3)

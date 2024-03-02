@@ -29,7 +29,7 @@ Standings after <%= link_to "Round #{@round}", round_admin_boards_path(@tourname
     <% @standings.each_with_index do |standing, idx| %>
       <tr>
         <td><%= idx + 1 %></td>
-        <td><%= link_to(standing.tournaments_player.name, admin_tournaments_player_path(standing.tournaments_player)) %> <%= blacklisted_icon(standing) %></td>
+        <td><%= link_to(standing.tournaments_player.name + " (#{standing.tournaments_player.rating})", admin_tournaments_player_path(standing.tournaments_player)) %> <%= blacklisted_icon(standing) %></td>
         <td><%= standing.points %></td>
         <td><%= standing.median %></td>
         <td><%= standing.solkoff %></td>

@@ -31,6 +31,10 @@ class TournamentsPlayer < ApplicationRecord
     player.rating
   end
 
+  def games_played
+    player.games_played
+  end
+
   def check_already_started
     if tournament.current_round > 0
       errors.add 'Tournament already started. Could not delete player.'

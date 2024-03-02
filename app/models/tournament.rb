@@ -168,52 +168,12 @@ class Tournament < ApplicationRecord
 
   # must add validation that previous round must be completed
   def generate_pairings
-    # mapping AR instances to MyPlayer instances
-    ar_my_players = tournaments_players.where(blacklisted: false).inject({}) do |m,o|
-      m[o.id] = MyPlayer.new(o) #.id, o.name, o.rating, o.points)
-      m
-    end
-
-    # add excluded players
-    ar_my_players.each do |k,my_player|
-      t_player = my_player.ar_obj #TournamentsPlayer.find(k)
-      my_player.exclude = t_player.prev_opps.map {|e| e.nil? ? Swissper::Bye : ar_my_players[e.id] }
-    end
-
-    pairs = Swissper.pair(ar_my_players.values, delta_key: :tournament_points)
-
+    players_list = ActiveRecordPlayersList.new(self)
+    pairing = Pairing.new(players_list)
     round = next_round
-
-    sorted_boards = pairs.sort_by do |pair|
-      if pair.any? {|e| not e.is_a? MyPlayer}
-        -1
-      else
-        pair.sum {|e| e.tournament_points}
-      end
-    end.reverse
-
-    sorted_boards.each_with_index do |pair, idx|
-      # convert back to AR instances
-      player_1, player_2 = pair.map do |e|
-        unless e.is_a? MyPlayer
-          nil
-        else
-          e.ar_obj
-        end
-      end
-
-      if [player_1, player_2].any? {|e| e.nil?}
-        Board.create!(tournament: self, number: idx + 1, round: round, white: player_1, black: player_2)
-      else
-        # create board pairing for this round, taking into account the player's playing_black
-        w_player, b_player = if player_1.playing_black > player_2.playing_black
-          [player_1, player_2]
-        else
-          [player_2, player_1]
-        end
-        Board.create!(tournament: self, number: idx + 1, round: round, white: w_player, black: b_player)
-      end
-    end
+    pairing.generate_pairings {|idx, w_player, b_player| 
+      Board.create!(tournament: self, number: idx, round: round, white: w_player, black: b_player)
+    }
   end
 
   # create snapshots of every player for a specific round

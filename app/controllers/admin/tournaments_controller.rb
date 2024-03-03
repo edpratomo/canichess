@@ -85,7 +85,7 @@ class Admin::TournamentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_tournament_params
       #params.fetch(:tournament, {})
-      params.require(:tournament).permit(:name, :fp, :rounds, :tournaments_players, :players_file, :description, :location, :date)
+      params.require(:tournament).permit(:name, :fp, :rounds, :tournaments_players, :players_file, :description, :location, :date, :rated)
     end
 
     def redirect_cancel

@@ -26,6 +26,9 @@
                     <%= link_to @admin_tournament.players.size, tournament_admin_tournaments_players_path(@admin_tournament), class: "float-right" %>
                   </li>
                   <li class="list-group-item">
+                    <b>Rated</b> <span class="float-right"><%= @admin_tournament.rated ? "yes" : "no" %></span>
+                  </li>
+                  <li class="list-group-item">
                     <b>Status</b> <span class="float-right"><%= status_badge(@admin_tournament) %></span>
                   </li>
                 </ul>

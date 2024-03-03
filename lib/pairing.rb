@@ -10,6 +10,8 @@ module Swissper
 end
 
 class Pairing
+  class PairingError < StandardError; end
+
   attr_reader :players_list
 
   def initialize players_list
@@ -62,32 +64,38 @@ class Pairing
     end
 
     global_pairs = []
-    groups.each_with_index do |group,idx|
-      pairs = Swissper.pair(group, delta_key: :rating, bye_delta: highest_rating)
 
-      if (pairs.size * 2) < group.size
-        if idx + 1 == groups.size
-          # upward merging
-          puts "upward merging groups#{idx} to #{idx - 1}"
-          groups[idx - 1].concat(groups.delete_at(idx))
+    begin
+      groups.each_with_index do |group,idx|
+        pairs = Swissper.pair(group, delta_key: :rating, bye_delta: highest_rating)
+        puts "group: #{idx}, size: #{group.size}, pairs: #{pairs.size}"
+
+        if (pairs.size * 2) < group.size
+          if idx + 1 >= groups.size
+            # upward merging
+            puts "upward merging groups: #{idx} to #{idx - 1}"
+            groups[idx - 1].concat(groups.delete_at(idx))
+          else
+            # downward merging
+            puts "downward merging groups: #{idx} to #{idx + 1}"
+            groups[idx + 1].concat(groups.delete_at(idx))
+          end
+          global_pairs = []
+          raise PairingError
         else
-          # downward merging
-          puts "downward merging groups#{idx} to #{idx + 1}"
-          groups[idx + 1].concat(groups.delete_at(idx))
+          sorted_boards = pairs.sort do |a,b|
+            ary_a = [a.sum {|e| e.tournament_points}, a.max {|aa,bb| aa.rating <=> bb.rating }.rating]
+            ary_b = [b.sum {|e| e.tournament_points}, b.max {|aa,bb| aa.rating <=> bb.rating }.rating]
+
+            ary_a <=> ary_b
+          end.reverse
+
+          # add to global_pairs
+          global_pairs.concat(sorted_boards)
         end
-        global_pairs = []
-        redo
-      else
-        sorted_boards = pairs.sort do |a,b|
-          ary_a = [a.sum {|e| e.tournament_points}, a.max {|aa,bb| aa.rating <=> bb.rating }.rating]
-          ary_b = [b.sum {|e| e.tournament_points}, b.max {|aa,bb| aa.rating <=> bb.rating }.rating]
-
-          ary_a <=> ary_b
-        end.reverse
-
-        # add to global_pairs
-        global_pairs.concat(sorted_boards)
       end
+    rescue PairingError
+      retry
     end
 
     global_pairs.push(bye_bracket) if bye_bracket

@@ -109,6 +109,9 @@ class Tournament < ApplicationRecord
         # final round
         compute_tiebreaks
 
+        # update ratings for rated tournament
+        update_ratings if self.rated
+
         # update total games played by each player
         tournaments_players.each do |t_player|
           games_played = t_player.games.reject {|e| e.contains_bye? }.size
@@ -142,10 +145,6 @@ class Tournament < ApplicationRecord
       end
       # tau constant = 0.5
       period.generate_next(0.5).players.each(&:update_obj)
-
-      #ar_my_players.values.each do |t_player|
-      #  pp t_player.rating
-      #end
 
       ar_my_players.values.each(&:save_rating)
 

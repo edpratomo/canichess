@@ -1,6 +1,6 @@
 class Admin::TournamentsPlayersController < ApplicationController
   before_action :set_admin_tournaments_player, only: %i[ show edit update destroy ]
-  before_action :set_tournament, only: %i[ index_by_tournament ]
+  before_action :set_tournament, only: %i[ index_by_tournament new ]
 
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
@@ -22,7 +22,7 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # GET /admin/tournaments_players/new
   def new
-    @admin_tournaments_player = TournamentsPlayer.new
+    @tournaments_player = TournamentsPlayer.new
   end
 
   # GET /admin/tournaments_players/1/edit

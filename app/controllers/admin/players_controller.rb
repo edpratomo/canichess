@@ -1,6 +1,11 @@
 class Admin::PlayersController < ApplicationController
   before_action :set_admin_player, only: %i[ show edit update destroy ]
 
+  def suggestions
+    @admin_players = Player.fuzzy_search(name: params[:q])
+    render :layout => 'plain'
+  end
+
   # GET /admin/players or /admin/players.json
   def index
     @admin_players = Player.all

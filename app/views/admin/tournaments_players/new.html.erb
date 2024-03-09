@@ -1,5 +1,13 @@
-<h1>New Admin Tournaments Player</h1>
+<p id="notice"><%= notice %></p>
+ 
+<% content_for :page_title do %>Add New Player to Tournament: <%= @tournament.name %><% end %>
 
-<%= render 'form', admin_tournaments_player: @admin_tournaments_player %>
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-8">
+    <div class="card card-primary card-outline">
+    <%= render 'form_new', admin_tournaments_player: @tournaments_player, tournament: @tournament %>
+    </div>
+  </div>
+</div>
 
-<%= link_to 'Back', admin_tournaments_players_path %>

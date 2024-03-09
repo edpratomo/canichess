@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@hotwired/stimulus": "^3.2.2",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -14,6 +15,7 @@
     "js-cookie": "^3.0.5",
     "popper.js": "^1.16.1",
     "rails-erb-loader": "^5.5.2",
+    "stimulus-autocomplete": "^3.1.0",
     "tempusdominus-bootstrap-4": "^5.39.2",
     "turbolinks": "^5.2.0",
     "webpack": "^4.46.0",

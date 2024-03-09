@@ -31,6 +31,14 @@ class Tournament < ApplicationRecord
     end
   end
 
+  def add_player args
+    if args[:id] # existing player
+      players << Player.find(args[:id])
+    elsif args[:name]
+      players << Player.create!(name: args[:name])
+    end
+  end
+
   def sorted_standings round=nil
     round ||= completed_round
     # 13.1.3.1 Joining Nested Associations (Single Level)

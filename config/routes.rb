@@ -25,7 +25,11 @@ Rails.application.routes.draw do
   get 'home/contact' => 'home#contact', as: "contact"
   
   namespace :admin do
-    resources :players
+    resources :players do
+      collection do
+        get 'suggestions'
+      end
+    end
   end
   namespace :admin do
     resources :tournaments do
@@ -39,6 +43,7 @@ Rails.application.routes.draw do
     resources :tournaments_players do
       collection do
         get ':id/list' => 'tournaments_players#index_by_tournament', as: "tournament"
+        get ':id/new' => 'tournaments_players#new', as: "new"
       end
     end
   end

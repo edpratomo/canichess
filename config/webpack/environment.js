@@ -11,7 +11,8 @@ environment.plugins.append('Provide',
         Popper: 'popper.js/dist/popper',
         moment: 'moment/moment',
         bootstrap: 'bootstrap',
-        BootstrapDialog: 'bootstrap4-dialog/dist/js/bootstrap-dialog'
+        BootstrapDialog: 'bootstrap4-dialog/dist/js/bootstrap-dialog',
+        Bloodhound: 'typeahead.js/dist/bloodhound.min',
 //        Popper: ['popper.js', 'default']
     })
 )

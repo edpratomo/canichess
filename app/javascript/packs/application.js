@@ -32,5 +32,10 @@ import '../stylesheets/application'; // This file will contain your custom CSS
 
 require('admin-lte');
 
+import toastr from 'toastr'
+window.toastr = toastr
+
 // import "@fortawesome/fontawesome-free/js/all";
-require("@fortawesome/fontawesome-free")
+require("@fortawesome/fontawesome-free");
+
+import "../controllers";

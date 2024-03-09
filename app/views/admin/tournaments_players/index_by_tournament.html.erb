@@ -3,6 +3,16 @@
 <% content_for :page_title do %>Tournament <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %><% end %>
 
 <div class="row">
+  <div class="col-sm-2">
+    <div class="card">
+      <%= button_to "Add Player", new_admin_tournaments_players_path(@tournament), form_class: "form-horizontal",
+          method: :get, class: "btn btn-block btn-primary btn-lg float-right" %>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
 <div class="col-md-6">
 <div class="card card-primary card-outline">
 <div class="card-body table-responsive p-0">

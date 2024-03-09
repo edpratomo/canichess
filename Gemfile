@@ -76,3 +76,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'swissper'
 gem 'glicko2'
 gem 'graphmatch', github: 'pH14/graphmatch'
+gem 'stimulus-rails'

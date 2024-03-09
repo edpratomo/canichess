@@ -14,6 +14,10 @@ class Admin::TournamentsController < ApplicationController
     end
   end
 
+  def players
+    
+  end
+
   # GET /admin/tournaments or /admin/tournaments.json
   def index
     @admin_tournaments = Tournament.all.order(fp: :desc, id: :desc)
@@ -51,13 +55,25 @@ class Admin::TournamentsController < ApplicationController
 
   # PATCH/PUT /admin/tournaments/1 or /admin/tournaments/1.json
   def update
+    #updating_players = false
+    updating_players = if admin_tournament_params[:player_id] and not admin_tournament_params[:player_id].empty?
+      @admin_tournament.add_player(id: admin_tournament_params[:player_id])
+    elsif admin_tournament_params[:player_name] and not admin_tournament_params[:player_name].empty?
+      @admin_tournament.add_player(name: admin_tournament_params[:player_name])
+    end
+
     logger.debug("players_file: #{admin_tournament_params[:players_file]}")
-    if admin_tournament_params[:players_file]
+    updating_players ||= if admin_tournament_params[:players_file]
       @admin_tournament.import_players(admin_tournament_params[:players_file])
     end
+
     respond_to do |format|
-      if @admin_tournament.update(admin_tournament_params.except(:players_file))
-        format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully updated." }
+      if @admin_tournament.update(admin_tournament_params.except(:players_file, :player_name, :player_id))
+        if updating_players
+          format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament was successfully updated." }
+        else
+          format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully updated." }
+        end
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -85,7 +101,9 @@ class Admin::TournamentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_tournament_params
       #params.fetch(:tournament, {})
-      params.require(:tournament).permit(:name, :fp, :rounds, :tournaments_players, :players_file, :description, :location, :date, :rated)
+      params.require(:tournament).
+             permit(:name, :fp, :rounds, :tournaments_players, :players_file, :description, :location, :date, :rated,
+                    :player_name, :player_id)
     end
 
     def redirect_cancel

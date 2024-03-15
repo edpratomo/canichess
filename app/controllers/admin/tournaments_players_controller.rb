@@ -36,14 +36,12 @@ class Admin::TournamentsPlayersController < ApplicationController
   def preview
     @new_players = session[:new_players]
     @selected = session[:selected]
-    logger.debug(@selected)
-    logger.debug(@new_players)
   end
 
   # POST
   def create_preview
-    @new_players = []
-    @selected = []
+    new_players = []
+    selected = []
     registered_players = @tournament.players.inject({}) {|m,o| m[o.id] = true; m}
     if tournament_params[:players_file]
       File.foreach(tournament_params[:players_file].path).with_index do |line, index|
@@ -51,11 +49,11 @@ class Admin::TournamentsPlayersController < ApplicationController
         suggestions = Player.fuzzy_search(name: name)
 
         if suggestions.size == 1
-          @selected.push suggestions.first.id
+          selected.push suggestions.first.id
         else
-          @selected.push 0
+          selected.push 0
         end
-        @new_players.push [[name, 0]].concat(suggestions.
+        new_players.push [[name, 0]].concat(suggestions.
             map do |e|
               registered_str = registered_players[e.id] ? " - registered" : ""
               ["#{e.name} (ID: #{e.id} Rtg: #{e.rating})" + registered_str, e.id]
@@ -63,8 +61,10 @@ class Admin::TournamentsPlayersController < ApplicationController
           )
       end
     end
-    session[:new_players] = @new_players
-    session[:selected] = @selected
+
+    logger.debug(new_players)
+    session[:new_players] = new_players
+    session[:selected] = selected
 
     redirect_to preview_admin_tournaments_players_path(@tournament)
   end

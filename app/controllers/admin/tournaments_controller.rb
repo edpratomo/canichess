@@ -1,5 +1,5 @@
 class Admin::TournamentsController < ApplicationController
-  before_action :set_admin_tournament, only: %i[ show edit update destroy start ]
+  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players ]
   before_action :redirect_cancel, only: [:create, :update]
 
   def start
@@ -61,7 +61,7 @@ class Admin::TournamentsController < ApplicationController
 
     # register players already known in our database
     registered_players = @admin_tournament.players.inject({}) {|m,o| m[o.id] = true; m}
-    player_ids.reject {|e| registered_players[e]}.each do |player_id|
+    player_ids.map {|e| e.to_i}.reject {|e| registered_players[e]}.each do |player_id|
       @admin_tournament.add_player(id: player_id)
     end
     # register new players not in our database

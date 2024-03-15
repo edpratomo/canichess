@@ -9,8 +9,5 @@ $(document).on('turbolinks:load', function () {
         console.log("name: " + new_name);
       }
     });
-
-    alert("ok");
-
   }
 });

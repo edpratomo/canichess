@@ -1,0 +1,6 @@
+<% @admin_players.each do |player| %>
+  <li class="list-group-item" role="option" data-autocomplete-value="<%= player.id %>" data-autocomplete-label="<%= player.name %>">
+    <%= player.name %>
+    <span class="badge"><%= player.rating %></span>
+  </li>
+<% end %>

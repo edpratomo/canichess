@@ -1,6 +1,6 @@
 class Admin::TournamentsPlayersController < ApplicationController
   before_action :set_admin_tournaments_player, only: %i[ show edit update destroy ]
-  before_action :set_tournament, only: %i[ index_by_tournament new ]
+  before_action :set_tournament, only: %i[ index_by_tournament new upload create_preview preview ]
 
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
@@ -27,6 +27,46 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # GET /admin/tournaments_players/1/edit
   def edit
+  end
+
+  # GET upload -> PATCH create_preview -> GET preview -> PATCH update_players
+  def upload
+  end
+
+  def preview
+    @new_players = session[:new_players]
+    @selected = session[:selected]
+    logger.debug(@selected)
+    logger.debug(@new_players)
+  end
+
+  # POST
+  def create_preview
+    @new_players = []
+    @selected = []
+    registered_players = @tournament.players.inject({}) {|m,o| m[o.id] = true; m}
+    if tournament_params[:players_file]
+      File.foreach(tournament_params[:players_file].path).with_index do |line, index|
+        name = line.strip
+        suggestions = Player.fuzzy_search(name: name)
+
+        if suggestions.size == 1
+          @selected.push suggestions.first.id
+        else
+          @selected.push 0
+        end
+        @new_players.push [[name, 0]].concat(suggestions.
+            map do |e|
+              registered_str = registered_players[e.id] ? " - registered" : ""
+              ["#{e.name} (ID: #{e.id} Rtg: #{e.rating})" + registered_str, e.id]
+            end
+          )
+      end
+    end
+    session[:new_players] = @new_players
+    session[:selected] = @selected
+
+    redirect_to preview_admin_tournaments_players_path(@tournament)
   end
 
   # POST /admin/tournaments_players or /admin/tournaments_players.json
@@ -88,5 +128,9 @@ class Admin::TournamentsPlayersController < ApplicationController
     def admin_tournaments_player_params
       #params.fetch(:tournaments_player, {})
       params.require(:tournaments_player).permit(:blacklisted)
+    end
+
+    def tournament_params
+      params.require(:tournament).permit(:players_file, tournaments_players: [])
     end
 end

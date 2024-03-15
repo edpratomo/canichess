@@ -1,0 +1,20 @@
+<table class="table table-hover text-nowrap">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Players</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% players.each_with_index do |player_suggestions, idx| %>
+      <tr>
+        <td><%= idx + 1 %></td>
+        <td><%= form.select "player_ids[#{idx}]", player_suggestions,
+                     { :include_blank => false, :selected => selected[idx] },
+                     { :class => 'select2bs4 form-control' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -14,10 +14,6 @@ class Admin::TournamentsController < ApplicationController
     end
   end
 
-  def players
-    
-  end
-
   # GET /admin/tournaments or /admin/tournaments.json
   def index
     @admin_tournaments = Tournament.all.order(fp: :desc, id: :desc)
@@ -53,27 +49,41 @@ class Admin::TournamentsController < ApplicationController
     end
   end
 
+  def update_players
+    player_ids = [admin_tournament_params[:player_id]].compact.reject {|e| e.empty? }
+    if admin_tournament_params[:player_ids] and not admin_tournament_params[:player_ids].empty?
+      player_ids.concat admin_tournament_params[:player_ids].values.reject {|e| e == "0"}
+    end
+    player_names = [admin_tournament_params[:player_name]].compact.reject {|e| e.empty? }
+    if admin_tournament_params[:player_names] and not admin_tournament_params[:player_names].empty?
+      player_names.concat admin_tournament_params[:player_names].reject {|e| e.empty? }
+    end
+
+    # register players already known in our database
+    registered_players = @admin_tournament.players.inject({}) {|m,o| m[o.id] = true; m}
+    player_ids.reject {|e| registered_players[e]}.each do |player_id|
+      @admin_tournament.add_player(id: player_id)
+    end
+    # register new players not in our database
+    player_names.each do |player_name|
+      @admin_tournament.add_player(name: player_name)
+    end
+
+    # delete sessions
+    session.delete(:new_players)
+    session.delete(:selected)
+
+    # redirect
+    respond_to do |format|
+      format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament was successfully updated." }
+    end
+  end
+
   # PATCH/PUT /admin/tournaments/1 or /admin/tournaments/1.json
   def update
-    #updating_players = false
-    updating_players = if admin_tournament_params[:player_id] and not admin_tournament_params[:player_id].empty?
-      @admin_tournament.add_player(id: admin_tournament_params[:player_id])
-    elsif admin_tournament_params[:player_name] and not admin_tournament_params[:player_name].empty?
-      @admin_tournament.add_player(name: admin_tournament_params[:player_name])
-    end
-
-    logger.debug("players_file: #{admin_tournament_params[:players_file]}")
-    updating_players ||= if admin_tournament_params[:players_file]
-      @admin_tournament.import_players(admin_tournament_params[:players_file])
-    end
-
     respond_to do |format|
       if @admin_tournament.update(admin_tournament_params.except(:players_file, :player_name, :player_id))
-        if updating_players
-          format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament was successfully updated." }
-        else
-          format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully updated." }
-        end
+        format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -102,8 +112,8 @@ class Admin::TournamentsController < ApplicationController
     def admin_tournament_params
       #params.fetch(:tournament, {})
       params.require(:tournament).
-             permit(:name, :fp, :rounds, :tournaments_players, :players_file, :description, :location, :date, :rated,
-                    :player_name, :player_id)
+             permit(:name, :fp, :rounds, :players_file, :description, :location, :date, :rated,
+                    :player_name, :player_id, player_names: [], player_ids: {})
     end
 
     def redirect_cancel

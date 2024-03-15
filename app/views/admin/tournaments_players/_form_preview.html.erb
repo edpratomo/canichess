@@ -1,0 +1,24 @@
+<%= form_with(model: tournament, url: update_players_admin_tournaments_path(tournament), html: { method: :patch, onsubmit: "updateHiddenField()" }) do |form| %>
+  <% if tournament.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(tournament.errors.count, "error") %> prohibited this tournament from being saved:</h2>
+
+      <ul>
+        <% tournament.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <%= render 'players_preview_table', players: new_players, selected: selected, form: form %>
+  </div>
+
+  <div class="card-footer">
+    <%= form.hidden_field :player_names, multiple: true %>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
+  </div>
+
+<% end %>

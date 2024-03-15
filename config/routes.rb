@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :tournaments do
       collection do
         patch ':id/start' => 'tournaments#start', as: "start"
+        patch ':id/update_players' => 'tournaments#update_players', as: "update_players"
       end
     end
   end
@@ -42,8 +43,12 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :tournaments_players do
       collection do
-        get ':id/list' => 'tournaments_players#index_by_tournament', as: "tournament"
-        get ':id/new' => 'tournaments_players#new', as: "new"
+        get  ':id/list' => 'tournaments_players#index_by_tournament', as: "tournament"
+        get  ':id/new' => 'tournaments_players#new', as: "new"
+
+        get  ':id/upload' => 'tournaments_players#upload', as: "upload"
+        post ':id/create_preview' => 'tournaments_players#create_preview', as: "create_preview"
+        get  ':id/preview' => 'tournaments_players#preview', as: "preview"
       end
     end
   end

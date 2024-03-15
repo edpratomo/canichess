@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+ 
+<% content_for :page_title do %>Upload Players File to Tournament: <%= @tournament.name %><% end %>
+
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-8">
+    <div class="card card-primary card-outline">
+    <%= render 'form_upload', tournament: @tournament %>
+    </div>
+  </div>
+</div>
+

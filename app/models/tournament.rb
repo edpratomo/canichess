@@ -121,13 +121,20 @@ class Tournament < ApplicationRecord
         update_ratings if self.rated
 
         # update total games played by each player
-        tournaments_players.each do |t_player|
-          games_played = t_player.games.reject {|e| e.contains_bye? }.size
-          t_player.player.update!(games_played: t_player.games_played + games_played)
-        end
+        update_total_games
       end
     end
     true
+  end
+
+  def update_total_games
+    tournaments_players.each do |t_player|
+      games_played = t_player.games.reject {|e| e.contains_bye? }.size
+      t_player.player.update!(games_played: t_player.games_played + games_played)
+      if self.rated
+        t_player.player.update!(rated_games_played: t_player.rated_games_played + games_played)
+      end
+    end
   end
 
   def update_ratings
@@ -161,7 +168,6 @@ class Tournament < ApplicationRecord
         t_player.update!(end_rating: t_player.rating)
       end
     end
-
   end
 
   def current_round

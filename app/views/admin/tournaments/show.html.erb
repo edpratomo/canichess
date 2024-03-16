@@ -7,7 +7,7 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <%= image_tag "logo-canichess-ccad-2023.png", class: "profile-user-img img-fluid img-circle", alt: "Logo CCAD 2023" %>
+                  <%= image_tag "logo-canichess-ccad-2024.png", class: "profile-user-img img-fluid img-circle", alt: "Logo CCAD 2024" %>
                 </div>
 
                 <h3 class="profile-username text-center"><%= @admin_tournament.name %></h3>
@@ -78,6 +78,9 @@
 <% end %>
     <%= link_to edit_admin_tournament_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
         <i class="fas fa-pencil-alt"></i> Edit
+    <% end %>
+    <%= link_to tournament_admin_tournaments_players_path(@admin_tournament), class: "btn btn-success btn-sm" do %>
+        <i class="fas fa-pencil-alt"></i>Players
     <% end %>
 
               </div>

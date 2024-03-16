@@ -21,15 +21,15 @@ class Tournament < ApplicationRecord
     (((n_boards_per_round * completed_round + boards_finished_current_round) * 100) / (n_boards_per_round * rounds)).floor 
   end
 
-  def import_players players_file
-    File.foreach(players_file.path).with_index do |line, index|
-      name = line.strip
-      g_player = Player.find_by(name: name) || Player.create!(name: name)
-      unless players.find_by(name: name)
-        players << g_player
-      end
-    end
-  end
+#  def import_players players_file
+#    File.foreach(players_file.path).with_index do |line, index|
+#      name = line.strip
+#      g_player = Player.find_by(name: name) || Player.create!(name: name)
+#      unless players.find_by(name: name)
+#        players << g_player
+#      end
+#    end
+#  end
 
   def add_player args
     if args[:id] # existing player

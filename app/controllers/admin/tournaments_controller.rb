@@ -34,10 +34,7 @@ class Admin::TournamentsController < ApplicationController
 
   # POST /admin/tournaments or /admin/tournaments.json
   def create
-    @admin_tournament = Tournament.new(admin_tournament_params.except(:players_file))
-    if admin_tournament_params[:players_file]
-      @admin_tournament.import_players(admin_tournament_params[:players_file])
-    end
+    @admin_tournament = Tournament.new(admin_tournament_params)
     respond_to do |format|
       if @admin_tournament.save
         format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully created." }
@@ -50,11 +47,21 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def update_players
-    player_ids = [admin_tournament_params[:player_id]].compact.reject {|e| e.empty? }
+    player_id = admin_tournament_params[:player_id]
+    player_name = admin_tournament_params[:player_name]
+    if player_id and not player_id.empty?
+      @admin_tournament.add_player(id: player_id)
+    elsif player_name and not player_name.empty?
+      @admin_tournament.add_player(name: player_name)
+    end
+
+#    player_ids = [admin_tournament_params[:player_id]].compact.reject {|e| e.empty? }
+    player_ids = []
     if admin_tournament_params[:player_ids] and not admin_tournament_params[:player_ids].empty?
       player_ids.concat admin_tournament_params[:player_ids].values.reject {|e| e == "0"}
     end
-    player_names = [admin_tournament_params[:player_name]].compact.reject {|e| e.empty? }
+    player_names = []
+#    player_names = [admin_tournament_params[:player_name]].compact.reject {|e| e.empty? }
     if admin_tournament_params[:player_names] and not admin_tournament_params[:player_names].empty?
       player_names.concat admin_tournament_params[:player_names].reject {|e| e.empty? }
     end
@@ -75,7 +82,7 @@ class Admin::TournamentsController < ApplicationController
 
     # redirect
     respond_to do |format|
-      format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament was successfully updated." }
+      format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament players were successfully updated." }
     end
   end
 

@@ -5,6 +5,7 @@
       <th>White</th>
       <th>Black</th>
       <th colspan="4" style="text-align:center;">Result</th>
+      <th> Winning by W.O. ?</th>
     </tr>
   </thead>
 
@@ -27,6 +28,14 @@
         </td>
         <td>
           <%= render 'form_board', form: f, board: board, tournament: board.tournament, round: board.round, opt_result: "noshow", is_disabled: is_board_disabled %>
+        </td>
+        <td class="text-center">
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <%= f.check_box :walkover, class: "custom-control-input" %>
+              <%= f.label :walkover, 'W.O.', class: "custom-control-label" %>
+            </div>
+          </div>
         </td>
         <% end %>
       </tr>

@@ -87,6 +87,6 @@ class Admin::BoardsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_board_params
       logger.debug(params)
-      params.require(:board).permit(:result) #permit(:tournament_id, :round_id, :id, :result)
+      params.require(:board).permit(:result, :walkover)
     end
 end

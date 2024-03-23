@@ -6,7 +6,7 @@
 <div class="card-header">
   <h3 class="card-title text-info"><%= @tournaments_player.name %> <%= blacklisted_icon(@tournaments_player) %></h3>
 
-<%= button_to "Add to blacklist", admin_tournaments_player_path(@tournaments_player), form_class: "form-horizontal", method: :patch, 
+<%= button_to "Withdraw", admin_tournaments_player_path(@tournaments_player), form_class: "form-horizontal", method: :patch, 
               disabled: @tournaments_player.blacklisted,
               data: { confirm: "Are you sure?" }, class: "btn btn-warning float-right", params: {"tournaments_player[blacklisted]": "true"} %>
 
@@ -30,7 +30,8 @@
       <td><%= link_to board.round, round_admin_boards_path(@tournaments_player.tournament, board.round) %></td>
       <td <%= same_player?(@tournaments_player, board.white) ? raw('class="text-info"') : ''  %>><%= board.white ? board.white.name : '<BYE>' %></td>
       <td <%= same_player?(@tournaments_player, board.black) ? raw('class="text-info"') : ''  %>><%= board.black ? board.black.name : '<BYE>' %></td>
-      <td style="text-align:center;"><%= chess_result(board.result) %></td>
+      <td style="text-align:center;"><%= chess_result(board.result) %> <% if board.walkover %><span class="badge bg-danger">WO</span> <% end %>
+      </td>
     <% else %>
       <td><%= round %></td><td/><td/><td/>
     <% end %>
@@ -42,4 +43,3 @@
 </div>
 </div>
 </div>
-

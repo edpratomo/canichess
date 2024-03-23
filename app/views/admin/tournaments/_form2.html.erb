@@ -56,6 +56,12 @@
         <%= form.number_field :rounds, class: "form-control", disabled: already_started %>
       </div>
     </div>
+    <div class="form-group row">
+      <%= form.label :max_walkover, "Max allowed WO losses in a row", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-2">
+        <%= form.number_field :max_walkover, class: "form-control", min: 1, disabled: already_started %>
+      </div>
+    </div>
 
   </div>
   <!-- /.card-body -->

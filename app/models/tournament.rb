@@ -101,6 +101,9 @@ class Tournament < ApplicationRecord
     return if completed_round == rounds # tournament is finished already
 
     transaction do
+      # remove players who lost by WO more than max_walkover
+      withdraw_wo_players
+
       # check if no pairing has been created yet
       if current_round > 0
         update!(completed_round: completed_round + 1)
@@ -125,6 +128,12 @@ class Tournament < ApplicationRecord
       end
     end
     true
+  end
+
+  def withdraw_wo_players
+    tournaments_players.where('wo_count > ?', self.max_walkover).each do |t_player|
+      t_player.update!(blacklisted: true)
+    end
   end
 
   def update_total_games

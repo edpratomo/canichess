@@ -1,7 +1,6 @@
 $(document).on('turbolinks:load', function () {
   console.log("turbolinks:load TRIGGERED");
   var last_radio_state = [];
-  var last_check_box_state = [];
 
   getRadioByValue = function(radios, value) {
     for (var i = 0; i < radios.length; i++) {       
@@ -77,7 +76,6 @@ $(document).on('turbolinks:load', function () {
     var form_id = element.form.id;
     var found_form = document.querySelector("#" + form_id);
     var check_box = found_form.elements[element.name];
-    var last_state = last_check_box_state[form_id];
 
     var form_ary = form_id.split("_");
     console.log("[updateCheckBox] form_action: " + form_action);
@@ -93,31 +91,13 @@ $(document).on('turbolinks:load', function () {
       dataType: 'json',
       'error' : function(response) {
           console.log("response: " + response.status);
-          console.log("reverting to: " + last_state);
-          // revert the change
-          if (last_state) {
-            element.checked = last_state;
-          } else {
-            element.checked = false;
-          }
+          console.log("reverting to: false");
+          element.checked = false;
       },
       'success': function(data) {
-        console.log("all_completed? " + data["tournament"]["all_completed"]);
+        console.log("walkover changed");
       },
     });
-  }
-
-  checkCheckBox = function(element) {
-    alert("OK");
-    var form_id = element.form.id;
-    var found_form = document.querySelector("#" + form_id);
-
-    var check_box = found_form.elements[element.name];
-
-    console.log("check_box.checked: " + check_box.checked);
-
-    // save current value
-    last_check_box_state[form_id] = check_box.checked;
   }
 
 });

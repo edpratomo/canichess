@@ -1,6 +1,7 @@
 $(document).on('turbolinks:load', function () {
   console.log("turbolinks:load TRIGGERED");
   var last_radio_state = [];
+  var last_check_box_state = [];
 
   getRadioByValue = function(radios, value) {
     for (var i = 0; i < radios.length; i++) {       
@@ -27,6 +28,8 @@ $(document).on('turbolinks:load', function () {
 
     var form_ary = form_id.split("_");
     var td_board_id = "#td_board_" + form_ary.slice(-1);
+
+    console.log("[update_Radio] form_action: " + form_action);
 
     $.ajax({
       url: form_action + '.json',
@@ -67,6 +70,54 @@ $(document).on('turbolinks:load', function () {
 
     // save currently checked radio
     last_radio_state[form_id] = radios.value;
+  }
+
+  updateCheckBox = function(element) {
+    var form_action = element.form.action;
+    var form_id = element.form.id;
+    var found_form = document.querySelector("#" + form_id);
+    var check_box = found_form.elements[element.name];
+    var last_state = last_check_box_state[form_id];
+
+    var form_ary = form_id.split("_");
+    console.log("[updateCheckBox] form_action: " + form_action);
+
+    var $c_form = $(element).closest('form');
+    console.log("[updateCheckBox] element id: " + element.id);
+
+    $.ajax({
+      url: form_action + '.json',
+      type: 'PATCH',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      data: { _method:'patch', board: { walkover: element.checked } },
+      dataType: 'json',
+      'error' : function(response) {
+          console.log("response: " + response.status);
+          console.log("reverting to: " + last_state);
+          // revert the change
+          if (last_state) {
+            element.checked = last_state;
+          } else {
+            element.checked = false;
+          }
+      },
+      'success': function(data) {
+        console.log("all_completed? " + data["tournament"]["all_completed"]);
+      },
+    });
+  }
+
+  checkCheckBox = function(element) {
+    alert("OK");
+    var form_id = element.form.id;
+    var found_form = document.querySelector("#" + form_id);
+
+    var check_box = found_form.elements[element.name];
+
+    console.log("check_box.checked: " + check_box.checked);
+
+    // save current value
+    last_check_box_state[form_id] = check_box.checked;
   }
 
 });

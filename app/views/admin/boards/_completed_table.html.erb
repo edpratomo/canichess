@@ -16,6 +16,7 @@
         <td><%= board.black ? link_to(board.black.name + " (#{board.black.rating})", admin_tournaments_player_path(board.black)) : '<BYE>' %></td>
         <td style="text-align:center;">
           <%= chess_result(board.result) %> <% if board.walkover %><span class="badge bg-danger">WO</span> <% end %>
+            <% if board.result and board.result == 'noshow' %><span class="badge bg-warning">no-show</span> <% end %> 
         </td>
       </tr>
     <% end %>

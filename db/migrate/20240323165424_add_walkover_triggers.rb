@@ -14,7 +14,7 @@ BEGIN
 END;
 $$;
 
-CREATE FUNCTION inc_wo_count(new_round INTEGER, wo_player INTEGER) RETURNS void AS $$
+CREATE FUNCTION inc_wo_count(new_round INTEGER, wo_player BIGINT) RETURNS void AS $$
 DECLARE
   prev_black INTEGER;
   prev_white INTEGER;
@@ -37,8 +37,8 @@ CREATE FUNCTION inc_wo_count_on_noshow() RETURNS TRIGGER
   LANGUAGE plpgsql
   AS $$
 BEGIN
-  SELECT inc_wo_count(NEW.round, NEW.black_id);
-  SELECT inc_wo_count(NEW.round, NEW.white_id);
+  PERFORM inc_wo_count(NEW.round, NEW.black_id);
+  PERFORM inc_wo_count(NEW.round, NEW.white_id);
   RETURN NULL;
 END;
 $$;
@@ -47,14 +47,14 @@ CREATE FUNCTION inc_wo_count_on_walkover() RETURNS TRIGGER
   LANGUAGE plpgsql
   AS $$
 DECLARE
-  wo_player INTEGER;
+  wo_player BIGINT;
 BEGIN
   IF (NEW.result = 'white') THEN
     wo_player := NEW.black_id;
   ELSIF (NEW.result = 'black') THEN
     wo_player := NEW.white_id;
   END IF;
-  SELECT inc_wo_count(NEW.round, wo_player);
+  PERFORM inc_wo_count(NEW.round, wo_player);
   RETURN NULL;
 END;
 $$;
@@ -123,7 +123,7 @@ BEGIN
   END IF;
 
   IF TG_OP = 'UPDATE' THEN
-    SELECT inc_wo_count(NEW.round, wo_player);
+    PERFORM inc_wo_count(NEW.round, wo_player);
     --- update winning player
     UPDATE tournaments_players SET wo_count = wo_count - 1 WHERE id = winning_player AND wo_count > 0;
   ELSIF TG_OP = 'DELETE' THEN
@@ -195,7 +195,7 @@ DROP TRIGGER IF EXISTS a30_boards_after_delete ON boards;
 DROP TRIGGER IF EXISTS a40_boards_from_noshow ON boards;
 
 DROP FUNCTION IF EXISTS check_result();
-DROP FUNCTION IF EXISTS inc_wo_count();
+DROP FUNCTION IF EXISTS inc_wo_count(integer, bigint);
 DROP FUNCTION IF EXISTS inc_wo_count_on_noshow();
 DROP FUNCTION IF EXISTS inc_wo_count_on_walkover();
 DROP FUNCTION IF EXISTS dec_wo_count_on_update();

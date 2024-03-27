@@ -20,8 +20,15 @@
     </div>
 
     <div class="form-group row">
-      <%= form.label :rating, "Rating", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-8">
+      <%= form.label :fide_id, "FIDE ID", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-2">
+        <%= form.text_field :fide_id, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :rating, "Canichess Rating", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-2">
         <%= form.text_field :rating, class: "form-control" %>
       </div>
     </div>

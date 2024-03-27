@@ -71,6 +71,6 @@ class Admin::PlayersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_player_params
 #      params.fetch(:admin_player, {}).permit(:name, :rating)
-      params.require(:player).permit(:name, :rating)
+      params.require(:player).permit(:name, :rating, :fide_id)
     end
 end

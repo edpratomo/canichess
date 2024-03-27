@@ -1,7 +1,27 @@
 <p id="notice"><%= notice %></p>
+<% content_for :page_title do %>Player Data<% end %>
+        <div class="row">
+          <div class="col-md-4">
 
-<p><%= @admin_player.name %></p>
-<p>Rating: <%= @admin_player.rating %></p>
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
 
-<%= link_to 'Edit', edit_admin_player_path(@admin_player) %> |
-<%= link_to 'Back', admin_players_path %>
+                <h3 class="profile-username text-center"><%= @admin_player.name %></h3>
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Canichess Rating</b> <span class="float-right"><%= @admin_player.rating %></span>
+                  </li>
+                  <li class="list-group-item">
+                    <b>FIDE ID</b> <span class="float-right"><%= @admin_player.fide_id %></span>
+                  </li>
+                </ul>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div> <!-- /.col -->
+        </div>
+
+<%= link_to 'Edit', edit_admin_player_path(@admin_player) %> 

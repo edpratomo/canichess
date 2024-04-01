@@ -18,7 +18,7 @@ CREATE TABLE simuls_players (
   simul_id INTEGER NOT NULL REFERENCES simuls(id),
   player_id INTEGER NOT NULL REFERENCES players(id),
   result TEXT,
-  CONSTRAINT boards_result_check CHECK ((result = ANY (ARRAY['white'::text, 'black'::text, 'draw'::text, 'noshow'::text])))
+  CONSTRAINT result_check CHECK ((result = ANY (ARRAY['white'::text, 'black'::text, 'draw'::text, 'noshow'::text])))
 );
 
 CREATE FUNCTION update_fp_simuls() RETURNS TRIGGER

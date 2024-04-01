@@ -1,0 +1,43 @@
+    <% content_for :page_title do %>
+      <%= image_tag("logo-canichess-ccad-2024.png", alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+      <%= @simul.name %> - <small>Results</small>
+    <% end %>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary">
+
+              <!-- /.card-header -->
+              <div class="card-body">
+<% @players.each_with_index do |player,idx| %>
+  <% if idx % 4 == 0 %>
+    <% if idx / 4 == 0 %>
+                <div class="row">
+    <% else %>
+                <div class="row mt-4">
+    <% end %>
+  <% end %>
+                  <div class="col-sm-3">
+                    <div class="position-relative p-3 bg-gray" style="height: 60px">
+                      <div class="ribbon-wrapper ribbon">
+                        <div class="ribbon bg-primary">
+                          Ribbon
+                        </div>
+                      </div>
+                    <span class="badge badge-pill bg-light"><%= idx + 1 %></span>
+                    <%= player.name %>
+                    </div>
+                  </div>
+  <% if idx % 4 == 3   %>
+                </div>
+                <!-- /.row -->
+  <% end %>
+<% end %>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->

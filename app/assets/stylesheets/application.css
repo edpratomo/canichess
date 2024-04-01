@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+.col-xs-3.fixed {
+    width:20%;
+}

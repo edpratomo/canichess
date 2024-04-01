@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'simuls/:id/show' => 'simuls#show', as: "simul"
+
+  namespace :admin do
+    resources :simuls
+  end
+
   namespace :admin do
     resources :standings do
       collection do

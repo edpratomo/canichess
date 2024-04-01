@@ -19,13 +19,25 @@
   <% end %>
                   <div class="col-sm-3">
                     <div class="position-relative p-3 bg-gray" style="height: 60px">
+  <% if player.result %>
                       <div class="ribbon-wrapper ribbon">
-                        <div class="ribbon bg-primary">
-                          Ribbon
+    <% if player.result == player.color %>
+                        <div class="ribbon bg-success">
+                          WIN
                         </div>
+    <% elsif player.result == 'draw' %>
+                        <div class="ribbon bg-warning">
+                          DRAW
+                        </div>
+    <% else %>
+                        <div class="ribbon bg-primary">
+                          LOST
+                        </div>
+    <% end %>
                       </div>
-                    <span class="badge badge-pill bg-light"><%= idx + 1 %></span>
-                    <%= player.name %>
+  <% end %>
+                    <span class="badge badge-pill bg-<%= player.color %>"><%= idx + 1 %></span>
+                    <%= player.player.name %>
                     </div>
                   </div>
   <% if idx % 4 == 3   %>

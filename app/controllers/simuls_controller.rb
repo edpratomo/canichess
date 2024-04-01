@@ -6,7 +6,7 @@ class SimulsController < ApplicationController
   layout 'top-nav.html.erb'
 
   def show
-    @players = @simul.players.order('simuls_players.id')
+    @players = @simul.simuls_players.order(:id) #'simuls_players.id')
   end
 
   private

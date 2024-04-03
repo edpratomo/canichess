@@ -2,10 +2,11 @@ class Admin::TournamentsPlayersController < ApplicationController
   before_action :set_admin_tournaments_player, only: %i[ show edit update destroy ]
   before_action :set_tournament, only: %i[ index_by_tournament new upload create_preview preview ]
 
+  before_action :redirect_cancel, only: [:create, :update ]
+
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
     logger.debug("tournament: #{@tournament}")
-#    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(blacklisted: :asc, points: :desc, rating: :desc, name: :asc)
     @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(name: :asc)
 
     respond_to do |format|
@@ -46,6 +47,7 @@ class Admin::TournamentsPlayersController < ApplicationController
     if tournament_params[:players_file]
       File.foreach(tournament_params[:players_file].path).with_index do |line, index|
         name = line.strip
+        next if name.empty?
         suggestions = Player.fuzzy_search(name: name)
 
         if suggestions.size == 1
@@ -132,5 +134,9 @@ class Admin::TournamentsPlayersController < ApplicationController
 
     def tournament_params
       params.require(:tournament).permit(:players_file, tournaments_players: [])
+    end
+
+    def redirect_cancel
+      redirect_to admin_tournament_path(params[:id]) if params[:cancel]
     end
 end

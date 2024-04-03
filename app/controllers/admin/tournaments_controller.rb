@@ -2,6 +2,8 @@ class Admin::TournamentsController < ApplicationController
   before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players ]
   before_action :redirect_cancel, only: [:create, :update]
 
+  before_action :redirect_cancel_players, only: [:update_players]
+
   def start
     respond_to do |format|
       if @admin_tournament.start
@@ -126,4 +128,9 @@ class Admin::TournamentsController < ApplicationController
     def redirect_cancel
       redirect_to admin_tournaments_path if params[:cancel]
     end
+
+    def redirect_cancel_players
+      redirect_to admin_tournament_path(params[:id]) if params[:cancel]
+    end
+
 end

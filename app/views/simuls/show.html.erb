@@ -6,13 +6,14 @@
             <div class="widget-user-image">
               <%= image_tag("logo-canichess-ccad-2024.png", class: "img-circle elevation-2", alt: "CCE CCAD Logo", style: "opacity: .8") %>
             </div>
-                <!-- /.widget-user-image -->
-                <h3 class="widget-user-username"><%= @simul.name %></h3>
-                <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
+            <!-- /.widget-user-image -->
+            <h3 class="widget-user-username"><%= @simul.name %></h3>
+            <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
+          </div>
         </div>
         <!-- /.card -->
-            <div class="card card-primary">
-              <div class="card-body">
+        <div class="card card-primary">
+          <div class="card-body">
 <% @players.each_with_index do |player,idx| %>
   <% if idx % 4 == 0 %>
     <% if idx / 4 == 0 %>
@@ -49,11 +50,11 @@
                 <!-- /.row -->
   <% end %>
 <% end %>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
+          <!-- /.card-body -->
         </div>
-        <!-- /.row -->
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->

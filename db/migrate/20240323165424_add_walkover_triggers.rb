@@ -14,16 +14,16 @@ BEGIN
 END;
 $$;
 
-CREATE FUNCTION inc_wo_count(new_round INTEGER, wo_player BIGINT) RETURNS void AS $$
+CREATE FUNCTION inc_wo_count(t_id INTEGER, new_round INTEGER, wo_player BIGINT) RETURNS void AS $$
 DECLARE
   prev_black INTEGER;
   prev_white INTEGER;
   prev_noshow INTEGER;
 BEGIN
   --- check if also WO on the previous round
-  prev_black  := (SELECT COUNT(1) FROM boards WHERE round = new_round - 1 AND walkover IS true AND result = 'white' AND black_id = wo_player);
-  prev_white  := (SELECT COUNT(1) FROM boards WHERE round = new_round - 1 AND walkover IS true AND result = 'black' AND white_id = wo_player);
-  prev_noshow := (SELECT COUNT(1) FROM boards WHERE round = new_round - 1 AND result = 'noshow' AND black_id = wo_player OR white_id = wo_player);
+  prev_black  := (SELECT COUNT(1) FROM boards WHERE tournament_id = t_id AND round = new_round - 1 AND walkover IS true AND result = 'white' AND black_id = wo_player);
+  prev_white  := (SELECT COUNT(1) FROM boards WHERE tournament_id = t_id AND round = new_round - 1 AND walkover IS true AND result = 'black' AND white_id = wo_player);
+  prev_noshow := (SELECT COUNT(1) FROM boards WHERE tournament_id = t_id AND round = new_round - 1 AND result = 'noshow' AND (black_id = wo_player OR white_id = wo_player));
 
   IF (prev_black > 0 OR prev_white > 0 OR prev_noshow > 0) THEN
     UPDATE tournaments_players SET wo_count = wo_count + 1 WHERE id = wo_player;
@@ -37,8 +37,8 @@ CREATE FUNCTION inc_wo_count_on_noshow() RETURNS TRIGGER
   LANGUAGE plpgsql
   AS $$
 BEGIN
-  PERFORM inc_wo_count(NEW.round, NEW.black_id);
-  PERFORM inc_wo_count(NEW.round, NEW.white_id);
+  PERFORM inc_wo_count(NEW.tournament_id, NEW.round, NEW.black_id);
+  PERFORM inc_wo_count(NEW.tournament_id, NEW.round, NEW.white_id);
   RETURN NULL;
 END;
 $$;
@@ -54,7 +54,7 @@ BEGIN
   ELSIF (NEW.result = 'black') THEN
     wo_player := NEW.white_id;
   END IF;
-  PERFORM inc_wo_count(NEW.round, wo_player);
+  PERFORM inc_wo_count(NEW.tournament_id, NEW.round, wo_player);
   RETURN NULL;
 END;
 $$;
@@ -123,7 +123,7 @@ BEGIN
   END IF;
 
   IF TG_OP = 'UPDATE' THEN
-    PERFORM inc_wo_count(NEW.round, wo_player);
+    PERFORM inc_wo_count(NEW.tournament_id, NEW.round, wo_player);
     --- update winning player
     UPDATE tournaments_players SET wo_count = wo_count - 1 WHERE id = winning_player AND wo_count > 0;
   ELSIF TG_OP = 'DELETE' THEN
@@ -196,6 +196,7 @@ DROP TRIGGER IF EXISTS a40_boards_from_noshow ON boards;
 
 DROP FUNCTION IF EXISTS check_result();
 DROP FUNCTION IF EXISTS inc_wo_count(integer, bigint);
+DROP FUNCTION IF EXISTS inc_wo_count(integer, integer, bigint);
 DROP FUNCTION IF EXISTS inc_wo_count_on_noshow();
 DROP FUNCTION IF EXISTS inc_wo_count_on_walkover();
 DROP FUNCTION IF EXISTS dec_wo_count_on_update();

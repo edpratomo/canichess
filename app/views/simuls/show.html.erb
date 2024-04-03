@@ -1,13 +1,17 @@
-    <% content_for :page_title do %>
-      <%= image_tag("logo-canichess-ccad-2024.png", alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
-      <%= @simul.name %> - <small>Results</small>
-    <% end %>
-
-        <div class="row">
-          <div class="col-12">
+    <div class="row">
+      <div class="col-12">
+        <!-- Widget: user widget style 2 -->
+        <div class="card card-widget widget-user-2 shadow-sm">
+          <div class="widget-user-header bg-warning">
+            <div class="widget-user-image">
+              <%= image_tag("logo-canichess-ccad-2024.png", class: "img-circle elevation-2", alt: "CCE CCAD Logo", style: "max-width: 6%; opacity: .8") %>
+            </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><%= @simul.name %></h3>
+                <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
+        </div>
+        <!-- /.card -->
             <div class="card card-primary">
-
-              <!-- /.card-header -->
               <div class="card-body">
 <% @players.each_with_index do |player,idx| %>
   <% if idx % 4 == 0 %>

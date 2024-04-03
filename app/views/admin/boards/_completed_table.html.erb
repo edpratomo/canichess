@@ -12,8 +12,8 @@
     <% boards.each_with_index do |board, idx| %>
       <tr>
         <td><%= board.number %></td>
-        <td><%= board.white ? link_to(board.white.name + " (#{board.white.rating})", admin_tournaments_player_path(board.white)) : '<BYE>' %></td>
-        <td><%= board.black ? link_to(board.black.name + " (#{board.black.rating})", admin_tournaments_player_path(board.black)) : '<BYE>' %></td>
+        <td><%= board.white ? link_to(board.white.name + " (#{board.white.start_rating})", admin_tournaments_player_path(board.white)) : '<BYE>' %></td>
+        <td><%= board.black ? link_to(board.black.name + " (#{board.black.start_rating})", admin_tournaments_player_path(board.black)) : '<BYE>' %></td>
         <td style="text-align:center;">
           <%= chess_result(board.result) %> <% if board.walkover %><span class="badge bg-danger">WO</span> <% end %>
             <% if board.result and board.result == 'noshow' %><span class="badge bg-warning">no-show</span> <% end %> 

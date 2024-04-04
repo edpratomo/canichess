@@ -34,6 +34,16 @@ class ActiveRecordPlayersList < PlayersList
     @tournaments_players = tournament.tournaments_players
     @ar_to_players = {}
 
+    # find players who lost by WO or no-show
+    lost_as_black = Board.where(tournament_id: @tournament, round: @tournament.current_round, walkover: true, result: 'white').map {|e| e.black_id}
+    lost_as_white = Board.where(tournament_id: @tournament, round: @tournament.current_round, walkover: true, result: 'black').map {|e| e.white_id}
+    noshows = Board.where(tournament_id: @tournament, round: @tournament.current_round, result: 'noshow').inject([]) do |m,o|
+      m << o.white_id
+      m << o.black_id
+      m
+    end
+    @wo_player_ids = lost_as_black.concat(lost_as_white).concat(noshows)
+
     # mapping AR instances to MyPlayer instances
     @tournaments_players.where(blacklisted: false).each do |o|
       self.add(o)
@@ -48,6 +58,13 @@ class ActiveRecordPlayersList < PlayersList
     @ar_to_players.each do |k,my_player|
       t_player = my_player.ar_obj
       my_player.exclude = t_player.prev_opps.map {|e| e.nil? ? Swissper::Bye : @ar_to_players[e.id] }
+
+      # prevent players who lost by WO in current round from being paired with BYE
+      if t_player.wo_count > 0
+        if @wo_player_ids.any?(k)
+          my_player.exclude << Swissper::Bye unless my_player.exclude.any?(Swissper::Bye)
+        end
+      end
     end
   end
 

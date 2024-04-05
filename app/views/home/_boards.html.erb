@@ -19,6 +19,7 @@
                       <td><%= board.number %></td>
                       <td><% if board.white %>
                         <%= link_to board.white.name, player_path(board.white), class: "text-white" %> <%= points(board.white, board.round) %>
+                        <span style="padding-right: 10px;" class="text-warning"><small><%= board.white.start_rating %></small></span>
                       <% else %>
                         &lt;BYE&gt;
                       <% end %>
@@ -26,6 +27,7 @@
                       <td style="text-align:center;"><%= chess_result(board.result) %></td>
                       <td><% if board.black %>
                         <%= link_to board.black.name, player_path(board.black), class: "text-white" %> <%= points(board.black, board.round) %>
+                        <span style="padding-right: 10px;" class="text-warning"><small><%= board.black.start_rating %></small></span>
                       <% else %>
                         &lt;BYE&gt;
                       <% end %>

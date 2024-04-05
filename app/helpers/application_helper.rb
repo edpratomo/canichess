@@ -16,7 +16,13 @@ module ApplicationHelper
 
   def blacklisted_icon tournaments_player
     if tournaments_player.blacklisted
-      raw('<i class="fa fa-ban" aria-hidden="true" style="color:red"></i>')
+      raw('<i class="fa fa-sign-out" aria-hidden="true" style="color:red"></i>')
+    end
+  end
+
+  def withdrawn_icon tournaments_player
+    if tournaments_player.blacklisted
+      raw('<i class="fa fa-sign-out" aria-hidden="true" style="color:red"></i>')
     end
   end
 

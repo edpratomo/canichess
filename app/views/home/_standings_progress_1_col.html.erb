@@ -1,4 +1,4 @@
-<div class="row">
+        <div class="row">
           <div class="col-6">
             <!-- Custom Tabs -->
             <div class="card card-primary">
@@ -9,24 +9,25 @@
                 <table class="table table-bordered table-striped text-nowrap">
                   <thead>
                     <tr>
-      <th style="width: 2%">#</th>
-      <th>Name</th>
-      <th style="width: 2%">Points</th>
+                      <th style="width: 2%">#</th>
+                      <th>Name</th>
+                      <th style="width: 2%">Points</th>
                     </tr>
                   </thead>
                   <tbody>
-    <% standings.each_with_index do |standing, idx| %>
-      <tr>
-        <td><%= idx + 1 %></td>
-        <td><%= standing.tournaments_player.name %> <%= blacklisted_icon(standing) %></td>
-        <td><%= standing.points %></td>
-      </tr>
-    <% end %>
-
+                  <% standings.each_with_index do |standing, idx| %>
+                    <tr>
+                      <td><%= idx + 1 %></td>
+                      <td><%= standing.tournaments_player.name %>
+                          <span style="padding-right: 10px;" class="text-warning"><small><%= standing.tournaments_player.start_rating %></small></span>
+                          <%= blacklisted_icon(standing) %>
+                      </td>
+                      <td><%= standing.points %></td>
+                    </tr>
+                  <% end %>
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-
-</div>
+        </div>

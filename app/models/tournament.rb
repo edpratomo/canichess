@@ -44,7 +44,7 @@ class Tournament < ApplicationRecord
     # 13.1.3.1 Joining Nested Associations (Single Level)
     standings.joins(tournaments_player: :player).where(round: round).
               order(blacklisted: :asc, points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, 
-                    playing_black: :desc, 'players.name': :asc)
+                    playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
   end
 
   def compute_tiebreaks round=nil

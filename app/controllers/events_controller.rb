@@ -1,6 +1,4 @@
 class EventsController < ApplicationController
-  include ActionController::Live
-
   skip_before_action :authenticate_user!
   before_action :set_tournament
   before_action :set_round, only: %i[ pairings ]
@@ -28,7 +26,8 @@ class EventsController < ApplicationController
     loop do
       data = @tournament.get_results(@round)
       unless data.empty?
-        sse.write(JSON.pretty_generate(data))
+        data2 = data.map {|e| e[:result] = helpers.chess_result(e[:result]); e}
+        sse.write(JSON.pretty_generate(data2))
       end
       sleep 3
     end

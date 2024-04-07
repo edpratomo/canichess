@@ -9,18 +9,23 @@ class EventsController < ApplicationController
     response.headers['Content-Type'] = 'text/event-stream'
     response.headers['Last-Modified'] = Time.now.httpdate
     sse = SSE.new(response.stream, event: "message")
+
     # long polling
-    loop do
-      data = @tournament.get_results(@round)
-      unless data.empty?
-        sse.write(JSON.pretty_generate(data))
+    begin
+      loop do
+        data = @tournament.get_results(@round)
+        unless data.empty?
+          sse.write(JSON.pretty_generate(data))
+        end
+        sleep 3
       end
-      sleep 1
+    rescue ActionController::Live::ClientDisconnected
+      logger.debug("Client disconnected")
+    ensure
+      sse.close
     end
-  rescue IOError
-    logger.debug("Client disconnected")
-  ensure
-    sse.close
+
+    render nothing: true
   end
 
   def simul

@@ -16,7 +16,14 @@
   const eventSource = new EventSource("/events/<%= @round %>/pairings")
 
   eventSource.addEventListener("message", (event) => {
-    console.log(event)
+    console.log(event.data);
+    boards = $.parseJSON(event.data);
+    $.each(boards, function(idx, board) {
+      // console.log("res_" + board["id"]);
+      if ($("#res_" + board["id"]).html() != board["result"]) {
+        $("#res_" + board["id"]).html(board["result"]);
+      }
+    });
   })
 
   eventSource.addEventListener("error", (event) => {

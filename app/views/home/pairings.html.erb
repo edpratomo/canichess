@@ -11,3 +11,20 @@
   <% end %>
   <%= render('boards_2_col', boards_1: @boards_1, boards_2: @boards_2, tournament: @tournament, round: @round) %>
 <% end %>
+
+<script>
+  const eventSource = new EventSource("/events/<%= @round %>/pairings")
+
+  eventSource.addEventListener("message", (event) => {
+    console.log(event)
+  })
+
+  eventSource.addEventListener("error", (event) => {
+    console.log(event)
+
+    if (event.eventPhase === EventSource.CLOSED) {
+      eventSource.close()
+      console.log("Event Source Closed")
+    }
+  })
+</script>

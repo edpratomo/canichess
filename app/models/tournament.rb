@@ -8,6 +8,13 @@ class Tournament < ApplicationRecord
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
+  def get_results round=nil
+    round ||= current_round
+    boards.where(round: round).where.not(result: nil).map {|e|
+      {id: e.id, result: e.result, walkover: e.walkover}
+    }
+  end
+
   def boards_per_round
     (players.size.to_f / 2).ceil
   end

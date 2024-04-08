@@ -12,6 +12,7 @@
   <%= render('boards_2_col', boards_1: @boards_1, boards_2: @boards_2, tournament: @tournament, round: @round) %>
 <% end %>
 
+<% if @round > @tournament.completed_round %>
 <script>
   const eventSource = new EventSource("/events/<%= @round %>/pairings")
 
@@ -19,8 +20,11 @@
     console.log(event.data);
     boards = $.parseJSON(event.data);
     $.each(boards, function(idx, board) {
-      // console.log("res_" + board["id"]);
-      if ($("#res_" + board["id"]).html() != board["result"]) {
+      // htmlEncode board["result"] and compare it with current td
+      if ($("#res_" + board["id"]).text() != $("<div/>").html(board["result"]).text()) {
+        console.log("Updating res_" + board["id"]);
+        console.log("res_" + board["id"] + ": " + $("#res_" + board["id"]).text());
+        console.log("board[result]: " + $("<div/>").html(board["result"]).text());
         $("#res_" + board["id"]).html(board["result"]);
       }
     });
@@ -35,3 +39,4 @@
     }
   })
 </script>
+<% end %>

@@ -20,12 +20,18 @@
     console.log(event.data);
     boards = $.parseJSON(event.data);
     $.each(boards, function(idx, board) {
+      board_result = $("<div/>").html(board["result"]).text() + (board["walkover"] ? ' WO' : '');
+
       // htmlEncode board["result"] and compare it with current td
-      if ($("#res_" + board["id"]).text() != $("<div/>").html(board["result"]).text()) {
+      if ($("#res_" + board["id"]).text() != board_result) {
         console.log("Updating res_" + board["id"]);
-        console.log("res_" + board["id"] + ": " + $("#res_" + board["id"]).text());
-        console.log("board[result]: " + $("<div/>").html(board["result"]).text());
-        $("#res_" + board["id"]).html(board["result"]);
+        console.log("res_" + board["id"] + ": [" + $("#res_" + board["id"]).text() + "]");
+        console.log("board[result]: [" + board_result + "]");
+        if (board["walkover"]) {
+         $("#res_" + board["id"]).html(board["result"] + ' <span class="badge bg-danger">WO</span>');
+        } else {
+         $("#res_" + board["id"]).html(board["result"]);
+        }
       }
     });
   })

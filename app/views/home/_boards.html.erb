@@ -24,7 +24,7 @@
                         &lt;BYE&gt;
                       <% end %>
                       </td>
-                      <td id="res_<%= board.id %>" style="text-align:center;"><%= chess_result(board.result) %></td>
+                      <td id="res_<%= board.id %>" style="text-align:center;"><%= chess_result(board.result) %><% if board.walkover %> <span class="badge bg-danger">WO</span><% end %></td>
                       <td><% if board.black %>
                         <%= link_to board.black.name, player_path(board.black), class: "text-white" %> <%= points(board.black, board.round) %>
                         <span style="padding-right: 10px;" class="text-warning"><small><%= board.black.start_rating %></small></span>

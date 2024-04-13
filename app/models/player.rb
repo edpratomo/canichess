@@ -19,7 +19,7 @@ class Player < ApplicationRecord
 
     # curl -s -X GET 'https://fide-api.vercel.app/player_info/?fide_id=7102909&history=false' -H 'accept: application/json' | jq .
     fide_players.each do |player_id, player_fide_id|
-      rest_url = fide_api + "?fide_id=#{player_fide_id}&history=false"
+      rest_url = fide_api + "?fide_id=#{player_fide_id}&history=true"
       output = %x[curl -s -X GET -H 'accept: application/json' '#{rest_url}']
       if output
         begin

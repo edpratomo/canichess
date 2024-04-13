@@ -11,7 +11,7 @@
       <!-- Custom Tabs -->
       <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title"><%= @tournament_player.name %> </h3>
+          <h3 class="card-title"><%= @tournament_player.name %> <%= link_to_if @tournament_player.player.fide_id, 'FIDE'.html_safe, '', data: {toggle: "modal", target: "#modal-default"} %> </h3> 
           <div class="text-right" style="font-size: 0.8em;">Points: <%= @tournament_player.points %></div>
         </div>
         <div class="card-body table-responsive p0">
@@ -54,4 +54,28 @@
       </div>
     </div> <!-- /.col -->
   </div> <!-- /.row -->
+
+      <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">FIDE Data</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <% fide_data = JSON.parse(@tournament_player.player.fide_data) %>
+              <p>Classical rating: <%= fide_data["history"].last["classical_rating"] %></p>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
 <% end %>

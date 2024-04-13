@@ -11,7 +11,10 @@
       <!-- Custom Tabs -->
       <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title"><%= @tournament_player.name %> <%= link_to_if @tournament_player.player.fide_id, 'FIDE'.html_safe, '', data: {toggle: "modal", target: "#modal-default"} %> </h3> 
+          <h3 class="card-title"><%= @tournament_player.name %>
+            <% if @tournament_player.player.fide_id %>
+            <span class="badge bg-info" data-toggle="modal" data-target="#modal-default"><small>FIDE</small></span>
+            <% end %></h3>
           <div class="text-right" style="font-size: 0.8em;">Points: <%= @tournament_player.points %></div>
         </div>
         <div class="card-body table-responsive p0">
@@ -66,7 +69,13 @@
             </div>
             <div class="modal-body">
               <% fide_data = JSON.parse(@tournament_player.player.fide_data) %>
-              <p>Classical rating: <%= fide_data["history"].last["classical_rating"] %></p>
+              <p>Name: <%= fide_data["name"] %></p>
+              <p>FIDE ID: <%= fide_data["fide_id"] %></p>
+              <p>FIDE title: <%= fide_data["fide_title"] %></p>
+              <p>Classical rating: <%= fide_data["history"].first["classical_rating"] %></p>
+              <p>Rapid rating: <%= fide_data["history"].first["rapid_rating"] %></p>
+              <p>Blitz rating: <%= fide_data["history"].first["blitz_rating"] %></p>
+
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

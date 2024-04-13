@@ -12,7 +12,7 @@
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title"><%= @tournament_player.name %>
-            <% if @tournament_player.player.fide_id %>
+            <% if @tournament_player.player.fide_data %>
             <span class="badge bg-info" data-toggle="modal" data-target="#modal-default"><small>FIDE</small></span>
             <% end %></h3>
           <div class="text-right" style="font-size: 0.8em;">Points: <%= @tournament_player.points %></div>
@@ -68,6 +68,7 @@
               </button>
             </div>
             <div class="modal-body">
+            <% if @tournament_player.player.fide_data %>
               <% fide_data = JSON.parse(@tournament_player.player.fide_data) %>
               <p>Name: <%= fide_data["name"] %></p>
               <p>FIDE ID: <%= fide_data["fide_id"] %></p>
@@ -75,7 +76,7 @@
               <p>Classical rating: <%= fide_data["history"].first["classical_rating"] %></p>
               <p>Rapid rating: <%= fide_data["history"].first["rapid_rating"] %></p>
               <p>Blitz rating: <%= fide_data["history"].first["blitz_rating"] %></p>
-
+            <% end %>
             </div>
             <div class="modal-footer justify-content-between">
               <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

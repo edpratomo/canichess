@@ -1,0 +1,39 @@
+HOST = "https://canichess.herokuapp.com/"
+
+tournament_id = ARGV.shift
+
+tr = if tournament_id
+  Tournament.find(tournament_id)
+else
+  Tournament.last
+end
+
+curr_round = tr.current_round
+completed_round = tr.completed_round
+
+pp curr_round
+
+if completed_round > 0
+  standings_json = %x[curl -s -X GET #{HOST}/home/#{completed_round}/standings.json]
+  standings = JSON.parse(standings_json)
+
+  unless standings["error"]
+    Standing.upsert_all(standings)
+  end
+
+  last_round_pairings_json = %x[curl -s -X GET #{HOST}/home/#{completed_round}/pairings.json]
+  last_round_pairings = JSON.parse(last_round_pairings_json)
+  
+  unless last_round_pairings["error"]
+    Board.upsert_all(last_round_pairings)
+  end
+end
+
+if curr_round > completed_round
+  curr_round_pairings_json = %x[curl -s -X GET #{HOST}/home/#{curr_round}/pairings.json]
+  curr_round_pairings = JSON.parse(curr_round_pairings_json)
+  
+  unless curr_round_pairings["error"]
+    Board.upsert_all(curr_round_pairings)
+  end
+end

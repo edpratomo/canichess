@@ -23,12 +23,18 @@ class HomeController < ApplicationController
       @boards_1 = Board.where(tournament: @tournament, round: @round).order(:number)
       @boards_2 = []
     end
-    render :pairings
+    respond_to do |format|
+      format.html { render :pairings }
+      format.json { render :pairings, layout: false }
+    end
   end
 
   def standings_by_round
     @standings = @tournament.sorted_standings(@round)
-    render :standings
+    respond_to do |format|
+      format.html { render :standings }
+      format.json { render :standings, layout: false }
+    end
   end
 
   def contact

@@ -22,10 +22,22 @@ else
   Tournament.last
 end
 
-curr_round = tr.current_round
-completed_round = tr.completed_round
+fp_tournament_json = %x[curl -s -X GET #{$HOST}/home/tournament.json]
+if fp_tournament_json["error"]
+  puts "Error retrieving front-page tournament: #{fp_tournament_json["error"]}"
+  exit 1
+end
 
-pp curr_round
+fp_tournament = JSON.parse(fp_tournament_json)
+if fp_tournament["id"].to_i == tr.id
+  puts "FP tournament ID: #{fp_tournament["id"] doesn't match your tournament ID: #{tr.id}"
+  exit 1
+end
+
+curr_round = fp_tournament["current_round"].to_i
+completed_round = fp_tournament["completed_round"].to_i
+
+puts "Current round: #{curr_round}"
 
 if completed_round > 0
   standings_json = %x[curl -s -X GET #{$HOST}/home/#{completed_round}/standings.json]

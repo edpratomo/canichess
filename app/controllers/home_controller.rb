@@ -9,6 +9,13 @@ class HomeController < ApplicationController
   def index
   end
 
+  def tournament
+    respond_to do |format|
+      format.html { render :tournament }
+      format.json { render :tournament, layout: false }
+    end
+  end
+
   def player
     @games = @tournament_player.games
   end

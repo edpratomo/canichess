@@ -29,8 +29,8 @@ if fp_tournament_json["error"]
 end
 
 fp_tournament = JSON.parse(fp_tournament_json)
-if fp_tournament["id"].to_i == tr.id
-  puts "FP tournament ID: #{fp_tournament["id"] doesn't match your tournament ID: #{tr.id}"
+unless fp_tournament["id"].to_i == tr.id
+  puts "FP tournament ID: #{fp_tournament["id"]} does not match your tournament ID: #{tr.id}"
   exit 1
 end
 
@@ -43,7 +43,7 @@ if completed_round > 0
   standings_json = %x[curl -s -X GET #{$HOST}/home/#{completed_round}/standings.json]
   standings = JSON.parse(standings_json)
 
-  unless standings["error"]
+  if standings.is_a? Array
     print "Syncing standings.. "
     Standing.upsert_all(standings)
     puts "Done."
@@ -52,7 +52,7 @@ if completed_round > 0
   last_round_pairings_json = %x[curl -s -X GET #{$HOST}/home/#{completed_round}/pairings.json]
   last_round_pairings = JSON.parse(last_round_pairings_json)
   
-  unless last_round_pairings["error"]
+  if last_round_pairings.is_a? Array
     print "Syncing last completed round.. "
     Board.upsert_all(last_round_pairings)
     puts "Done."
@@ -63,9 +63,11 @@ if curr_round > completed_round
   curr_round_pairings_json = %x[curl -s -X GET #{$HOST}/home/#{curr_round}/pairings.json]
   curr_round_pairings = JSON.parse(curr_round_pairings_json)
   
-  unless curr_round_pairings["error"]
+  if curr_round_pairings.is_a? Array
     print "Syncing current round.. "
     Board.upsert_all(curr_round_pairings)
     puts "Done. "
   end
 end
+
+tr.update(completed_round: completed_round)

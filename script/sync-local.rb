@@ -40,31 +40,34 @@ completed_round = fp_tournament["completed_round"].to_i
 puts "Current round: #{curr_round}"
 
 if completed_round > 0
-  standings_json = %x[curl -s -X GET #{$HOST}/home/#{completed_round}/standings.json]
+  url = %[#{$HOST}/home/#{completed_round}/standings.json]
+  standings_json = %x[curl -s -X GET #{url}]
   standings = JSON.parse(standings_json)
 
   if standings.is_a? Array
-    print "Syncing standings.. "
+    print "Syncing standings from [#{url}] .. "
     Standing.upsert_all(standings)
     puts "Done."
   end
 
-  last_round_pairings_json = %x[curl -s -X GET #{$HOST}/home/#{completed_round}/pairings.json]
+  url = %[#{$HOST}/home/#{completed_round}/pairings.json]
+  last_round_pairings_json = %x[curl -s -X GET #{url}]
   last_round_pairings = JSON.parse(last_round_pairings_json)
   
   if last_round_pairings.is_a? Array
-    print "Syncing last completed round.. "
+    print "Syncing last completed round from [#{url}] .. "
     Board.upsert_all(last_round_pairings)
     puts "Done."
   end
 end
 
 if curr_round > completed_round
-  curr_round_pairings_json = %x[curl -s -X GET #{$HOST}/home/#{curr_round}/pairings.json]
+  url = %[#{$HOST}/home/#{curr_round}/pairings.json]
+  curr_round_pairings_json = %x[curl -s -X GET #{url}]
   curr_round_pairings = JSON.parse(curr_round_pairings_json)
   
   if curr_round_pairings.is_a? Array
-    print "Syncing current round.. "
+    print "Syncing current round from [#{url}] .. "
     Board.upsert_all(curr_round_pairings)
     puts "Done. "
   end

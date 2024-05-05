@@ -1,8 +1,8 @@
 class AddPlayerLabelsToTournaments < ActiveRecord::Migration[6.1]
   def up
-    add_column :tournaments, :player_labels, :string, array: true
+    add_column :tournaments, :player_labels, :string, array: true, default: []
     add_index :tournaments, :player_labels, using: 'gin'
-    add_column :tournaments_players, :labels, :string, array: true
+    add_column :tournaments_players, :labels, :string, array: true, default: []
     add_index :tournaments_players, :labels, using: 'gin'
 
     execute <<-SQL

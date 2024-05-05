@@ -27,6 +27,7 @@
       <tr>
         <th style="width: 1%">#</th>
         <th>Name</th>
+        <th style="text-align:center; width: 10%">Categories</th>
         <th style="text-align:center; width: 8%">Points</th>
         <th style="width: 20%"></th>
       </tr>
@@ -37,6 +38,7 @@
         <tr>
           <td><%= idx + 1 %></td>
           <td><%= link_to(player.name, admin_tournaments_player_path(player)) %> <%= blacklisted_icon(player) %></td>
+          <td style="text-align:center;"><%= player.labels.sort.join(",") %></td>
           <td style="text-align:center;"><%= player.points %></td>
 
           <td class="project-actions text-right">

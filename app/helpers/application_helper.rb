@@ -71,4 +71,19 @@ module ApplicationHelper
       raw %Q(<span class="badge bg-light float-right">+ #{delta}</span>)
     end
   end
+
+  def categories_badge tournament_player
+    colors = %w[success warning primary secondary info indigo lightblue navy purple fuschia orange lime teal olive]
+    label_colors = tournament_player.tournament.player_labels.inject({}) do |m,o|
+      m[o] = colors.shift
+      m
+    end
+    labels = tournament_player.labels
+    labels_str = labels.inject('') do |m,o|
+      m += ' '
+      m += %Q(<span class="badge bg-#{label_colors[o]}">#{o}</span>)
+      m
+    end
+    raw(labels_str)
+  end
 end

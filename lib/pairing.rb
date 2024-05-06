@@ -31,9 +31,6 @@ class Pairing
     # create new bye_bracket containing bye_opponent and bye
     bye_bracket = if players.size.odd?
       bye_opponent = find_bye_opponent(sorted_group_points)
-
-
-      #last_sorted_group_points.delete_at(last_sorted_group_points.find_index(bye_opponent))
       [bye_opponent, Swissper::Bye]
     end
 
@@ -130,12 +127,6 @@ class Pairing
   end
 
   protected
-  def find_bye_opponent_old players
-    # find BYE assigned player: lowest points, lowest rating
-    players.reject {|e| e == Swissper::Bye or e.exclude.any? {|e| e == Swissper::Bye}}
-           .sort {|a,b| [a.tournament_points, a.rating] <=> [b.tournament_points, b.rating]}.first
-  end
-
   def find_bye_opponent sorted_group_points
     # start from the last bracket going up
     bye_opponent = sorted_group_points.reverse.each_with_index do |last_sorted_group_points,idx|

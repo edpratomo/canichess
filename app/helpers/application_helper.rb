@@ -73,9 +73,9 @@ module ApplicationHelper
   end
 
   def categories_badge tournament_player
-    colors = %w[success warning primary secondary info indigo lightblue navy purple fuschia orange lime teal olive]
+    colors = CircularArray.new %w[success warning primary secondary info indigo lightblue navy purple fuschia orange lime teal olive]
     label_colors = tournament_player.tournament.player_labels.inject({}) do |m,o|
-      m[o] = colors.shift
+      m[o] = colors.next
       m
     end
     labels = tournament_player.labels
@@ -85,5 +85,19 @@ module ApplicationHelper
       m
     end
     raw(labels_str)
+  end
+end
+
+class CircularArray < Array
+  def initialize(*args)
+    @curr_idx = -1
+    super(*args)
+  end
+
+  def next
+    return if self.empty?
+    @curr_idx += 1
+    @curr_idx = 0 if @curr_idx == self.length
+    self[@curr_idx]
   end
 end

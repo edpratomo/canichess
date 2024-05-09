@@ -11,38 +11,3 @@
   <% end %>
   <%= render('boards_2_col', boards_1: @boards_1, boards_2: @boards_2, tournament: @tournament, round: @round) %>
 <% end %>
-
-<% if @round > @tournament.completed_round %>
-<script>
-  const eventSource = new EventSource("/events/<%= @round %>/pairings")
-
-  eventSource.addEventListener("message", (event) => {
-    console.log(event.data);
-    boards = $.parseJSON(event.data);
-    $.each(boards, function(idx, board) {
-      board_result = $("<div/>").html(board["result"]).text() + (board["walkover"] ? ' WO' : '');
-
-      // htmlEncode board["result"] and compare it with current td
-      if ($("#res_" + board["id"]).text() != board_result) {
-        console.log("Updating res_" + board["id"]);
-        console.log("res_" + board["id"] + ": [" + $("#res_" + board["id"]).text() + "]");
-        console.log("board[result]: [" + board_result + "]");
-        if (board["walkover"]) {
-         $("#res_" + board["id"]).html(board["result"] + ' <span class="badge bg-danger">WO</span>');
-        } else {
-         $("#res_" + board["id"]).html(board["result"]);
-        }
-      }
-    });
-  })
-
-  eventSource.addEventListener("error", (event) => {
-    console.log(event)
-
-    if (event.eventPhase === EventSource.CLOSED) {
-      eventSource.close()
-      console.log("Event Source Closed")
-    }
-  })
-</script>
-<% end %>

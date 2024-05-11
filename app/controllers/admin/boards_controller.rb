@@ -55,7 +55,6 @@ class Admin::BoardsController < ApplicationController
   def delete_by_round
     ActiveRecord::Base.transaction do
       Board.where(tournament: @tournament, round: @round).delete_all
-      @tournament.update!(completed_round: @tournament.completed_round - 1)
     end
     respond_to do |format|
       format.html { redirect_to admin_tournaments_url, notice: "Pairings for round #{@round} were successfully deleted." }

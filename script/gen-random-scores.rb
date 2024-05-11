@@ -12,14 +12,20 @@ def random_result
   end
 end
 
-tr1 = Tournament.last
-next_round = tr1.next_round
+tournament_id = ARGV.shift
+tr = if tournament_id
+  Tournament.find(tournament_id)
+else
+  Tournament.last
+end
+
+next_round = tr.next_round
 
 curr_round = next_round - 1
 
 exit if curr_round == 0
 
-boards = tr1.boards.where(round: curr_round)
+boards = tr.boards.where(round: curr_round)
 boards.each do |board|
   board.update!(result: random_result) if board.result.nil?
 end

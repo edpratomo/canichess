@@ -1,4 +1,6 @@
 class Tournament < ApplicationRecord
+  include Eventable
+
   has_many :boards
   has_many :standings
 

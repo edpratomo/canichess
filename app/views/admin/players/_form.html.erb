@@ -33,6 +33,41 @@
       </div>
     </div>
 
+    <div class="form-group row">
+      <%= form.label :phone, "Phone Number", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-2">
+        <%= form.text_field :phone, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :email, "Email", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-6">
+        <%= form.text_field :email, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :graduation_year, "CC Alumni", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-2">
+        <%= form.text_field :graduation_year, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :affiliation, "Affiliation", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-2">
+        <%= form.select :affiliation, %w[alumni student invitation staff], {}, {class: "select2bs4 form-control"} %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :remarks, "Remarks", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-6">
+        <%= form.text_field :remarks, class: "form-control" %>
+      </div>
+    </div>
+
   </div>
   <div class="actions">
     <%= form.submit %>

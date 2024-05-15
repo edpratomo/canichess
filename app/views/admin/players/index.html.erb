@@ -1,25 +1,47 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Admin Players</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @admin_players.each do |player| %>
+<div class="row">
+  <div class="col-md-10">
+    <div class="card card-primary card-outline">
+      <div class="card-body table-responsive p-0">
+        <table class="table table-bordered table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th style="width: 1%">#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th style="text-align:center; width: 10%">Affiliation</th>
+              <th style="text-align:center; width: 8%">Year</th>
+              <th style="text-align:center; width: 8%">Rating</th>
+              <th style="width: 20%"></th>
+            </tr>
+          </thead>
+          <tbody>
+    <% @admin_players.each_with_index do |player,idx| %>
       <tr>
-        <td><%= link_to 'Show', admin_player_path(player) %></td>
-        <td><%= link_to 'Edit', edit_admin_player_path(player) %></td>
-        <td><%= link_to 'Destroy', admin_player_path(player), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= idx + 1 %></td>
+        <td><%= player.name %></td>
+        <td><%= player.email %></td>
+        <td><%= player.affiliation %></td>
+        <td><%= player.graduation_year %></td>
+        <td><%= player.rating %></td>
+        <td class="project-actions text-right">
+            <%= link_to admin_player_path(player), class: "btn btn-primary btn-sm" do %>
+              <i class="fas fa-folder"></i>View
+            <% end %>
+            <%= link_to edit_admin_player_path(player), class: "btn btn-info btn-sm" do %>
+              <i class="fas fa-pencil-alt"></i>Edit
+            <% end %>
+            <%= link_to admin_player_path(player), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
+              <i class="fas fa-trash"></i> Delete
+            <% end %>
+        </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
 
-<br>
-
-<%= link_to 'Add New Player', new_admin_player_path %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

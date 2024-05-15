@@ -1,4 +1,5 @@
 class Player < ApplicationRecord
+  has_one :title
   has_many :tournaments_players
   has_many :tournaments, through: :tournaments_players
 

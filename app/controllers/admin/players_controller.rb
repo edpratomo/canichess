@@ -8,7 +8,7 @@ class Admin::PlayersController < ApplicationController
 
   # GET /admin/players or /admin/players.json
   def index
-    @admin_players = Player.all
+    @admin_players = Player.all.order(:id)
   end
 
   # GET /admin/players/1 or /admin/players/1.json
@@ -70,7 +70,6 @@ class Admin::PlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_player_params
-#      params.fetch(:admin_player, {}).permit(:name, :rating)
-      params.require(:player).permit(:name, :rating, :fide_id)
+      params.require(:player).permit(:name, :rating, :fide_id, :email, :phone, :graduation_year, :affiliation, :remarks)
     end
 end

@@ -51,9 +51,9 @@ module ApplicationHelper
   def front_page_button tournament
     return '' unless tournament
     if tournament.completed_round == tournament.rounds
-      link_to('Check out the Final Standings', standings_path(tournament.completed_round), class: "btn btn-primary btn-lg", role: "button")
+      link_to('Check out the Final Standings', standings_tournaments_path(tournament, tournament.completed_round), class: "btn btn-primary btn-lg", role: "button")
     elsif tournament.current_round > 0
-      link_to("Check out pairings for Round #{tournament.current_round}", pairings_path(tournament.current_round), 
+      link_to("Check out pairings for Round #{tournament.current_round}", pairings_tournaments_path(tournament, tournament.current_round), 
               class: "btn btn-primary btn-lg", role: "button")
     end
   end

@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  resources :tournaments do
+    collection do
+      get ':id/:round_id/standings' => 'tournaments#standings_by_round', as: "standings"
+      get ':id/:round_id/pairings' => 'tournaments#pairingss_by_round', as: "pairings"
+    end
+  end
+
   get 'events/:id/pairings' => 'events#pairings', as: "events_pairings"
   get 'events/simul'
   get 'simuls/:id/show' => 'simuls#show', as: "simul"
@@ -27,11 +34,11 @@ Rails.application.routes.draw do
   resources :boards
 
   get 'home/index'
-  get 'home/:id/pairings' => 'home#pairings_by_round', as: "pairings"
-  get 'home/:id/standings' => 'home#standings_by_round', as: "standings"
+  get 'home/:id/pairings' => 'home#pairings_by_round', as: "fp_pairings"
+  get 'home/:id/standings' => 'home#standings_by_round', as: "fp_standings"
   get 'home/:id/player' => 'home#player', as: "player"
   get 'home/contact' => 'home#contact', as: "contact"
-  get 'home/tournament' => 'home#tournament', as: "tournament"
+  get 'home/tournament' => 'home#tournament', as: "fp_tournament"
 
   namespace :admin do
     resources :players do

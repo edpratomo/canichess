@@ -1,0 +1,30 @@
+          <div class="col-lg-6">
+            <div class="card card-primary">
+              <div class="card-header d-flex p-0">
+                <%= render 'select_standings_by_rounds', tournament: tournament, round: round %> 
+              </div>
+              <div class="card-body">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 2%">#</th>
+                      <th>Name</th>
+                      <th style="width: 2%">Pts</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% standings.each_with_index do |standing, idx| %>
+                    <tr>
+                      <td class="text-right"><%= idx + offset + 1 %></td>
+                      <td><%= link_to standing.tournaments_player.name, player_path(standing.tournaments_player) %>
+                          <span style="padding-right: 10px;" class="text-warning"><small><%= standing.tournaments_player.start_rating %></small></span>
+                           <%= blacklisted_icon(standing) %>
+                      </td>
+                      <td class="text-center"><%= standing.points %></td>
+                    </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>

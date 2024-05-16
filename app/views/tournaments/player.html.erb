@@ -1,0 +1,63 @@
+<% if @tournament_player.nil? %>
+  <% content_for :page_title do %> <%= @tournament.name %> - <small>Error</small><% end %>
+  <p class="lead">Oops! Player not found.</p>
+<% else %>
+  <% content_for :page_title do %>
+    <%= image_tag("logo-canichess-ccad-2024.png", alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+    <%= @tournament.name %> - <small>Player's Progress</small>
+  <% end %>
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <!-- Custom Tabs -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><%= @tournament_player.name %>
+            <% if @tournament_player.player.fide_data %>
+            <span class="badge bg-info" data-toggle="modal" data-target="#modal-default"><small>FIDE</small></span>
+            <% end %></h3>
+          <div class="text-right" style="font-size: 0.8em;">Points: <%= @tournament_player.points %></div>
+        </div>
+        <div class="card-body table-responsive p0">
+          <table class="table table-bordered table-striped text-nowrap">
+            <thead>
+              <tr>
+                <th style="width: 2%">Rd</th>
+                <th style="width: 2%">Brd #</th>
+                <th>White</th>
+                <th>Black</th>
+                <th style="text-align:center;">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% (1..@tournament.rounds).each do |round| %>
+              <tr>
+              <% board = @games[round - 1] %>
+              <% if round <= @games.size %>
+                <td class="text-center"><%= link_to board.round, pairings_tournaments_path(@tournament, round) %></td>
+                <td class="text-center"><%= board.number %></td>
+                <% if same_player?(@tournament_player, board.white) %>
+                  <td><%= board.white.name %></td>
+                <% else %>
+                  <td><%= board.white ? link_to("#{board.white.name} (#{board.white.points})", player_tournaments_path(board.white)) : '<BYE>' %></td>
+                <% end %>
+                <% if same_player?(@tournament_player, board.black) %>
+                  <td><%= board.black.name %></td>
+                <% else %>
+                  <td><%= board.black ? link_to("#{board.black.name} (#{board.black.points})", player_tournaments_path(board.black)) : '<BYE>' %></td>
+                <% end %>
+                <td style="text-align:center;"><%= chess_result(board.result) %><% if board.walkover %> <span class="badge bg-danger">WO</span><% end %></td>
+              <% else %>
+                <td class="text-center"><%= round %></td><td/><td/><td/><td/>
+              <% end %>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <!-- /.col -->
+  </div> <!-- /.row -->
+
+  <%= render 'fide_dialog', tournament_player: @tournament_player %>
+
+<% end %>

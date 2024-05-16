@@ -1,0 +1,31 @@
+      <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">FIDE Data</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <% if tournament_player.player.fide_data %>
+              <% fide_data = JSON.parse(tournament_player.player.fide_data) %>
+              <p>Name: <%= fide_data["name"] %></p>
+              <p>FIDE ID: <%= fide_data["fide_id"] %></p>
+              <p>FIDE title: <%= fide_data["fide_title"] %></p>
+              <% fide_ratings = fide_data["history"].first unless fide_data["history"].empty? %>
+              <% fide_ratings ||= {"classical_rating" => '0', "rapid_rating" => '0', "blitz_rating" => '0'} %>
+              <p>Classical rating: <%= fide_ratings["classical_rating"] %></p>
+              <p>Rapid rating: <%= fide_ratings["rapid_rating"] %></p>
+              <p>Blitz rating: <%= fide_ratings["blitz_rating"] %></p>
+            <% end %>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->

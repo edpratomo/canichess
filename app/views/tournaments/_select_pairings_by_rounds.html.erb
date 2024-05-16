@@ -1,0 +1,14 @@
+<% if tournament.current_round > 1 %>
+                <ul class="nav nav-pills ml-auto p-2">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                      Select <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu">
+                    <% (1..tournament.current_round).each do |rd_num| %>
+                      <%= link_to("Round #{rd_num}", pairings_tournaments_path(tournament, rd_num), class: "dropdown-item") %>
+                    <% end %>
+                    </div>
+                  </li>
+                </ul>
+<% end %>

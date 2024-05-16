@@ -86,6 +86,17 @@ module ApplicationHelper
     end
     raw(labels_str)
   end
+
+  def events_dropdown
+    eventables = PastEvent.all.order(id: :desc).map {|e| e.eventable}
+    eventables.map do |eventable|
+      if eventable.is_a? Tournament
+        {name: eventable.name, url: tournament_path(eventable)}
+      else
+        {name: eventable.name, url: simul_path(eventable)}
+      end
+    end
+  end
 end
 
 class CircularArray < Array

@@ -7,6 +7,7 @@ class HomeController < ApplicationController
   layout 'top-nav.html.erb'
   
   def index
+    redirect_to tournament_path(@tournament)
   end
 
   def tournament

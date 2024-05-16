@@ -1,10 +1,16 @@
 class TournamentsController < ApplicationController
   skip_before_action :authenticate_user!
-  before_action :set_tournament
+  before_action :set_tournament, except: %i[ player ]
+  before_action :set_round, only: %i[ pairings_by_round standings_by_round ]
+  before_action :set_tournament_player, only: %i[ player]
 
   layout 'top-nav.html.erb'
 
   def show
+  end
+
+  def player
+    @games = @tournament_player.games
   end
 
   def pairings_by_round
@@ -37,10 +43,11 @@ class TournamentsController < ApplicationController
   end
 
   def set_round
-    @round = params[:id].to_i
+    @round = params[:round_id].to_i
   end
 
   def set_tournament_player
-    @tournament_player = TournamentsPlayer.find(params[:id])
+    @tournament_player = TournamentsPlayer.find(params[:player_id])
+    @tournament = @tournament_player.tournament
   end
 end

@@ -1,12 +1,15 @@
 class SimulsController < ApplicationController
   skip_before_action :authenticate_user!
 
-  before_action :set_simul, only: %i[ show edit update destroy ]
+  before_action :set_simul, only: %i[ show result ]
 
   layout 'top-nav.html.erb'
 
   def show
-    @players = @simul.simuls_players.order(:id) #'simuls_players.id')
+  end
+
+  def result
+    @players = @simul.simuls_players.order(:id)
   end
 
   private
@@ -19,5 +22,4 @@ class SimulsController < ApplicationController
     def simul_params
       params.fetch(:simul, {})
     end
-
 end

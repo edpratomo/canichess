@@ -1,60 +1,74 @@
-    <div class="row">
-      <div class="col-12">
-        <!-- Widget: user widget style 2 -->
-        <div class="card card-widget widget-user-2 shadow-sm">
-          <div class="widget-user-header bg-warning">
-            <div class="widget-user-image">
-              <%= image_tag(@simul.logo, class: "img-circle elevation-2", alt: "CCE CCAD Logo", style: "opacity: .8") %>
-            </div>
-            <!-- /.widget-user-image -->
-            <h3 class="widget-user-username"><%= @simul.name %></h3>
-            <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
-          </div>
-        </div>
-        <!-- /.card -->
-        <div class="card card-primary">
-          <div class="card-body">
-<% @players.each_with_index do |player,idx| %>
-  <% if idx % 4 == 0 %>
-    <% if idx / 4 == 0 %>
-                <div class="row">
-    <% else %>
-                <div class="row mt-4">
-    <% end %>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+
+<div style="background:transparent !important" class="text-center">
+  <% if @simul %>
+    <h1 class="display-6"><%= @simul.name %></h1>
+    <p class="lead"><%= @simul.description %></p>
+    <hr>
+    <%= render 'simul', simul: @simul %>
+  <% else %>
+    <h1 class="display-6">Hello, fellow Canisians!</h1>
+    <%= image_tag("logo-canichess-ccad-2024.png", alt: "CCE CCAD Logo", style: "max-width: 40%; opacity: .8") %>
   <% end %>
-                  <div class="col-sm-3">
-                    <div class="position-relative p-3 bg-gray" style="height: 60px">
-  <% if player.result %>
-                      <div class="ribbon-wrapper ribbon">
-    <% if player.result == player.color %>
-                        <div class="ribbon bg-success">
-                          WIN
-                        </div>
-    <% elsif player.result == 'draw' %>
-                        <div class="ribbon bg-warning">
-                          DRAW
-                        </div>
-    <% else %>
-                        <div class="ribbon bg-primary">
-                          LOST
-                        </div>
-    <% end %>
-                      </div>
-  <% end %>
-                    <span class="badge badge-pill bg-<%= player.color %>"><%= idx + 1 %></span>
-                    <%= player.player.name %>
+  <p class="lead">
+  <%= front_page_button_for_simul(@simul) %>
+  </p>
+</div>
+              </div> <!-- /.card-body -->
+            </div> <!-- /.card -->
+          </div> <!-- /.col -->
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                  <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+                  </ol>
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <%= link_to image_tag("sasa-slide-white.png", alt: "Sasa", class: "d-block w-100"), "https://www.sasa.co.id/", target: "_blank" %>
+                    </div>
+                    <div class="carousel-item">
+                      <%= link_to image_tag("kari-jepang-slide.png", alt: "Sasa Kari Jepang", class: "d-block w-100"), "https://www.sasa.co.id/", target: "_blank" %>
+                    </div>
+                    <div class="carousel-item">
+                      <%= link_to image_tag("coeyoe-slide.png", alt: "Coeyoe Clothing", class: "d-block w-100"), "https://instagram.com/coeyoe.id", target: "_blank" %>
+                    </div>
+                    <div class="carousel-item">
+                      <%= link_to image_tag("gramps-slide.png", alt: "Gramps Cafe", class: "d-block w-100"), "https://gramps.id/", target: "_blank" %>
+                    </div>
+                    <div class="carousel-item">
+                      <%= link_to image_tag("osk-slide.png", alt: "OSK Green Tea", class: "d-block w-100"), "https://www.oskgreentea.id/", target: "_blank" %>
+                    </div>
+                    <div class="carousel-item">
+                      <%= link_to image_tag("meg-cheese-slide.png", alt: "MEG Cheese", class: "d-block w-100"), "https://megcheese.id/", target: "_blank" %>
                     </div>
                   </div>
-  <% if idx % 4 == 3   %>
+                  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-custom-icon" aria-hidden="true">
+                      <i class="fas fa-chevron-left"></i>
+                    </span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-custom-icon" aria-hidden="true">
+                      <i class="fas fa-chevron-right"></i>
+                    </span>
+                    <span class="sr-only">Next</span>
+                  </a>
                 </div>
-                <!-- /.row -->
-  <% end %>
-<% end %>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
           </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col -->
-    </div>
-    <!-- /.row -->
+          <!-- /.col -->
+        </div> <!-- /.row -->

@@ -58,6 +58,11 @@ module ApplicationHelper
     end
   end
 
+  def front_page_button_for_simul simul
+    return '' unless simul
+    link_to("Results", simul_result_path(simul), class: "btn btn-primary btn-lg", role: "button")
+  end
+
   def rating_badge tournament_player
     delta = if tournament_player.start_rating and tournament_player.end_rating
       tournament_player.end_rating - tournament_player.start_rating

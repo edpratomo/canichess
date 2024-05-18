@@ -1,0 +1,45 @@
+  <% if simul.date %>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xs-2">
+        <i class="fa fa-calendar mr-1"></i>
+      </div>
+      <div class="col-xs-10" style="padding-left: 10px;"> 
+        <%= simul.date.strftime("%A, %B %d, %Y") %>
+      </div>
+    </div>  
+  </div>
+  <hr/>
+  <% end %>
+
+  <% if simul.location %>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xs-2">
+        <i class="fas fa-map-marker-alt mr-1"></i>
+      </div>
+      <div class="col-xs-10" style="padding-left: 10px;">
+        <% simul.location.split("\n").each_with_index do |line,idx| %>
+          <% if idx > 0 %>
+          <div style="font-size: 0.85em"><%= line %></div>
+          <% else %>
+          <div><%= line %></div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  <% end %>
+
+  <div class="container hidden-mobile">
+    <div class="row justify-content-center">
+      <div class="col-xs-2">
+        <i class="fa fa-solid fa-users mr-1"></i>
+      </div>
+      <div class="col-xs-10" style="padding-left: 10px;">
+        <%= simul.players.size %> registered participants
+      </div>
+    </div>
+  </div>
+  <hr class="hidden-mobile"/>

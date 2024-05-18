@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'events/:id/pairings' => 'events#pairings', as: "events_pairings"
   get 'events/simul'
   get 'simuls/:id/show' => 'simuls#show', as: "simul"
+  get 'simuls/:id/result' => 'simuls#result', as: "simul_result"
 
   namespace :admin do
     resources :simuls

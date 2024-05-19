@@ -59,7 +59,7 @@ class CreateSponsors < ActiveRecord::Migration[6.1]
         logo: "kari-jepang-slide.png",
         name: "Sasa Kari Jepang",
         url: "https://www.sasa.co.id/",
-        evs: [tr2, sm1, tr3]
+        evs: [tr3]
       }
     ]
 
@@ -72,7 +72,7 @@ class CreateSponsors < ActiveRecord::Migration[6.1]
   end
 
   def down
-    remove_table :events_sponsors
-    remove_table :sponsors
+    drop_table :events_sponsors
+    drop_table :sponsors
   end
 end

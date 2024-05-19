@@ -25,32 +25,16 @@
               <div class="card-body">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                   <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+                    <% @simul.sponsors.each_with_index do |sponsor,idx| %>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="<%= idx %>"<% if idx == 0 %> class="active"<% end %>></li>
+                    <% end %>
                   </ol>
                   <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <%= link_to image_tag("sasa-slide-white.png", alt: "Sasa", class: "d-block w-100"), "https://www.sasa.co.id/", target: "_blank" %>
-                    </div>
-                    <div class="carousel-item">
-                      <%= link_to image_tag("kari-jepang-slide.png", alt: "Sasa Kari Jepang", class: "d-block w-100"), "https://www.sasa.co.id/", target: "_blank" %>
-                    </div>
-                    <div class="carousel-item">
-                      <%= link_to image_tag("coeyoe-slide.png", alt: "Coeyoe Clothing", class: "d-block w-100"), "https://instagram.com/coeyoe.id", target: "_blank" %>
-                    </div>
-                    <div class="carousel-item">
-                      <%= link_to image_tag("gramps-slide.png", alt: "Gramps Cafe", class: "d-block w-100"), "https://gramps.id/", target: "_blank" %>
-                    </div>
-                    <div class="carousel-item">
-                      <%= link_to image_tag("osk-slide.png", alt: "OSK Green Tea", class: "d-block w-100"), "https://www.oskgreentea.id/", target: "_blank" %>
-                    </div>
-                    <div class="carousel-item">
-                      <%= link_to image_tag("meg-cheese-slide.png", alt: "MEG Cheese", class: "d-block w-100"), "https://megcheese.id/", target: "_blank" %>
-                    </div>
+                    <% @simul.sponsors.each_with_index do |sponsor,idx| %>
+                      <div class="carousel-item<% if idx == 0 %> active<% end %>">
+                        <%= link_to image_tag(sponsor.logo, alt: sponsor.name, class: "d-block w-100"), sponsor.url, target: "_blank" %>
+                      </div>
+                    <% end %>
                   </div>
                   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-custom-icon" aria-hidden="true">

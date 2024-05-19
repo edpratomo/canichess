@@ -1,6 +1,12 @@
 class Tournament < ApplicationRecord
   include Eventable
 
+  # polymorphic many-to-many:
+  # tournaments <= events_sponsors => sponsors
+  # simuls      <= events_sponsors => sponsors
+  has_many :events_sponsors, :as => :eventable
+  has_many :sponsors, :through => :events_sponsors, :as => :eventable
+
   has_many :boards
   has_many :standings
 
@@ -29,16 +35,6 @@ class Tournament < ApplicationRecord
     boards_finished_current_round = boards.where(round: current_round).where.not(result: nil).size
     (((n_boards_per_round * completed_round + boards_finished_current_round) * 100) / (n_boards_per_round * rounds)).floor 
   end
-
-#  def import_players players_file
-#    File.foreach(players_file.path).with_index do |line, index|
-#      name = line.strip
-#      g_player = Player.find_by(name: name) || Player.create!(name: name)
-#      unless players.find_by(name: name)
-#        players << g_player
-#      end
-#    end
-#  end
 
   def add_player args
     if args[:id] # existing player

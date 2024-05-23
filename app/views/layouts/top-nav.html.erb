@@ -46,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <% if @tournament %>
             <a href="<%= tournament_path(@tournament) %>" class="nav-link">Home</a>
-            <% else %>
+            <% elsif @simul %>
             <a href="<%= simul_path(@simul) %>" class="nav-link">Home</a>
             <% end %>
           </li>

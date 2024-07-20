@@ -2,11 +2,10 @@
   <% content_for :page_title do %> <%= @tournament.name %> - <small>Pairings</small><% end %>
   <p class="lead">Oops! Pairings not available yet. Please check again later.</p>
 <% elsif @boards_2.empty? %>
-  <% content_for :page_title do %> <%= @tournament.name %> - <small>Round <%= @round %></small><% end %>
   <%= render('boards_1_col', boards: @boards_1, tournament: @tournament, round: @round) %>
 <% else %>
   <% content_for :page_title do %>
-    <%= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+    <%= image_tag(@tournament.logo, alt: "Tournament Logo", style: "max-width: 10%; opacity: .8") %>
     <%= @tournament.name %> - <small>Round <%= @round %></small>
   <% end %>
   <%= render('boards_2_col', boards_1: @boards_1, boards_2: @boards_2, tournament: @tournament, round: @round) %>

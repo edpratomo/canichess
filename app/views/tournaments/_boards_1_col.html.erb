@@ -1,4 +1,8 @@
-        <div class="row">
+        <div class="row justify-content-center">
+          <h2 class="text-center">
+            <%= image_tag(@tournament.logo, alt: "Tournament Logo", style: "max-width: 10%; opacity: .8") %>
+            <%= @tournament.name %> - <small>Round <%= @round %></small>
+          </h2>
           <%= render 'boards', boards: boards, tournament: tournament, round: round  %>
         </div>
         <!-- /.row -->

@@ -12,6 +12,15 @@
      max-width: 1300px;
    }
 }
+
+@media screen and (orientation:landscape)
+and (min-device-width: 319px)
+and (max-device-width: 1500px) {
+  .container {
+    max-width: 1500px;
+  }
+}
+
 /* extra large devices */
 @media screen and (min-width: 1800px) {
   .container {

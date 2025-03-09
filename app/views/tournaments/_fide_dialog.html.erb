@@ -13,7 +13,9 @@
               <p>Name: <%= fide_data["name"] %></p>
               <p>FIDE ID: <%= fide_data["fide_id"] %></p>
               <p>FIDE title: <%= fide_data["fide_title"] %></p>
-              <% fide_ratings = fide_data["history"].first unless fide_data["history"].empty? %>
+              <% if fide_data["history"] %>
+                <% fide_ratings = fide_data["history"].first unless fide_data["history"].empty? %>
+              <% end %>
               <% fide_ratings ||= {"classical_rating" => '0', "rapid_rating" => '0', "blitz_rating" => '0'} %>
               <p>Classical rating: <%= fide_ratings["classical_rating"] %></p>
               <p>Rapid rating: <%= fide_ratings["rapid_rating"] %></p>

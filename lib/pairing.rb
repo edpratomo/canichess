@@ -2,9 +2,66 @@ require 'swissper'
 require 'players_list'
 
 module Swissper
+  def self.bipartite_pair(players, options = {})
+    Pairer.new(options).bipartite_pair(players)
+  end
+
   class Pairer
     def delta(a, b)
       (delta_value(a) - delta_value(b)) ** 2
+    end
+
+    def bipartite_pair(player_data)
+      @player_data = player_data
+      bigraph.maximum_weighted_matching(true).edges.map do |pairing|
+        [players[pairing[0]], players[pairing[1]]]
+      end
+    end
+
+    # for bipartite matching
+    def bigraph
+      half_number = (players.count.to_f / 2).ceil
+      canichess_players = players.joins(:player).where("players.affiliation": ["alumni", "student", "staff"])
+      rest_of_the_world = players - canichess_players
+      excess_num = canichess_players.count - half_number
+      if excess_num > 0
+        # skip canichess players that are previously paired with canichess
+        filtered_canichess_players = canichess_players.reject do |e|
+          e.prev_opps.any? {|prev_opp| %w[alumni student staff].any?(prev_opp.player.affiliation)}
+        end
+
+        1.upto(excess_num) do |e|
+          this_player = if filtered_canichess_players.count == 0
+            canichess_players.delete_at(rand(canichess_players.count))
+          else
+            rand_player = filtered_canichess_players.delete_at(rand(filtered_canichess_players.count))
+            canichess_players.delete(rand_player) { raise "Couldn't find player: #{rand_player}" }
+          end
+          rest_of_the_world.push(this_player)
+        end
+      elsif excess_num < 0
+        1.upto(excess_num.abs) do |e|
+          this_player = rest_of_the_world.delete_at(rand(rest_of_the_world.count))
+          canichess_players.push(this_player)
+        end
+      end
+
+      edges = [].tap do |e|
+        canichess_players.each_with_index do |player, i|
+          rest_of_the_world.each_with_index do |opp, j|
+            e << [i, j, delta(player,opp)] if permitted?(player, opp)
+          end
+        end
+      end
+
+      #edges = [].tap do |e|
+      #  players.each_with_index do |player, i|
+      #    players.each_with_index do |opp, j|
+      #      e << [i, j, delta(player,opp)] if permitted?(player, opp)
+      #    end
+      #  end
+      #end
+      GraphMatching::Graph::WeightedBigraph[*edges]
     end
   end
 end
@@ -47,7 +104,7 @@ class Pairing
     sorted_group_points
   end
 
-  def generate_pairings &blk
+  def generate_pairings(is_bipartite=false, &blk)
     # add excluded players
     players_list.update_exclusion
     
@@ -65,7 +122,11 @@ class Pairing
 
     begin
       groups.each_with_index do |group,idx|
-        pairs = Swissper.pair(group, delta_key: :rating, bye_delta: highest_rating)
+        pairs = if is_bipartite
+          Swissper.bipartite_pair(group, delta_key: :rating, bye_delta: highest_rating)
+        else
+          Swissper.pair(group, delta_key: :rating, bye_delta: highest_rating)
+        end
         puts "group: #{idx}, size: #{group.size}, pairs: #{pairs.size}"
 
         if (pairs.size * 2) < group.size

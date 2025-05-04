@@ -153,6 +153,10 @@ GEM
     modware (1.0.2)
     msgpack (1.4.2)
     multi_json (1.15.0)
+    net-protocol (0.2.2)
+      timeout
+    net-smtp (0.5.1)
+      net-protocol
     nio4r (2.5.8)
     nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
@@ -281,6 +285,7 @@ GEM
       activerecord (>= 5.0, < 7.1)
     thor (1.2.1)
     tilt (2.0.10)
+    timeout (0.4.3)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -333,6 +338,7 @@ DEPENDENCIES
   gravtastic
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  net-smtp
   pg
   puma (~> 5.0)
   pundit

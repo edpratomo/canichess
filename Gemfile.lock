@@ -113,6 +113,7 @@ GEM
     childprocess (4.1.0)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
+    date (3.4.1)
     diff-lcs (1.5.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
@@ -153,6 +154,9 @@ GEM
     modware (1.0.2)
     msgpack (1.4.2)
     multi_json (1.15.0)
+    net-imap (0.5.8)
+      date
+      net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.2)
@@ -340,6 +344,7 @@ DEPENDENCIES
   gravtastic
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  net-imap
   net-pop
   net-smtp
   pg

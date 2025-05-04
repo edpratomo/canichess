@@ -153,6 +153,8 @@ GEM
     modware (1.0.2)
     msgpack (1.4.2)
     multi_json (1.15.0)
+    net-pop (0.1.2)
+      net-protocol
     net-protocol (0.2.2)
       timeout
     net-smtp (0.5.1)
@@ -338,6 +340,7 @@ DEPENDENCIES
   gravtastic
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  net-pop
   net-smtp
   pg
   puma (~> 5.0)

@@ -94,7 +94,9 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    base64 (0.2.0)
     bcrypt (3.1.16)
+    bigdecimal (3.1.9)
     bindex (0.8.1)
     bootsnap (1.9.3)
       msgpack (~> 1.0)
@@ -154,6 +156,7 @@ GEM
     modware (1.0.2)
     msgpack (1.4.2)
     multi_json (1.15.0)
+    mutex_m (0.3.0)
     net-imap (0.5.8)
       date
       net-protocol
@@ -331,6 +334,8 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-session_store
+  base64
+  bigdecimal
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
@@ -344,6 +349,7 @@ DEPENDENCIES
   gravtastic
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  mutex_m
   net-imap
   net-pop
   net-smtp

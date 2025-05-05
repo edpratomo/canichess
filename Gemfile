@@ -78,6 +78,10 @@ gem 'glicko2'
 gem 'graphmatch', github: 'pH14/graphmatch'
 gem 'stimulus-rails'
 gem 'activerecord-session_store'
-gem 'net-smtp'
-gem 'net-pop'
-gem 'net-imap'
+
+gem 'net-smtp', require: false
+gem 'net-pop', require: false
+gem 'net-imap', require: false
+gem 'base64', require: false
+gem 'bigdecimal', require: false
+gem 'mutex_m', require: false

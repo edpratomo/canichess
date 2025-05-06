@@ -9,4 +9,12 @@ class Simul < ApplicationRecord
 
   has_many :simuls_players, dependent: :destroy
   has_many :players, through: :simuls_players
+
+  def percentage_completion
+    if players.count == 0
+      0
+    else
+      (simuls_players.where.not(result: nil).count.to_f / players.count) * 100
+    end
+  end
 end

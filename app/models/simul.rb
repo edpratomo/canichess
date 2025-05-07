@@ -17,4 +17,13 @@ class Simul < ApplicationRecord
       (simuls_players.where.not(result: nil).count.to_f / players.count) * 100
     end
   end
+
+  def add_player args
+    if args[:id] # existing player
+      players << Player.find(args[:id])
+    elsif args[:name]
+      players << Player.create!(name: args[:name])
+    end
+  end
+
 end

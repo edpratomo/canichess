@@ -4,5 +4,6 @@ class AddNumberToSimulsPlayers < ActiveRecord::Migration[6.1]
   end
 
   def down
+    remove_column :simuls_players, :number
   end
 end

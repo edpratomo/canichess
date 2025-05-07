@@ -1,0 +1,27 @@
+<%= form_with(model: simul, url: update_players_admin_simuls_path(simul), 
+              html: { method: :patch },
+              data: { controller: "new-player-names", 
+                      action: "submit->new-player-names#updatePlayerNames" } ) do |form| %>
+  <% if simul.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(simul.errors.count, "error") %> prohibited this simul from being saved:</h2>
+
+      <ul>
+        <% simul.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <%= render 'players_preview_table', players: new_players, selected: selected, form: form %>
+  </div>
+
+  <div class="card-footer">
+    <%= form.hidden_field :player_names, multiple: true, data: {target: "hiddenPlayerNames"} %>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
+  </div>
+
+<% end %>

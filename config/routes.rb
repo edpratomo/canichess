@@ -1,4 +1,26 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :simuls do
+      collection do
+        patch ':id/start' => 'simuls#start', as: "start"
+        patch ':id/update_players' => 'simuls#update_players', as: "update_players"
+      end
+    end
+  end
+
+  namespace :admin do
+    resources :simuls_players  do
+      collection do
+        get  ':id/list' => 'simuls_players#index_by_simul', as: "simul"
+        get  ':id/new' => 'simuls_players#new', as: "new"
+
+        get  ':id/upload' => 'simuls_players#upload', as: "upload"
+        post ':id/create_preview' => 'simuls_players#create_preview', as: "create_preview"
+        get  ':id/preview' => 'simuls_players#preview', as: "preview"
+      end
+    end
+  end
+
   resources :tournaments do
     collection do
       get ':id/:round_id/standings' => 'tournaments#standings_by_round', as: "standings"
@@ -11,10 +33,6 @@ Rails.application.routes.draw do
   get 'events/simul'
   get 'simuls/:id/show' => 'simuls#show', as: "simul"
   get 'simuls/:id/result' => 'simuls#result', as: "simul_result"
-
-  namespace :admin do
-    resources :simuls
-  end
 
   namespace :admin do
     resources :standings do

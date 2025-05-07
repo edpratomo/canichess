@@ -9,11 +9,13 @@ export default class extends Controller {
   }
 
   updatePlayerNames() {
+    var element = $(this.hiddenPlayerNamesTarget);
+
     $('select').each(function() {
       var select = $(this);
       var new_name = $(select).find(":selected").text();
       if ($(select).find(":selected").val() == "0") {
-        this.hiddenPlayerNamesTarget.after("<hidden name='simul[player_names][]' value='" + new_name +"' />");
+        element.after("<input type='hidden' name='simul[player_names][]' value='" + new_name +"' />");
         console.log("name: " + new_name);
       }
     });

@@ -13,6 +13,8 @@ class Simul < ApplicationRecord
   after_create :create_past_event
   before_destroy :delete_past_event
 
+  enum status: [ :not_started, :on_going, :completed ]
+
   def percentage_completion
     if players.count == 0
       0

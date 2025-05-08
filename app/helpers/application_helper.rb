@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def simul_result simul
+    total_participants_score = simul.simuls_players.where("result = color").count +
+                               simul.simuls_players.where("result = 'draw'").count * 0.5
+    total_completed = simul.simuls_players.where("result IS NOT NULL").count
+    result_str = "#{total_completed - total_participants_score} - #{total_participants_score}".
+                  gsub(/\.0/, '').gsub(/\.5/, '½')
+  end
+
   def chess_result val
     case val
     when "white"

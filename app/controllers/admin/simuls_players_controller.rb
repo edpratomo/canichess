@@ -7,7 +7,7 @@ class Admin::SimulsPlayersController < ApplicationController
   # GET /admin/simuls_players or /admin/simuls_players.json
   def index_by_simul
     logger.debug("simul: #{@simul}")
-    @simuls_players = SimulsPlayer.joins(:player).where(simul: @simul).order(name: :asc)
+    @simuls_players = SimulsPlayer.joins(:player).where(simul: @simul).order(number: :asc)
 
     respond_to do |format|
       format.html

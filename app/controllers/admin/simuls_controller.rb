@@ -37,17 +37,31 @@ class Admin::SimulsController < ApplicationController
   end
 
   def update_players
+    numbers_offset = @admin_simul.simuls_players.maximum(:number)
+
     player_id = admin_simul_params[:player_id]
     player_name = admin_simul_params[:player_name]
     if player_id and not player_id.empty?
-      @admin_simul.add_player(id: player_id)
+      @admin_simul.add_player(id: player_id, number: numbers_offset + 1)
     elsif player_name and not player_name.empty?
-      @admin_simul.add_player(name: player_name)
+      @admin_simul.add_player(name: player_name, number: numbers_offset + 1)
     end
 
-    player_ids = []
-    if admin_simul_params[:player_ids] and not admin_simul_params[:player_ids].empty?
-      player_ids.concat admin_simul_params[:player_ids].values.reject {|e| e == "0"}
+    numbers_for_registered_players = []
+    numbers_for_new_players = []
+
+    player_ids = if admin_simul_params[:player_ids] and not admin_simul_params[:player_ids].empty?
+      admin_simul_params[:player_ids].values.each_with_index.inject([]) do |m,(o,idx)|
+        if o == "0"
+          numbers_for_new_players.push idx
+        else
+          numbers_for_registered_players.push idx
+          m.push o.to_i
+        end
+        m
+      end
+    else
+      []
     end
 
     player_names = []
@@ -55,14 +69,16 @@ class Admin::SimulsController < ApplicationController
       player_names.concat admin_simul_params[:player_names].reject {|e| e.empty? }
     end
 
-    # register players already known in our database
+    # add players already known in our database, but not registered in the simul
     registered_players = @admin_simul.players.inject({}) {|m,o| m[o.id] = true; m}
-    player_ids.map {|e| e.to_i}.reject {|e| registered_players[e]}.each do |player_id|
-      @admin_simul.add_player(id: player_id)
+    
+    player_ids.reject {|e| registered_players[e]}.each_with_index do |player_id,idx|
+      @admin_simul.add_player(id: player_id, number: numbers_for_registered_players[idx] + numbers_offset + 1)
     end
+
     # register new players not in our database
-    player_names.each do |player_name|
-      @admin_simul.add_player(name: player_name)
+    player_names.each_with_index do |player_name, idx|
+      @admin_simul.add_player(name: player_name, number: numbers_for_new_players[idx] + numbers_offset + 1)
     end
 
     # delete sessions

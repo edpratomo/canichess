@@ -37,7 +37,7 @@ class Admin::SimulsController < ApplicationController
   end
 
   def update_players
-    numbers_offset = @admin_simul.simuls_players.maximum(:number)
+    numbers_offset = @admin_simul.simuls_players.maximum(:number) || 0
 
     player_id = admin_simul_params[:player_id]
     player_name = admin_simul_params[:player_name]

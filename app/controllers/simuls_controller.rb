@@ -9,7 +9,7 @@ class SimulsController < ApplicationController
   end
 
   def result
-    @players = @simul.simuls_players.order(:id)
+    @players = @simul.simuls_players.order(:number)
   end
 
   private

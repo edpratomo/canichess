@@ -18,7 +18,6 @@ class Admin::SimulsPlayersController < ApplicationController
 
   # GET /admin/simuls_players/1 or /admin/simuls_players/1.json
   def show
-    @games = @simuls_player.games
   end
 
   # GET /admin/simuls_players/new
@@ -128,8 +127,7 @@ class Admin::SimulsPlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_simuls_player_params
-      #params.fetch(:simuls_player, {})
-      params.require(:simuls_player).permit(:blacklisted)
+      params.require(:simuls_player).permit(:number, :color)
     end
 
     def simul_params

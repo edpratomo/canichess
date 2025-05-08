@@ -17,7 +17,6 @@
   </div>
 </div>
 
-
 <div class="row">
 <div class="col-md-6">
 <div class="card card-primary card-outline">
@@ -36,15 +35,15 @@
     <tbody>
       <% @simuls_players.each_with_index do |player,idx| %>
         <tr>
-          <td><%= idx + 1 %></td>
-          <td><%= link_to(player.name, admin_simuls_player_path(player)) %></td>
+          <td><%= player.number %></td>
+          <td><%= player.name %> (ID: <%= player.player.id %> Rtg: <%= player.player.rating %>)</td>
           <td style="text-align:center;"><%= player.result %></td>
           <td style="text-align:center;"><%= player.color %></td>
           <td class="project-actions text-right">
             <%= link_to admin_simuls_player_path(player), class: "btn btn-primary btn-sm" do %>
               <i class="fas fa-folder"></i>View
             <% end %>
-            <%= link_to edit_admin_player_path(player.player), class: "btn btn-info btn-sm" do %>
+            <%= link_to edit_admin_simuls_player_path(player), class: "btn btn-info btn-sm" do %>
               <i class="fas fa-pencil-alt"></i>Edit
             <% end %>
             <%= link_to admin_simuls_player_path(player), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>

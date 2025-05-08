@@ -124,6 +124,7 @@ class Admin::SimulsController < ApplicationController
     def admin_simul_params
       params.fetch(:simul, {}).permit(:name, :logo, :fp, :players_file,
                                        :description, :location, :date, :simulgivers,
+                                       :player_name, :player_id,
                                        player_names: [], player_ids: {})
     end
 

@@ -10,6 +10,8 @@ import "channels"
 
 require("moment/locale/id")
 require("tempusdominus-bootstrap-4")
+import "datatables.net-bs4"
+import "datatables.net-responsive-bs4"
 
 Rails.start()
 Turbolinks.start()
@@ -25,6 +27,12 @@ window.Cookies = require("js-cookie");
 
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
+
+  $("#datatable_with_search").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    "searching": true, "paging": true, "ordering": true, "info": true
+  });
+
 });
 
 import '../stylesheets/scaffolds';

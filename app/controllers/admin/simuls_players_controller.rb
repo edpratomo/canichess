@@ -1,19 +1,41 @@
 class Admin::SimulsPlayersController < ApplicationController
-  before_action :set_admin_simuls_player, only: %i[ show edit update destroy ]
-  before_action :set_simul, only: %i[ index_by_simul new upload create_preview preview ]
+  before_action :set_admin_simuls_player, only: %i[ show edit update destroy update_result]
+  before_action :set_simul, only: %i[ result index_by_simul new upload create_preview preview ]
 
   before_action :redirect_cancel, only: [:create, :update ]
 
   # GET /admin/simuls_players or /admin/simuls_players.json
   def index_by_simul
-    logger.debug("simul: #{@simul}")
     @simuls_players = SimulsPlayer.joins(:player).where(simul: @simul).order(number: :asc)
 
     respond_to do |format|
       format.html
       format.js
     end
+  end
 
+  def result
+    @simuls_players = SimulsPlayer.joins(:player).where(simul: @simul).order(number: :asc)
+  end
+
+  def update_result
+    result = if admin_simuls_player_params[:result] == "won"
+      @simuls_player.color
+    elsif admin_simuls_player_params[:result] == "lost"
+      @simuls_player.color == "white" ? "black" : "white"
+    else
+      admin_simuls_player_params[:result]
+    end
+
+    respond_to do |format|
+      if @simuls_player.update(result: result)
+        format.html { redirect_to admin_simuls_player_url(@simuls_player), notice: "Simuls player was successfully updated." }
+        format.json { render :show, status: :ok, location: admin_simuls_player_url(@simuls_player) }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @admin_simuls_player.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /admin/simuls_players/1 or /admin/simuls_players/1.json
@@ -127,7 +149,7 @@ class Admin::SimulsPlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_simuls_player_params
-      params.require(:simuls_player).permit(:number, :color)
+      params.require(:simuls_player).permit(:number, :color, :result)
     end
 
     def simul_params

@@ -1,0 +1,6 @@
+<div class="form-check">
+  <%= form.radio_button :result, opt_result,
+      onmousedown: 'checkSimulRadio(this)', onchange: 'updateSimulRadio(this)'
+       %>
+  <%= form.label :result, opt_label || opt_result, value: opt_result %>
+</div>

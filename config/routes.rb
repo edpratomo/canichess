@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :simuls_players  do
       collection do
+        get  ':id/result' => 'simuls_players#result', as: "result"
         get  ':id/list' => 'simuls_players#index_by_simul', as: "simul"
         get  ':id/new' => 'simuls_players#new', as: "new"
 

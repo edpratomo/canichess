@@ -12,7 +12,7 @@
                       <div class="ribbon-wrapper ribbon">
     <% if player.result == player.color %>
                         <div class="ribbon bg-success">
-                          WIN
+                          WON
                         </div>
     <% elsif player.result == 'draw' %>
                         <div class="ribbon bg-warning">
@@ -26,7 +26,7 @@
                       </div>
   <% end %>
                     <span class="badge badge-pill bg-<%= player.color %>"><%= player.number %></span>
-                    <%= player.player.name %>
+                    <span class="responsive-text"><%= player.player.name %></span>
                     </div>
                   </div>
   <% if idx % col_size == (col_size - 1)   %>

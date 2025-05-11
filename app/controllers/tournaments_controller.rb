@@ -6,6 +6,8 @@ class TournamentsController < ApplicationController
 
   layout 'top-nav.html.erb'
 
+  helper_method :params
+  
   def show
   end
 

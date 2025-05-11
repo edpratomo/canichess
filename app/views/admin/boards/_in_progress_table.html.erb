@@ -32,7 +32,8 @@
         <td class="text-center">
           <div class="form-group">
             <div class="custom-control custom-checkbox">
-              <%= f.check_box :walkover, id: "board_walkover_#{board.id}", class: "custom-control-input", onchange: 'updateCheckBox(this)' %>
+              <%= f.check_box :walkover, id: "board_walkover_#{board.id}", class: "custom-control-input", 
+                                         disabled: is_board_disabled, onchange: 'updateCheckBox(this)' %>
               <%= f.label :walkover, 'W.O.', for: "board_walkover_#{board.id}", class: "custom-control-label" %>
             </div>
           </div>

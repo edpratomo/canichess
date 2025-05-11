@@ -2,7 +2,7 @@
                 <ul class="nav nav-pills ml-auto p-2">
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                      Select <span class="caret"></span>
+                      Round <%= tournament.current_round %> <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu">
                     <% (1..tournament.current_round).each do |rd_num| %>

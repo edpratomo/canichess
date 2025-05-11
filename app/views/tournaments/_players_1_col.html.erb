@@ -1,0 +1,8 @@
+        <div class="row justify-content-center">
+          <h2 class="text-center">
+            <%= image_tag(@tournament.logo, alt: "Tournament Logo", style: "max-width: 10%; opacity: .8") %>
+            <%= @tournament.name %>
+          </h2>
+          <%= render 'players_table', players: players, tournament: tournament %>
+        </div>
+        <!-- /.row -->

@@ -11,6 +11,18 @@ class TournamentsController < ApplicationController
   def show
   end
 
+  def players
+    num_players = @tournament.tournaments_players.count
+    if num_players > 15
+      @half_of_players = (num_players.to_f / 2).ceil
+      @players_1 = @tournament.tournaments_players.joins(:player).order(:name).limit(@half_of_players)
+      @players_2 = @tournament.tournaments_players.joins(:player).order(:name).offset(@half_of_players)
+    else
+      @players_1 = @tournament.tournaments_players.joins(:player).order(:name)
+      @players_2 = []
+    end
+  end
+
   def player
     @games = @tournament_player.games
   end

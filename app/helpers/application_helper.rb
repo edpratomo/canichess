@@ -69,7 +69,11 @@ module ApplicationHelper
 
   def front_page_button_for_simul simul
     return '' unless simul
-    link_to("Check out the Results", simul_result_path(simul), class: "btn btn-primary btn-lg", role: "button")
+    if simul.not_started?
+       ''
+    else
+      link_to("Check out the Results", simul_result_path(simul), class: "btn btn-primary btn-lg", role: "button")
+    end
   end
 
   def rating_badge tournament_player

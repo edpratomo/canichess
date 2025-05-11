@@ -38,7 +38,11 @@
         <i class="fa fa-solid fa-users mr-1"></i>
       </div>
       <div class="col-xs-10" style="padding-left: 10px;">
-        <%= simul.players.size %> registered participants
+        <% if simul.players.count > 0 %>
+          <%= link_to simul.players.count, simul_result_path(simul) %> registered participants
+        <% else %>
+          No registered participants yet
+        <% end %>
       </div>
     </div>
   </div>

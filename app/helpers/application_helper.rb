@@ -7,12 +7,13 @@ module ApplicationHelper
                   gsub(/\.0/, '').gsub(/\.5/, '½')
   end
 
-  def chess_result val
+  def chess_result val, walkover = false
+    wo_badge = walkover ? ' <span class="badge bg-danger">WO</span> ' : ''
     case val
     when "white"
-      "1 - 0"
+      raw("1 - 0" + wo_badge)
     when "black"
-      "0 - 1"
+      raw(wo_badge + "0 - 1")
     when "draw"
       raw("&#189; - &#189;")
     when "noshow"

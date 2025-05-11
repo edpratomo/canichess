@@ -1,0 +1,89 @@
+<%= form_with(model: admin_simul, url: form_url, html: { role: "form"}) do |form| %>
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">
+      <% if admin_simul.new_record? %>
+        Create Simul Event
+      <% else %>
+        Editing Simul Event
+      <% end %>
+      </h3>
+    </div>
+    <div class="card-body">
+      <% if admin_simul.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(admin_simul.errors.count, "error") %> prohibited this admin_simul from being saved:</h2>
+
+          <ul>
+            <% admin_simul.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="form-group row">
+        <%= form.label :name, class: "control-label col-sm-3" do %>
+        Name <span class="required">*</span>
+        <% end %>
+        <div class="col-sm-4">
+          <%= form.text_field :name, class: "form-control", required: true %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-sm-3">
+          <div class="form-check">
+            <%= form.check_box :fp, class: "form-check-input" %>
+            <%= form.label :fp, "Front page" %>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+          <%= form.label :logo, class: "control-label col-sm-3" do %>
+          Logo <span class="required">*</span>
+          <% end %>
+          <div class="col-sm-4">
+            <%= form.text_field :logo, class: "form-control", required: true %>
+          </div>
+      </div>
+
+      <div class="form-group row">
+        <%= form.label :description, class: "control-label col-sm-3" do %>
+        Description
+        <% end %>
+        <div class="col-sm-8">
+          <%= form.text_area :description, size: "70x3", class: "form-control", 
+                                           placeholder: "Tell us a bit about this simul event" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= form.label :date, "Date", class: "col-sm-3 col-form-label" %>
+        <div class="col-sm-4">
+          <%= form.date_select :date %>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <%= form.label :location, class: "control-label col-sm-3" do %>
+        Location
+        <% end %>
+        <div class="col-sm-8">
+          <%= form.text_area :location, size: "70x3", class: "form-control", placeholder: "Venue for this event" %>
+        </div>
+      </div>
+      <div class="form-group row">
+          <%= form.label :simulgivers, class: "control-label col-sm-3" do %>
+          Simul Givers
+          <% end %>
+          <div class="col-sm-4">
+            <%= form.text_field :simulgivers, class: "form-control" %>
+          </div>
+      </div>
+
+    </div>
+    <!-- ./card-body -->
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    <!-- /.card-footer-->
+  </div>
+<% end %>

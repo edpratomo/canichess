@@ -1,0 +1,68 @@
+<p id="notice"><%= notice %></p>
+<% content_for :page_title do %>Simul: <%= @admin_simul.name %><% end %>
+  <div class="row">
+    <div class="col-md-4">
+
+      <!-- Profile Image -->
+      <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+          <div class="text-center">
+            <%= image_tag @admin_simul.logo, class: "profile-user-img img-fluid img-circle", alt: "Simul logo" %>
+          </div>
+
+          <h3 class="profile-username text-center"><%= @admin_simul.name %></h3>
+
+          <p class="text-muted text-center"><%= @admin_simul.description %></p>
+
+          <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+              <b>Date</b> <span class="float-right"><%= @admin_simul.date.strftime("%A, %B %d, %Y") %></span>
+            </li>
+            <li class="list-group-item">
+              <b>Players</b> 
+              <%= link_to @admin_simul.players.size, simul_admin_simuls_players_path(@admin_simul), class: "float-right" %>
+            </li>
+            <li class="list-group-item">
+              <b>Status</b> <span class="float-right"><%= simul_status_badge(@admin_simul) %></span>
+            </li>
+          </ul>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div> <!-- /.col -->
+    <div class="col-md-8">
+      <!-- About Me Box -->
+      <div class="card card-primary card-outline">
+        <!-- /.card-header -->
+        <div class="card-body">
+          <strong><i class="fas fa-map-marker-alt mr-1"></i> Venue</strong>
+
+          <p class="text-muted">
+            <% @admin_simul.location.split("\n").each_with_index do |line,idx| %>
+              <div class="text-muted" style="font-size: 0.85em"><%= line %></div>
+            <% end %>
+          </p>
+
+          <hr>
+          <% if @admin_simul.not_started? and not @admin_simul.completed? %>
+            <%= link_to start_admin_simuls_path(@admin_simul), method: :patch, class: "btn btn-primary btn-sm" do %>
+                <i class="fas fa-flag-checkered"></i> Start
+            <% end %>
+          <% end %>
+          <%= link_to result_admin_simuls_players_path(@admin_simul), class: "btn btn-info btn-sm" do %>
+              <i class="fas fa-pencil-alt"></i> Results
+          <% end %>
+          <%= link_to edit_admin_simul_path(@admin_simul), class: "btn btn-info btn-sm" do %>
+              <i class="fas fa-pencil-alt"></i> Edit
+          <% end %>
+          <%= link_to simul_admin_simuls_players_path(@admin_simul), class: "btn btn-success btn-sm" do %>
+              <i class="fas fa-pencil-alt"></i>Players
+          <% end %>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div> <!-- /.row -->

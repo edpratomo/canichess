@@ -1,0 +1,56 @@
+<%= form_with(model: admin_simuls_player, url: admin_simuls_player_path(admin_simuls_player), 
+              html: { method: :patch }) do |form| %>
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">
+        Editing Simul Player: <%= admin_simuls_player.name %>
+      </h3>
+    </div>
+    <div class="card-body">
+      <% if admin_simuls_player.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(admin_simuls_player.errors.count, "error") %> prohibited this admin_simuls_player from being saved:</h2>
+
+          <ul>
+            <% admin_simuls_player.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group row">
+        <%= form.label :name, class: "control-label col-sm-3" do %>
+        Board #
+        <% end %>
+        <div class="col-sm-1">
+          <%= form.number_field :number, class: "form-control", required: true %>
+        </div>
+      </div>
+
+      <!-- radio -->
+      <div class="form-group row ">
+        <%= form.label :color, class: "control-label col-sm-3" do %>
+        Playing color
+        <% end %>
+        <div class="col-sm-4">
+          <div class="icheck-primary d-inline px-3">
+            <%= form.radio_button :color, "white" %>
+            <%= form.label "color_white", "White" %>
+          </div>
+          <div class="icheck-primary d-inline px-3">
+            <%= form.radio_button :color, "black" %>
+            <%= form.label "color_black", "Black" %>
+          </div>
+        </div>
+      </div>
+      <!-- ./form-group -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    <!-- /.card-footer-->
+  </div>
+  <!-- /.card -->
+<% end %>

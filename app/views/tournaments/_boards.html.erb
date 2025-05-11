@@ -4,7 +4,7 @@
                 <%= render 'select_pairings_by_rounds', tournament: tournament, round: round %> 
               </div>
               <div class="card-body table-responsive p0">
-                <table class="table table-bordered table-striped text-nowrap">
+                <table class="table table-sm table-bordered table-striped text-nowrap">
                   <thead>
                     <tr>
                       <th style="width: 1%">#</th>
@@ -24,7 +24,9 @@
                         &lt;BYE&gt;
                       <% end %>
                       </td>
-                      <td id="res_<%= board.id %>" style="text-align:center;"><%= chess_result(board.result) %><% if board.walkover %> <span class="badge bg-danger">WO</span><% end %></td>
+                      <td id="res_<%= board.id %>" style="text-align:center;">
+                        <%= chess_result(board.result, board.walkover) %>
+                      </td>
                       <td><% if board.black %>
                         <%= link_to board.black.name, player_tournaments_path(board.black), class: "text-white" %> <%= points(board.black, board.round) %>
                         <span style="padding-right: 10px;" class="text-warning"><small><%= board.black.start_rating %></small></span>

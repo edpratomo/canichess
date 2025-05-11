@@ -2,11 +2,14 @@
                 <ul class="nav nav-pills ml-auto p-2">
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                      Select <span class="caret"></span>
+                      Round <%= round %> <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu">
                     <% (1..tournament.current_round).each do |rd_num| %>
-                      <%= link_to("Round #{rd_num}", pairings_tournaments_path(tournament, rd_num), class: "dropdown-item") %>
+                      <%= link_to("Round #{rd_num}", 
+                                  pairings_tournaments_path(tournament, rd_num) + 
+                                  (params[:full] && params[:full] == "1" ? "?full=1" : ""),
+                                  class: "dropdown-item") %>
                     <% end %>
                     </div>
                   </li>

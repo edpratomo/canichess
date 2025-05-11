@@ -1,0 +1,138 @@
+class Admin::SimulsController < ApplicationController
+  before_action :set_admin_simul, only: %i[ show edit update destroy start update_players ]
+  before_action :redirect_cancel, only: [:create, :update]
+  before_action :redirect_cancel_players, only: [:update_players]
+
+  # GET /admin/simuls or /admin/simuls.json
+  def index
+    @admin_simuls = Simul.all.order(fp: :desc, id: :desc)
+  end
+
+  # GET /admin/simuls/1 or /admin/simuls/1.json
+  def show
+  end
+
+  # GET /admin/simuls/new
+  def new
+    @admin_simul = Simul.new
+  end
+
+  # GET /admin/simuls/1/edit
+  def edit
+  end
+
+  # POST /admin/simuls or /admin/simuls.json
+  def create
+    @admin_simul = Simul.new(admin_simul_params)
+
+    respond_to do |format|
+      if @admin_simul.save
+        format.html { redirect_to admin_simul_url(@admin_simul), notice: "Simul was successfully created." }
+        format.json { render :show, status: :created, location: @admin_simul }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @admin_simul.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update_players
+    numbers_offset = @admin_simul.simuls_players.maximum(:number) || 0
+
+    player_id = admin_simul_params[:player_id]
+    player_name = admin_simul_params[:player_name]
+    if player_id and not player_id.empty?
+      @admin_simul.add_player(id: player_id, number: numbers_offset + 1)
+    elsif player_name and not player_name.empty?
+      @admin_simul.add_player(name: player_name, number: numbers_offset + 1)
+    end
+
+    numbers_for_registered_players = []
+    numbers_for_new_players = []
+
+    player_ids = if admin_simul_params[:player_ids] and not admin_simul_params[:player_ids].empty?
+      admin_simul_params[:player_ids].values.each_with_index.inject([]) do |m,(o,idx)|
+        if o == "0"
+          numbers_for_new_players.push idx
+        else
+          numbers_for_registered_players.push idx
+          m.push o.to_i
+        end
+        m
+      end
+    else
+      []
+    end
+
+    player_names = []
+    if admin_simul_params[:player_names] and not admin_simul_params[:player_names].empty?
+      player_names.concat admin_simul_params[:player_names].reject {|e| e.empty? }
+    end
+
+    # add players already known in our database, but not registered in the simul
+    registered_players = @admin_simul.players.inject({}) {|m,o| m[o.id] = true; m}
+    
+    player_ids.reject {|e| registered_players[e]}.each_with_index do |player_id,idx|
+      @admin_simul.add_player(id: player_id, number: numbers_for_registered_players[idx] + numbers_offset + 1)
+    end
+
+    # register new players not in our database
+    player_names.each_with_index do |player_name, idx|
+      @admin_simul.add_player(name: player_name, number: numbers_for_new_players[idx] + numbers_offset + 1)
+    end
+
+    # delete sessions
+    session.delete(:new_players)
+    session.delete(:selected)
+
+    # redirect
+    respond_to do |format|
+      format.html { redirect_to simul_admin_simuls_players_url(@admin_simul), notice: "Simul players were successfully updated." }
+    end
+  end
+
+  # PATCH/PUT /admin/simuls/1 or /admin/simuls/1.json
+  def update
+    respond_to do |format|
+      if @admin_simul.update(admin_simul_params)
+        format.html { redirect_to admin_simul_url(@admin_simul), notice: "Simul was successfully updated." }
+        format.json { render :show, status: :ok, location: @admin_simul }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @admin_simul.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /admin/simuls/1 or /admin/simuls/1.json
+  def destroy
+    @admin_simul.destroy
+
+    respond_to do |format|
+      format.html { redirect_to admin_simuls_url, notice: "Simul was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_admin_simul
+      @admin_simul = Simul.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def admin_simul_params
+      params.fetch(:simul, {}).permit(:name, :logo, :fp, :players_file,
+                                       :description, :location, :date, :simulgivers,
+                                       :player_name, :player_id,
+                                       player_names: [], player_ids: {})
+    end
+
+    def redirect_cancel
+      redirect_to admin_simuls_path if params[:cancel]
+    end
+
+    def redirect_cancel_players
+      redirect_to admin_simul_path(params[:id]) if params[:cancel]
+    end
+  end

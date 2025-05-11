@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="10">
+  <title>Canichess Alumni</title>
+
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+  <meta name="turbolinks-visit-control" content="reload">
+
+  <%= favicon_link_tag asset_path('canichess.ico') %>
+</head>
+
+<body class="hold-transition layout-top-nav dark-mode">
+<div class="wrapper pt-2" data-controller="escape" data-escape-target="exitFullscreen">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+      <%= yield %>
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      Ad Maiorem Dei Gloriam
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2023, 2024, 2025 <a href="/">Canichess Alumni</a>.</strong> All rights reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+</body>
+</html>

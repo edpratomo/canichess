@@ -4,5 +4,14 @@
 
 import { application } from "./application"
 
+import EscapeController from "./escape_controller"
+application.register("escape", EscapeController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import NewPlayerNamesController from "./new_player_names_controller"
+application.register("new-player-names", NewPlayerNamesController)
+
+import PlayersFilenameController from "./players_filename_controller"
+application.register("players-filename", PlayersFilenameController)

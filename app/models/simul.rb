@@ -9,4 +9,43 @@ class Simul < ApplicationRecord
 
   has_many :simuls_players, dependent: :destroy
   has_many :players, through: :simuls_players
+
+  after_create :create_past_event
+  before_destroy :delete_past_event
+
+  enum status: [ :not_started, :on_going, :completed ]
+
+  def percentage_completion
+    if players.count == 0
+      0
+    else
+      (simuls_players.where.not(result: nil).count.to_f / players.count) * 100
+    end
+  end
+
+  def add_player args
+    if args[:id] # existing player
+      transaction do
+        players << Player.find(args[:id])
+        this_player = simuls_players.last
+        this_player.update(number: args[:number]) if args[:number]
+      end
+    elsif args[:name]
+      transaction do
+        players << Player.create!(name: args[:name])
+        this_player = simuls_players.last
+        this_player.update(number: args[:number]) if args[:number]
+      end
+    end
+  end
+
+  private
+  def create_past_event
+    PastEvent.create(eventable: self)
+  end
+
+  def delete_past_event
+    past_event = PastEvent.where(eventable: self).first
+    past_event.destroy if past_event
+  end
 end

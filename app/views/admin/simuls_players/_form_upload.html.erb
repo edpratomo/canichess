@@ -1,0 +1,33 @@
+<%= form_with(model: simul, url: create_preview_admin_simuls_players_path(simul), html: { method: :post }) do |form| %>
+  <% if simul.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(simul.errors.count, "error") %> prohibited this simul from being saved:</h2>
+
+      <ul>
+        <% simul.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <div class="form-group row">
+      <%= form.label :upload_players, "Players", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8">
+        <div class="input-group">
+          <div class="custom-file" data-controller="players-filename" data-action="change->players-filename#updateFilename">
+            <%= form.file_field :players_file, class: "custom-input-file", accept: "text/plain", disabled: false %>
+            <%= form.label :players_file,"Choose file", class: "custom-file-label", id: "simul_players_file_label" %>
+          </div>
+       </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
+  </div>
+
+<% end %>

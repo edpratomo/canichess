@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.3.8'
 
 gem 'pg'
 gem 'devise', github: 'heartcombo/devise'
@@ -78,3 +78,10 @@ gem 'glicko2'
 gem 'graphmatch', github: 'pH14/graphmatch'
 gem 'stimulus-rails'
 gem 'activerecord-session_store'
+
+gem 'net-smtp', require: false
+gem 'net-pop', require: false
+gem 'net-imap', require: false
+gem 'base64', require: false
+gem 'bigdecimal', require: false
+gem 'mutex_m', require: false

@@ -1,0 +1,30 @@
+<%= form_with(model: admin_simuls_player, url: update_players_admin_simuls_path(simul), html: { method: :patch }) do |form| %>
+  <% if admin_simuls_player.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(admin_simuls_player.errors.count, "error") %> prohibited this admin_simuls_player from being saved:</h2>
+
+      <ul>
+        <% admin_simuls_player.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card-body">
+    <div class="form-group row">
+      <%= form.label :name, "Name", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8" data-controller="autocomplete" data-autocomplete-url-value="/admin/players/suggestions">
+        <input name="simul[player_name]" type="text" class="form-control" data-autocomplete-target="input" placeholder="Type player's name"/>
+        <input type="hidden" name="simul[player_id]" data-autocomplete-target="hidden"/>
+        <ul data-autocomplete-target="results" class="list-group"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
+  </div>
+
+<% end %>

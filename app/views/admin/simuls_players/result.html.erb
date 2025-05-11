@@ -1,0 +1,43 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title do %>Simul <%= link_to(@simul.name, admin_simul_path(@simul)) %><% end %>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card card-primary card-outline">
+      <div class="card-body table-responsive p-0">
+        <table class="table table-bordered table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th style="width: 1%">#</th>
+              <th>Name</th>
+              <th colspan="3" style="text-align:center;">Result</th>
+              <th style="text-align:center">Playing color</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @simuls_players.each_with_index do |player,idx| %>
+              <tr>
+                <td id="td_player_<%= player.id %>" <%= player.result.nil? ? raw('class="bg-warning"') : '' %>><%= player.number %></td>
+                <td><%= player.name %> (ID: <%= player.player.id %> Rtg: <%= player.player.rating %>)</td>
+                <%= form_for(player, url: update_result_admin_simuls_players_path(player), method: :patch, html: { role: "form"}) do |f| %>
+                  <td>
+                    <%= render 'form_result', form: f, opt_label: "won", opt_result: player.color %>
+                  </td>
+                  <td>
+                    <%= render 'form_result', form: f, opt_label: "lost", opt_result: player.color == "white" ? "black" : "white" %>
+                  </td>
+                  <td>
+                    <%= render 'form_result', form: f, opt_label: "draw", opt_result: "draw" %>
+                  </td>
+                <% end %>
+                <td style="text-align:center;" <%= player.color == "black" ? raw('class="bg-secondary"') : '' %>><%= player.color %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

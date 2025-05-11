@@ -3,53 +3,27 @@
         <!-- Widget: user widget style 2 -->
         <div class="card card-widget widget-user-2 shadow-sm">
           <div class="widget-user-header bg-warning">
-            <div class="widget-user-image">
-              <%= image_tag(@simul.logo, class: "img-circle elevation-2", alt: "CCE CCAD Logo", style: "opacity: .8") %>
+            <div class="row">
+              <div class="col-sm-10">
+                <div class="widget-user-image">
+                  <%= image_tag(@simul.logo, class: "img-circle elevation-2", alt: "CCE CCAD Logo", style: "opacity: .8") %>
+                </div>
+                <!-- /.widget-user-image -->
+                <h3 class="widget-user-username"><%= @simul.name %></h3>
+                <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
+              </div>
+              <div class="col-sm-2">
+                <div style="vertical-align: middle">
+                  <h1><%= simul_result(@simul) %></h1>
+                </div>
+              </div>
             </div>
-            <!-- /.widget-user-image -->
-            <h3 class="widget-user-username"><%= @simul.name %></h3>
-            <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
           </div>
         </div>
         <!-- /.card -->
         <div class="card card-primary">
           <div class="card-body">
-<% @players.each_with_index do |player,idx| %>
-  <% if idx % 4 == 0 %>
-    <% if idx / 4 == 0 %>
-                <div class="row">
-    <% else %>
-                <div class="row mt-4">
-    <% end %>
-  <% end %>
-                  <div class="col-sm-3">
-                    <div class="position-relative p-3 bg-gray" style="height: 60px">
-  <% if player.result %>
-                      <div class="ribbon-wrapper ribbon">
-    <% if player.result == player.color %>
-                        <div class="ribbon bg-success">
-                          WIN
-                        </div>
-    <% elsif player.result == 'draw' %>
-                        <div class="ribbon bg-warning">
-                          DRAW
-                        </div>
-    <% else %>
-                        <div class="ribbon bg-primary">
-                          LOST
-                        </div>
-    <% end %>
-                      </div>
-  <% end %>
-                    <span class="badge badge-pill bg-<%= player.color %>"><%= idx + 1 %></span>
-                    <%= player.player.name %>
-                    </div>
-                  </div>
-  <% if idx % 4 == 3   %>
-                </div>
-                <!-- /.row -->
-  <% end %>
-<% end %>
+            <%= render 'result_body', players: @players, col_size: 5 %>
           </div>
           <!-- /.card-body -->
         </div>

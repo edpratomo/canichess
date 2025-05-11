@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+ 
+<% content_for :page_title do %>Add New Player to Simul: <%= @simul.name %><% end %>
+
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-8">
+    <div class="card card-primary card-outline">
+    <%= render 'form_new', admin_simuls_player: @simuls_player, simul: @simul %>
+    </div>
+  </div>
+</div>
+

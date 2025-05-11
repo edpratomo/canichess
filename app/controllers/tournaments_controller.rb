@@ -24,7 +24,7 @@ class TournamentsController < ApplicationController
       @boards_2 = []
     end
     respond_to do |format|
-      format.html { render :pairings }
+      format.html { render :pairings, layout: params[:full] == "1" ? 'pairing-plain' : 'pairing' }
       format.json { render :pairings, layout: false }
     end
   end

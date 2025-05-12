@@ -36,7 +36,7 @@ class ActiveRecordPlayersList < PlayersList
 
   def initialize tournament
     @tournament = tournament
-    @tournaments_players = tournament.tournaments_players.joins(:player)
+    @tournaments_players = tournament.tournaments_players
     @ar_to_players = {}
 
     # find players who lost by WO or no-show

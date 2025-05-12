@@ -8,6 +8,7 @@ class MyPlayer < Swissper::Player
   attr_reader :name
   attr_reader :ar_id
   attr_reader :ar_obj
+  attr_accessor :idx # index of this player in set
 
   def initialize ar_obj #id, name, rating, points
     @ar_obj = ar_obj # TournamentsPlayer.find(ar_id)
@@ -21,6 +22,10 @@ class MyPlayer < Swissper::Player
     super()
   end
 
+  def affiliation
+    @ar_obj.player.affiliation
+  end
+
   def save_rating
     @ar_obj.player.update!(rating: @rating.round, rating_deviation: @rating_deviation, rating_volatility: @volatility)
   end
@@ -31,7 +36,7 @@ class ActiveRecordPlayersList < PlayersList
 
   def initialize tournament
     @tournament = tournament
-    @tournaments_players = tournament.tournaments_players
+    @tournaments_players = tournament.tournaments_players.joins(:player)
     @ar_to_players = {}
 
     # find players who lost by WO or no-show

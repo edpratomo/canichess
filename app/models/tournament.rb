@@ -198,7 +198,8 @@ class Tournament < ApplicationRecord
     players_list = ActiveRecordPlayersList.new(self)
     pairing = Pairing.new(players_list)
     round = next_round
-    pairing.generate_pairings(true) {|idx, w_player, b_player| 
+    use_bipartite_matching = round < 3
+    pairing.generate_pairings(use_bipartite_matching) {|idx, w_player, b_player|
       Board.create!(tournament: self, number: idx, round: round, white: w_player, black: b_player)
     }
   end

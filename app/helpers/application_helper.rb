@@ -1,10 +1,29 @@
 module ApplicationHelper
-  def simul_result simul
+  def simul_score simul
     total_participants_score = simul.simuls_players.where("result = color").count +
                                simul.simuls_players.where("result = 'draw'").count * 0.5
     total_completed = simul.simuls_players.where("result IS NOT NULL").count
     result_str = "#{total_completed - total_participants_score} - #{total_participants_score}".
                   gsub(/\.0/, '').gsub(/\.5/, '½')
+  end
+
+  def simul_result player
+    return '' unless player.result
+    result_str = case player.result
+      when player.color
+        '<div class="ribbon bg-success">WON</div>'
+      when "draw"
+        '<div class="ribbon bg-warning">DRAW</div>'
+      else
+        '<div class="ribbon bg-primary">LOST</div>'
+      end
+
+    result_div =<<EOS
+<div class="ribbon-wrapper ribbon">
+#{result_str}
+</div>
+EOS
+    raw(result_div)
   end
 
   def chess_result val, walkover = false

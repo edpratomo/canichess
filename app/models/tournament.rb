@@ -198,7 +198,13 @@ class Tournament < ApplicationRecord
     players_list = ActiveRecordPlayersList.new(self)
     pairing = Pairing.new(players_list)
     round = next_round
-    use_bipartite_matching = round < 3
+    # use bipartite for this round?
+    use_bipartite_matching = bipartite_matching.any?(round)
+    if use_bipartite_matching
+      Rails.logger.debug("Using bipartite matching for round #{round}")
+    else
+      Rails.logger.debug("Using general matching for round #{round}")
+    end
     pairing.generate_pairings(use_bipartite_matching) {|idx, w_player, b_player|
       Board.create!(tournament: self, number: idx, round: round, white: w_player, black: b_player)
     }

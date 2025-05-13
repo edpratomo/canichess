@@ -16,6 +16,9 @@ class Tournament < ApplicationRecord
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
+  after_create :create_past_event
+  before_destroy :delete_past_event
+
   def get_results round=nil
     round ||= current_round
     boards.where(round: round).where.not(result: nil).map {|e|
@@ -237,5 +240,15 @@ class Tournament < ApplicationRecord
     if boards.find_by(result: nil, round: completed_round)
       errors.add(:completed_round, "All boards must have finished first")
     end
+  end
+
+  private
+  def create_past_event
+    PastEvent.create(eventable: self)
+  end
+
+  def delete_past_event
+    past_event = PastEvent.where(eventable: self).first
+    past_event.destroy if past_event
   end
 end

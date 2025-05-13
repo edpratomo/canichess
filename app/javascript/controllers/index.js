@@ -15,3 +15,6 @@ application.register("new-player-names", NewPlayerNamesController)
 
 import PlayersFilenameController from "./players_filename_controller"
 application.register("players-filename", PlayersFilenameController)
+
+import ScoreboardController from "./scoreboard_controller"
+application.register("scoreboard", ScoreboardController)

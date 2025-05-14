@@ -3,7 +3,7 @@ class SimulsPlayer < ApplicationRecord
   belongs_to :player
 
   after_commit :broadcast_score, on: :update
-  #after_commit :broadcast_result, on: :update
+  after_commit :broadcast_result, on: :update
 
   def name
     player.name
@@ -21,7 +21,8 @@ class SimulsPlayer < ApplicationRecord
   def broadcast_result
     ActionCable.server.broadcast "simul_result", {
       id: id,
-      result: result
+      result: result,
+      color: color
     }
   end
 end

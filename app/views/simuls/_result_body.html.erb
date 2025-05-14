@@ -8,7 +8,7 @@
   <% end %>
         <div class="col-sm">
           <div class="position-relative p-3 bg-gray" style="height: 60px">
-            <%= simul_result(player) %>
+            <span id="player_<%= player.id %>"> <%= simul_result(player) %></span>
             <span class="badge badge-pill bg-<%= player.color %>"><%= player.number %></span>
             <span><%= player.player.name %></span>
           </div>

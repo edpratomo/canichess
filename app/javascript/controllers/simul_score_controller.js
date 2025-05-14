@@ -9,7 +9,7 @@ export default class extends Controller {
       received: data => {
         // Update DOM
         console.log("stimulus received simul score:", data);
-        $('#simul_score').html(data.replace(/\.0/g, '').replace(/\.5/g, '½'))
+        $('#simul_score').html(data.replace(/\.0/g, '').replace(/\b0\.5/g, '½').replace(/\.5/g, '½'))
       }
     })
   }

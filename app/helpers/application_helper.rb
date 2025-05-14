@@ -1,6 +1,6 @@
 module ApplicationHelper
   def simul_score simul
-    simul.score.gsub(/\.0/, '').gsub(/\.5/, '½')
+    simul.score.gsub(/\.0/, '').gsub(/\b0\.5/, '½').gsub(/\.5/, '½')
   end
 
   def simul_result player

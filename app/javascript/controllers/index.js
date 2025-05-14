@@ -18,3 +18,6 @@ application.register("players-filename", PlayersFilenameController)
 
 import ScoreboardController from "./scoreboard_controller"
 application.register("scoreboard", ScoreboardController)
+
+import SimulScoreController from "./simul_score_controller"
+application.register("simul-score", SimulScoreController)

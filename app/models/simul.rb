@@ -19,7 +19,7 @@ class Simul < ApplicationRecord
     if players.count == 0
       0
     else
-      (simuls_players.where.not(result: nil).count.to_f / players.count) * 100
+      ((simuls_players.where.not(result: nil).count.to_f / players.count) * 100).floor
     end
   end
 
@@ -37,6 +37,13 @@ class Simul < ApplicationRecord
         this_player.update(number: args[:number]) if args[:number]
       end
     end
+  end
+
+  def score
+    total_participants_score = simuls_players.where("result = color").count +
+                               simuls_players.where("result = 'draw'").count * 0.5
+    total_completed = simuls_players.where("result IS NOT NULL").count
+    "#{total_completed - total_participants_score} - #{total_participants_score}"
   end
 
   private

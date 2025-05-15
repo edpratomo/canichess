@@ -8,8 +8,12 @@ module Swissper
 
   class Pairer
     def delta(a, b)
-      # must be non-zero
-      ((delta_value(a) - delta_value(b)) ** 2 ) + 1
+      diff = delta_value(a) - delta_value(b)
+      # avoid too large difference
+      diff = 0 if diff.abs > 400
+      # must be non-zero, thus + 1
+      # ((delta_value(a) - delta_value(b)) ** 2 ) + 1
+      (diff ** 2) + 1
     end
 
     def bipartite_pair(player_data)

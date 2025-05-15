@@ -47,9 +47,9 @@
 
           <hr>
           <% if @admin_simul.not_started? and not @admin_simul.completed? %>
-            <%= link_to start_admin_simuls_path(@admin_simul), method: :patch, class: "btn btn-primary btn-sm" do %>
-                <i class="fas fa-flag-checkered"></i> Start
-            <% end %>
+            <%#= link_to start_admin_simuls_path(@admin_simul), method: :patch, class: "btn btn-primary btn-sm" do %>
+                <!-- <i class="fas fa-flag-checkered"></i> Start -->
+            <%# end %>
           <% end %>
           <%= link_to result_admin_simuls_players_path(@admin_simul), class: "btn btn-info btn-sm" do %>
               <i class="fas fa-pencil-alt"></i> Results

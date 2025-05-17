@@ -39,7 +39,7 @@ module Swissper
       if excess_num > 0
         # skip canichess players that are previously paired with canichess
         filtered_canichess_players = canichess_players.reject do |e|
-          e.ar_obj.prev_opps.any? {|prev_opp| %w[alumni student].any?(prev_opp.player.affiliation)}
+          e.ar_obj.prev_opps.compact.any? {|prev_opp| %w[alumni student].any?(prev_opp.player.affiliation)}
         end
 
         1.upto(excess_num) do |e|

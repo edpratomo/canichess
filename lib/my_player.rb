@@ -8,6 +8,7 @@ class MyPlayer < Swissper::Player
   attr_reader :name
   attr_reader :ar_id
   attr_reader :ar_obj
+  attr_accessor :idx # index of this player in set
 
   def initialize ar_obj #id, name, rating, points
     @ar_obj = ar_obj # TournamentsPlayer.find(ar_id)
@@ -19,6 +20,10 @@ class MyPlayer < Swissper::Player
     @rating = ar_obj.rating
     @tournament_points = ar_obj.points
     super()
+  end
+
+  def affiliation
+    @ar_obj.player.affiliation
   end
 
   def save_rating

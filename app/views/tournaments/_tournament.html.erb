@@ -32,13 +32,17 @@
   <hr/>
   <% end %>
 
-  <div class="container hidden-mobile">
+  <div class="container">
     <div class="row justify-content-center">
       <div class="col-xs-2">
         <i class="fa fa-solid fa-users mr-1"></i>
       </div>
       <div class="col-xs-10" style="padding-left: 10px;">
-        <%= tournament.players.size %> registered players
+        <% if tournament.players.count > 0 %>
+          <%= link_to tournament.players.count, players_tournaments_path(tournament) %> registered participants
+        <% else %>
+          No registered participants yet
+        <% end %>
       </div>
     </div>
   </div>

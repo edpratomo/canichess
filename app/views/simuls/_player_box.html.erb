@@ -1,0 +1,11 @@
+        <div class="col-sm <%= 'hidden-mobile' if player.nil? %>">
+          <div class="position-relative p-3 bg-gray" style="height: 60px">
+<% if player %>          
+            <span id="player_<%= player.id %>"> <%= simul_result(player) %></span>
+            <span class="badge badge-pill bg-<%= player.color %>"><%= player.number %></span>
+            <span><%= player.player.name %></span>
+<% else %>
+            <span> <span>
+<% end %>
+          </div>
+        </div>

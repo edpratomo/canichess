@@ -4,6 +4,7 @@ class Board < ApplicationRecord
   belongs_to :black, class_name: 'TournamentsPlayer', optional: true
 
   after_create :update_bye_result
+  after_commit :broadcast_score, on: :update
 
   def winner
     return nil if result == 'draw'
@@ -34,5 +35,14 @@ class Board < ApplicationRecord
     else
       false
     end
+  end
+
+  private
+  def broadcast_score
+    ActionCable.server.broadcast "score_board", {
+      id: id,
+      result: result,
+      walkover: walkover
+    }
   end
 end

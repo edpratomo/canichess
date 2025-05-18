@@ -4,6 +4,12 @@
 
 import { application } from "./application"
 
+import EscapeController from "./escape_controller"
+application.register("escape", EscapeController)
+
+import FullscreenController from "./fullscreen_controller"
+application.register("fullscreen", FullscreenController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
@@ -12,3 +18,12 @@ application.register("new-player-names", NewPlayerNamesController)
 
 import PlayersFilenameController from "./players_filename_controller"
 application.register("players-filename", PlayersFilenameController)
+
+import ScoreboardController from "./scoreboard_controller"
+application.register("scoreboard", ScoreboardController)
+
+import SimulResultController from "./simul_result_controller"
+application.register("simul-result", SimulResultController)
+
+import SimulScoreController from "./simul_score_controller"
+application.register("simul-score", SimulScoreController)

@@ -16,6 +16,9 @@ class Tournament < ApplicationRecord
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
+  after_create :create_past_event
+  before_destroy :delete_past_event
+
   def get_results round=nil
     round ||= current_round
     boards.where(round: round).where.not(result: nil).map {|e|
@@ -198,7 +201,14 @@ class Tournament < ApplicationRecord
     players_list = ActiveRecordPlayersList.new(self)
     pairing = Pairing.new(players_list)
     round = next_round
-    pairing.generate_pairings {|idx, w_player, b_player| 
+    # use bipartite for this round?
+    use_bipartite_matching = bipartite_matching.any?(round)
+    if use_bipartite_matching
+      Rails.logger.debug("Using bipartite matching for round #{round}")
+    else
+      Rails.logger.debug("Using general matching for round #{round}")
+    end
+    pairing.generate_pairings(use_bipartite_matching) {|idx, w_player, b_player|
       Board.create!(tournament: self, number: idx, round: round, white: w_player, black: b_player)
     }
   end
@@ -230,5 +240,15 @@ class Tournament < ApplicationRecord
     if boards.find_by(result: nil, round: completed_round)
       errors.add(:completed_round, "All boards must have finished first")
     end
+  end
+
+  private
+  def create_past_event
+    PastEvent.create(eventable: self)
+  end
+
+  def delete_past_event
+    past_event = PastEvent.where(eventable: self).first
+    past_event.destroy if past_event
   end
 end

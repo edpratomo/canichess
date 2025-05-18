@@ -13,8 +13,8 @@
                 <h5 class="widget-user-desc">by <%= @simul.simulgivers || "A Secret Master"%></h5>
               </div>
               <div class="col-sm-2">
-                <div style="vertical-align: middle">
-                  <h1><%= simul_result(@simul) %></h1>
+                <div style="vertical-align: middle" data-controller="simul-score">
+                  <h1 id="simul_score"><%= simul_score(@simul) %></h1>
                 </div>
               </div>
             </div>
@@ -22,7 +22,7 @@
         </div>
         <!-- /.card -->
         <div class="card card-primary">
-          <div class="card-body">
+          <div class="card-body" data-controller="simul-result">
             <%= render 'result_body', players: @players, col_size: 5 %>
           </div>
           <!-- /.card-body -->

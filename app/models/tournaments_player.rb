@@ -27,6 +27,18 @@ class TournamentsPlayer < ApplicationRecord
     player.name
   end
 
+  def alumni?
+    player.affiliation == 'alumni'
+  end
+
+  def student?
+    player.affiliation == 'student'
+  end
+
+  def canisian?
+    player.affiliation == 'student' || player.affiliation == 'alumni'
+  end
+
   def rating
     player.rating
   end

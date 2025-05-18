@@ -6,6 +6,10 @@
 @import "~bootstrap4-dialog/src/scss/bootstrap-dialog";
 @import "datatables.net-bs4/css/dataTables.bootstrap4";
 
+.responsive-text {
+  font-size: 0.8rem;
+}
+
 /* large devices */
 @media (min-width: 1200px) {
   .container {
@@ -25,6 +29,9 @@ and (max-device-width: 1500px) {
 @media screen and (min-width: 1800px) {
   .container {
     max-width: 1700px;
+  }
+  .responsive-text {
+      font-size: 1rem;
   }
 }
 

@@ -10,6 +10,7 @@ class SimulsController < ApplicationController
 
   def result
     @players = @simul.simuls_players.order(:number)
+    render :result, layout: 'simul-result'
   end
 
   private

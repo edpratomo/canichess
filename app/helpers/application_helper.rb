@@ -1,18 +1,34 @@
 module ApplicationHelper
-  def simul_result simul
-    total_participants_score = simul.simuls_players.where("result = color").count +
-                               simul.simuls_players.where("result = 'draw'").count * 0.5
-    total_completed = simul.simuls_players.where("result IS NOT NULL").count
-    result_str = "#{total_completed - total_participants_score} - #{total_participants_score}".
-                  gsub(/\.0/, '').gsub(/\.5/, '½')
+  def simul_score simul
+    simul.score.gsub(/\.0/, '').gsub(/\b0\.5/, '½').gsub(/\.5/, '½')
   end
 
-  def chess_result val
+  def simul_result player
+    return '' unless player.result
+    result_str = case player.result
+      when player.color
+        '<div class="ribbon bg-success">WON</div>'
+      when "draw"
+        '<div class="ribbon bg-warning">DRAW</div>'
+      else
+        '<div class="ribbon bg-primary">LOST</div>'
+      end
+
+    result_div =<<EOS
+<div class="ribbon-wrapper ribbon">
+#{result_str}
+</div>
+EOS
+    raw(result_div)
+  end
+
+  def chess_result val, walkover = false
+    wo_badge = walkover ? ' <span class="badge bg-danger">WO</span> ' : ''
     case val
     when "white"
-      "1 - 0"
+      raw("1 - 0" + wo_badge)
     when "black"
-      "0 - 1"
+      raw(wo_badge + "0 - 1")
     when "draw"
       raw("&#189; - &#189;")
     when "noshow"
@@ -68,7 +84,11 @@ module ApplicationHelper
 
   def front_page_button_for_simul simul
     return '' unless simul
-    link_to("Check out the Results", simul_result_path(simul), class: "btn btn-primary btn-lg", role: "button")
+    if simul.not_started?
+       ''
+    else
+      link_to("Check out the Results", simul_result_path(simul), class: "btn btn-primary btn-lg", role: "button")
+    end
   end
 
   def rating_badge tournament_player

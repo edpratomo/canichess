@@ -14,8 +14,13 @@
       <% is_board_disabled = board.contains_bye? %>
       <tr>
         <td id="td_board_<%= board.id %>" <%= board.result.nil? ? raw('class="bg-warning"') : '' %>><%= board.number %></td>
-        <td><%= board.white ? link_to(board.white.name + " (#{board.white.start_rating})", admin_tournaments_player_path(board.white)) : '<BYE>' %> <%= points(board.white, board.round) %></td>
-        <td><%= board.black ? link_to(board.black.name + " (#{board.black.start_rating})", admin_tournaments_player_path(board.black)) : '<BYE>' %> <%= points(board.black, board.round) %></td>
+        <td><%= board.white ? 
+                link_to(board.white.name + " (#{board.white.start_rating})", admin_tournaments_player_path(board.white)) : '<BYE>' 
+            %> <%= board.white && board.white.canisian? ? raw(' <strong>CC</strong>') : '' %> <%= points(board.white, board.round) %>
+        </td>
+        <td><%= board.black ? 
+                link_to(board.black.name + " (#{board.black.start_rating})", admin_tournaments_player_path(board.black)) : '<BYE>' 
+            %> <%= board.black && board.black.canisian? ? raw(' <strong>CC</strong>') : '' %> <%= points(board.black, board.round) %></td>
         <%= form_for(board, url: admin_board_path(board), method: :patch, html: { role: "form"}) do |f| %>
         <td>
           <%= render 'form_board', form: f, tournament: board.tournament, round: board.round, opt_label: "white", opt_result: "white", is_disabled: is_board_disabled %>
@@ -32,7 +37,8 @@
         <td class="text-center">
           <div class="form-group">
             <div class="custom-control custom-checkbox">
-              <%= f.check_box :walkover, id: "board_walkover_#{board.id}", class: "custom-control-input", onchange: 'updateCheckBox(this)' %>
+              <%= f.check_box :walkover, id: "board_walkover_#{board.id}", class: "custom-control-input", 
+                                         disabled: is_board_disabled, onchange: 'updateCheckBox(this)' %>
               <%= f.label :walkover, 'W.O.', for: "board_walkover_#{board.id}", class: "custom-control-label" %>
             </div>
           </div>

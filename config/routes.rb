@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   namespace :admin do
     resources :simuls do
       collection do
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
       get ':id/:round_id/standings' => 'tournaments#standings_by_round', as: "standings"
       get ':id/:round_id/pairings' => 'tournaments#pairings_by_round', as: "pairings"
       get 'player/:player_id' => 'tournaments#player', as: "player"
+      get ':id/players' => 'tournaments#players', as: "players"
     end
   end
 

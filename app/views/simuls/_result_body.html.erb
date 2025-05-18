@@ -6,13 +6,13 @@
       <div class="row mt-4">
     <% end %>
   <% end %>
-        <div class="col-sm">
-          <div class="position-relative p-3 bg-gray" style="height: 60px">
-            <span id="player_<%= player.id %>"> <%= simul_result(player) %></span>
-            <span class="badge badge-pill bg-<%= player.color %>"><%= player.number %></span>
-            <span><%= player.player.name %></span>
-          </div>
-        </div>
+  <%= render 'player_box', player: player %>
+  <%# add filler boxes to fill the last row %>
+  <% if (idx + 1) == players.count and ((idx + 1) % col_size > 0) and players.count % col_size > 0 %>
+    <% (players.count % col_size).upto(col_size - 1).each do |i| %>
+      <%= render 'player_box', player: nil %>
+    <% end %>
+  <% end %>
   <% if idx % col_size == (col_size - 1)   %>
       </div>
       <!-- /.row -->

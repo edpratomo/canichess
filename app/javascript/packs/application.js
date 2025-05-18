@@ -28,10 +28,17 @@ window.Cookies = require("js-cookie");
 document.addEventListener("turbolinks:load", () => {
   $('[data-toggle="tooltip"]').tooltip()
 
-  $("#datatable_with_search").DataTable({
-    "responsive": true, "lengthChange": false, "autoWidth": false,
-    "searching": true, "paging": true, "ordering": true, "info": true
-  });
+  var table;
+  // Warning: Cannot reinitialise DataTable.
+  // https://datatables.net/manual/tech-notes/3
+  if ( $.fn.dataTable.isDataTable( '#datatable_with_search' ) ) {
+    table = $('#datatable_with_search').DataTable();
+  } else {
+    table = $('#datatable_with_search').DataTable( {
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "searching": true, "paging": true, "ordering": true, "info": true
+    } );
+  }
 
 });
 

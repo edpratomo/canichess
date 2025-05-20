@@ -1,3 +1,4 @@
 require 'my_player'
 require 'players_list'
 require 'pairing'
+require 'berger-tables'

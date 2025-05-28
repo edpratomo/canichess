@@ -88,6 +88,8 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    airbrussh (1.5.3)
+      sshkit (>= 1.6.1, != 1.7.0)
     base64 (0.2.0)
     bcrypt (3.1.16)
     bigdecimal (3.1.9)
@@ -96,6 +98,25 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
+    capistrano (3.19.2)
+      airbrussh (>= 1.0.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (>= 1.9.0)
+    capistrano-bundler (2.1.1)
+      capistrano (~> 3.1)
+    capistrano-nvm (0.0.7)
+      capistrano (~> 3.1)
+    capistrano-rails (1.7.0)
+      capistrano (~> 3.1)
+      capistrano-bundler (>= 1.1, < 3)
+    capistrano-rbenv (2.2.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
+    capistrano3-puma (6.0.0)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (>= 5.1, < 7.0)
     capybara (3.36.0)
       addressable
       matrix
@@ -137,6 +158,7 @@ GEM
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    logger (1.7.0)
     loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -158,17 +180,26 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
+    net-scp (4.1.0)
+      net-ssh (>= 2.6.5, < 8.0.0)
+    net-sftp (4.0.0)
+      net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
+    net-ssh (7.3.0)
     nio4r (2.5.8)
     nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
+    ostruct (0.6.1)
     pairing_heap (3.0.1)
     pg (1.5.9)
     public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
+    puma-daemon (0.5.0)
+      puma (>= 5.0)
+      rack
     pundit (2.1.1)
       activesupport (>= 3.0.0)
     racc (1.8.1)
@@ -280,6 +311,13 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+    sshkit (1.24.0)
+      base64
+      logger
+      net-scp (>= 1.1.2)
+      net-sftp (>= 2.1.2)
+      net-ssh (>= 2.8.0)
+      ostruct
     stimulus-rails (1.3.3)
       railties (>= 6.0.0)
     stream (0.5.5)
@@ -333,6 +371,12 @@ DEPENDENCIES
   bigdecimal
   bootsnap (>= 1.4.4)
   byebug
+  capistrano
+  capistrano-bundler
+  capistrano-nvm
+  capistrano-rails
+  capistrano-rbenv
+  capistrano3-puma
   capybara (>= 3.26)
   devise!
   dotenv-rails
@@ -349,6 +393,7 @@ DEPENDENCIES
   net-smtp
   pg
   puma (~> 5.0)
+  puma-daemon
   pundit
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.5, >= 6.1.4.4)

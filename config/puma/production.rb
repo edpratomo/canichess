@@ -1,3 +1,6 @@
+ENV["RAILS_ENV"] = "production"
+environment "production"
+
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
 # Any libraries that use thread pools should be configured to match
@@ -42,4 +45,6 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
+bind  "unix:///home/edwin/apps/canichess/shared/tmp/sockets/puma.sock"
 state_path "tmp/pids/puma.state"
+activate_control_app "unix:///home/edwin/apps/canichess/shared/tmp/sockets/pumactl.sock"

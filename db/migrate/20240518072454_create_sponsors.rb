@@ -14,9 +14,9 @@ class CreateSponsors < ActiveRecord::Migration[6.1]
       t.references :eventable, polymorphic: true, index: true
     end
 
-    tr2 = Tournament.find(2)
-    sm1 = Simul.find(1)
-    tr3 = Tournament.find(3)
+    tr2 = Tournament.find_by(id: 2)
+    sm1 = Simul.find_by(id: 1)
+    tr3 = Tournament.find_by(id: 3)
 
     sponsors = [
       {
@@ -65,7 +65,7 @@ class CreateSponsors < ActiveRecord::Migration[6.1]
 
     sponsors.each do |sponsor|
       sp = Sponsor.create!(name: sponsor[:name], logo: sponsor[:logo], url: sponsor[:url])
-      sponsor[:evs].each do |chess_event|
+      sponsor[:evs].compact.each do |chess_event|
         chess_event.sponsors.push(sp)
       end
     end

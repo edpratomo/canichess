@@ -14,9 +14,9 @@ gem 'will_paginate-bootstrap-style'
 gem 'filterrific'
 gem 'unobtrusive_flash', '>=3'
 gem "schema_validations"
+gem 'dotenv-rails'
 
 group :development, :test do
-  gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
@@ -60,6 +60,13 @@ group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'capistrano', require: false
+  gem 'capistrano-rbenv', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma', require: false
+  gem 'capistrano-nvm', require: false
 end
 
 group :test do
@@ -84,3 +91,4 @@ gem 'net-imap', require: false
 gem 'base64', require: false
 gem 'bigdecimal', require: false
 gem 'mutex_m', require: false
+gem 'puma-daemon', require: false

@@ -1,0 +1,93 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          puma_canichess_production
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Canichess production puma server
+# Description:       Start puma_canichess_production
+#  This script will start puma_canichess_production
+### END INIT INFO
+
+BASEDIR=/home/edwin/apps/canichess/current
+PROG=puma_canichess_production
+
+RAILS_ENV=production
+RUNAS=edwin
+
+. /lib/lsb/init-functions
+
+RETVAL=0
+SUDO=sudo
+
+RBENV_INIT='export PATH="/home/edwin/.rbenv/shims:/home/edwin/.rbenv/bin:$PATH";eval "$(rbenv init -)"; '
+
+RUN_PUMA="$RBENV_INIT""bundle exec pumad -e $RAILS_ENV -C /home/edwin/apps/canichess/current/config/puma/production.rb"
+PUMACTL="$RBENV_INIT""env RAILS_ENV=$RAILS_ENV bundle exec pumactl -S /home/edwin/apps/canichess/shared/tmp/pids/puma.state"
+
+start() {
+  echo -n "Starting $PROG: "
+
+  pushd ${BASEDIR} > /dev/null 2>&1
+  $SUDO -E -H -u $RUNAS bash -c "$RUN_PUMA"
+  RETVAL=$?
+  popd >/dev/null 2>&1
+  echo
+  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/${PROG}
+  return $RETVAL
+}
+
+stop() {
+  echo -n $"Shutting down $PROG: "
+
+  pushd ${BASEDIR} > /dev/null 2>&1
+  $SUDO -E -H -u $RUNAS bash -c "$PUMACTL stop"
+  RETVAL=$?
+  popd >/dev/null 2>&1
+  echo
+  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/${PROG}
+  return $RETVAL
+}
+
+restart() {
+  stop
+  start
+}
+
+rhstatus() {
+  pushd ${BASEDIR} > /dev/null 2>&1
+  $SUDO -E -H -u $RUNAS bash -c "$PUMACTL status"
+  popd >/dev/null 2>&1
+}
+
+condrestart() {
+  [ -e /var/lock/subsys/${PROG} ] && restart || :
+}
+
+# See how we were called.
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  reload)
+    restart
+    ;;
+  condrestart)
+    condrestart
+    ;;
+  status)
+    rhstatus
+    ;;
+  *)
+    echo $"Usage: $PROG {start|stop|restart|reload|condrestart|status}"
+    RETVAL=1
+esac
+ 
+exit $RETVAL

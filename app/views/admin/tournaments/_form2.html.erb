@@ -11,62 +11,92 @@
     </div>
   <% end %>
   <% already_started = admin_tournament.current_round > 0 %>
-  <div class="card-body">
-    <div class="form-group row">
-      <%= form.label :name, "Name", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-8">
-        <%= form.text_field :name, class: "form-control", placeholder: "Tournament name" %>
-      </div>
-    </div>
-    <div class="form-group row">
-      <div class="offset-sm-4 col-sm-8">
-        <div class="form-check">
-          <%= form.check_box :fp, class: "form-check-input" %>
-          <%= form.label :fp, "Front page" %>
-        </div>
-      </div>
-      <div class="offset-sm-4 col-sm-8">
-        <div class="form-check">
-          <%= form.check_box :rated, class: "form-check-input" %>
-          <%= form.label :rated, "Rated" %>
-        </div>
-      </div>
-    </div>
-    <div class="form-group row">
-      <%= form.label :name, "Description", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-8">
-        <%= form.text_area :description, size: "70x3", class: "form-control", placeholder: "Tell us a bit about this tournament" %>
-      </div>
-    </div>
-    <div class="form-group row">
-      <%= form.label :date, "Date", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-4">
-        <%= form.date_select :date %>
-      </div>
-    </div>
-    <div class="form-group row">
-      <%= form.label :location, "Location", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-8">
-        <%= form.text_area :location, size: "70x3", class: "form-control", placeholder: "Venue for this event" %>
-      </div>
-    </div>
-    <div class="form-group row">
-      <%= form.label :rounds, "Rounds", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-2">
-        <%= form.number_field :rounds, class: "form-control", disabled: already_started %>
-      </div>
-    </div>
-    <div class="form-group row">
-      <%= form.label :max_walkover, "Max allowed WO losses in a row", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-2">
-        <%= form.number_field :max_walkover, class: "form-control", min: 1, disabled: already_started %>
-      </div>
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">
+      <% if admin_tournament.new_record? %>
+        Create Tournament
+      <% else %>
+        Editing Tournament: <%= admin_tournament.name %>
+      <% end %>
+      </h3>
     </div>
 
+    <div class="card-body">
+      <div class="form-group row">
+        <%= form.label :name, "Name", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-8">
+          <%= form.text_field :name, class: "form-control", placeholder: "Tournament name" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-sm-4 col-sm-8">
+          <div class="form-check">
+            <%= form.check_box :fp, class: "form-check-input" %>
+            <%= form.label :fp, "Front page" %>
+          </div>
+        </div>
+        <div class="offset-sm-4 col-sm-8">
+          <div class="form-check">
+            <%= form.check_box :rated, class: "form-check-input" %>
+            <%= form.label :rated, "Rated" %>
+          </div>
+        </div>
+      </div>
+      <!-- radio -->
+      <div class="form-group row ">
+        <%= form.label :system, class: "col-sm-4 control-label" do %>
+        System
+        <% end %>
+        <div class="col-sm-4">
+          <div class="icheck-primary d-inline px-3">
+            <%= form.radio_button :system, "swiss" %>
+            <%= form.label "system_swiss", "Swiss" %>
+          </div>
+          <div class="icheck-primary d-inline px-3">
+            <%= form.radio_button :system, "round_robin" %>
+            <%= form.label "system_round_robin", "Round-robin" %>
+          </div>
+        </div>
+      </div>
+      <!-- ./form-group -->
+      <div class="form-group row">
+        <%= form.label :name, "Description", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-8">
+          <%= form.text_area :description, size: "70x3", class: "form-control", placeholder: "Tell us a bit about this tournament" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= form.label :date, "Date", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-4">
+          <%= form.date_select :date %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= form.label :location, "Location", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-8">
+          <%= form.text_area :location, size: "70x3", class: "form-control", placeholder: "Venue for this event" %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= form.label :rounds, "Rounds", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-2">
+          <%= form.number_field :rounds, class: "form-control", disabled: already_started %>
+        </div>
+      </div>
+      <div class="form-group row">
+        <%= form.label :max_walkover, "Max allowed WO losses in a row", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-2">
+          <%= form.number_field :max_walkover, class: "form-control", min: 1, disabled: already_started %>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
+    </div>
   </div>
-  <!-- /.card-body -->
-  <div class="card-footer">
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
-  </div>
+  <!-- /.card -->
 <% end %>

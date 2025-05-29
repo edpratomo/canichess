@@ -1,10 +1,7 @@
-<% content_for :page_title do %>Create New Tournament<% end %>
 
 <div class="row">
   <!-- left column -->
   <div class="col-md-8">
-    <div class="card card-primary card-outline">
     <%= render 'form2', admin_tournament: @admin_tournament, form_url: admin_tournaments_path %>
-    </div>
   </div>
 </div>

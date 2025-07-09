@@ -27,6 +27,17 @@ class RR_Tournament
         @t = @n - 1
         @m = @n/2
         @rounds = Array.new(@t) {Array.new(@m)}
+        @round_counter = 0
+        @round_hsh = {}
+    end
+
+    def round_number round_str
+        unless @round_hsh.has_key?(round_str)
+            @round_counter += 1
+            @round_hsh[round_str] = @round_counter
+        else
+            @round_hsh[round_str]
+        end
     end
 
     #
@@ -131,13 +142,24 @@ class RR_Tournament
 
     def display_array        
         x = @rounds.size
-        y = @rounds[0].size
+        #y = @rounds[0].size
         x.times do |a_x|        
             @rounds[a_x].each do |game|
                 print game, "\t"
             end
             print "\n"
         end
+    end
+
+    def get_pairings &blk
+        #pairings = []
+        @rounds.each do |round|
+            round.each do |game|
+                white, black = game.split('-')
+                blk.call(round_number(round), white, black) if block_given?
+            end
+        end
+        #pairings
     end
 end
 
@@ -152,6 +174,9 @@ if $0 == __FILE__
         tournament.make_first_row
         tournament.make_other_rows
         tournament.display_array
+        tournament.get_pairings do |round, white, black|
+            puts "Round: #{round}, White: #{white}, Black: #{black}"
+        end
     end
 
     run

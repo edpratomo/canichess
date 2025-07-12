@@ -151,6 +151,11 @@ class RR_Tournament
         end
     end
 
+    def generate_pairings
+        self.make_first_row
+        self.make_other_rows
+    end
+
     def get_pairings &blk
         #pairings = []
         @rounds.each do |round|
@@ -171,8 +176,9 @@ if $0 == __FILE__
             n = ARGV[0]
         end
         tournament = RR_Tournament.new(n)
-        tournament.make_first_row
-        tournament.make_other_rows
+        #tournament.make_first_row
+        #tournament.make_other_rows
+        tournament.generate_pairings
         tournament.display_array
         tournament.get_pairings do |round, white, black|
             puts "Round: #{round}, White: #{white}, Black: #{black}"

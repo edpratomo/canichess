@@ -74,6 +74,9 @@ Rails.application.routes.draw do
       collection do
         patch ':id/start' => 'tournaments#start', as: "start"
         patch ':id/update_players' => 'tournaments#update_players', as: "update_players"
+        get ':id/groups' => 'tournaments#groups', as: "groups"
+        get ':group_id/groups/edit' => 'tournaments#edit_group', as: "edit_group"
+        patch ':group_id/groups/update' => 'tournaments#update_group', as: "update_group"
       end
     end
   end

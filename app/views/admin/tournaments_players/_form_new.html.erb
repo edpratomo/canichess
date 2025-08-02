@@ -20,6 +20,15 @@
         <ul data-autocomplete-target="results" class="list-group"></ul>
       </div>
     </div>
+
+    <% if @tournament.system == 'round_robin' %>
+    <div class="form-group row">
+      <%= form.label :group, "Group", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8" >
+        <%= form.select :group_id, options_for_select(@groups), { include_blank: 'Select Group' }, class: "form-control" %>
+      </div>
+    </div>
+    <% end %>
   </div>
 
   <div class="card-footer">

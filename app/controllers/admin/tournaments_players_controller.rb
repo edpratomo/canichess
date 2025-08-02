@@ -24,6 +24,7 @@ class Admin::TournamentsPlayersController < ApplicationController
   # GET /admin/tournaments_players/new
   def new
     @tournaments_player = TournamentsPlayer.new
+    @groups = @tournament.groups.order(:name).map { |g| [g.name, g.id] }
   end
 
   # GET /admin/tournaments_players/1/edit
@@ -129,7 +130,7 @@ class Admin::TournamentsPlayersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_tournaments_player_params
       #params.fetch(:tournaments_player, {})
-      params.require(:tournaments_player).permit(:blacklisted)
+      params.require(:tournaments_player).permit(:blacklisted, :group_id)
     end
 
     def tournament_params

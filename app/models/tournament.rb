@@ -14,10 +14,18 @@ class Tournament < ApplicationRecord
   has_many :tournaments_players, dependent: :destroy
   has_many :players, through: :tournaments_players
 
+  # for RR tournaments
+  has_many :groups
+
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
+  validates :rounds, presence: true, unless: :is_round_robin?
 
   after_create :create_past_event
   before_destroy :delete_past_event
+
+  def is_round_robin?
+    system == 'round_robin'
+  end
 
   def get_results round=nil
     round ||= current_round
@@ -40,11 +48,16 @@ class Tournament < ApplicationRecord
   end
 
   def add_player args
-    if args[:id] # existing player
-      players << Player.find(args[:id])
+    new_player = if args[:id] # existing player
+      Player.find(args[:id])
     elsif args[:name]
-      players << Player.create!(name: args[:name])
+      Player.create!(name: args[:name])
     end
+    players << new_player
+    if args[:group]
+      new_player.tournaments_players.find_by(tournament: self).update!(group: args[:group])
+    end
+    new_player
   end
 
   def sorted_standings round=nil

@@ -1,8 +1,39 @@
 class Admin::TournamentsController < ApplicationController
-  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players ]
+  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups create_group]
   before_action :redirect_cancel, only: [:create, :update]
 
   before_action :redirect_cancel_players, only: [:update_players]
+
+  def groups
+    @groups = @admin_tournament.groups.order(:name)
+    @group = Group.new(tournament: @admin_tournament)
+    respond_to do |format|
+      format.html # groups.html.erb
+      format.json { render json: @groups }
+    end
+  end
+
+  def edit_group
+
+  end
+
+  def update_group
+
+  end
+
+  def create_group
+    @group = Group.new(tournament: @admin_tournament, name: group_params[:name])
+
+    respond_to do |format|
+      if @group.save
+        format.html { redirect_to groups_admin_tournaments_url(@admin_tournament), notice: "Tournament group was successfully created." }
+        format.json { render :show, status: :created, location: @admin_tournament }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @admin_tournament.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def start
     respond_to do |format|
@@ -51,10 +82,13 @@ class Admin::TournamentsController < ApplicationController
   def update_players
     player_id = admin_tournament_params[:player_id]
     player_name = admin_tournament_params[:player_name]
+    group_id = params[:tournaments_player][:group_id]
+    group = Group.find(group_id) if group_id and not group_id.empty?
+
     if player_id and not player_id.empty?
-      @admin_tournament.add_player(id: player_id)
+      @admin_tournament.add_player(id: player_id, group: group)
     elsif player_name and not player_name.empty?
-      @admin_tournament.add_player(name: player_name)
+      @admin_tournament.add_player(name: player_name, group: group)
     end
 
 #    player_ids = [admin_tournament_params[:player_id]].compact.reject {|e| e.empty? }
@@ -123,6 +157,10 @@ class Admin::TournamentsController < ApplicationController
       params.require(:tournament).
              permit(:name, :fp, :rounds, :players_file, :description, :location, :date, :rated, :system,
                     :max_walkover, :player_name, :player_id, player_names: [], player_ids: {})
+    end
+
+    def group_params
+      params.require(:group).permit(:name, :tournament_id, :description)
     end
 
     def redirect_cancel

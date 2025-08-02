@@ -77,6 +77,7 @@ Rails.application.routes.draw do
         get ':id/groups' => 'tournaments#groups', as: "groups"
         get ':group_id/groups/edit' => 'tournaments#edit_group', as: "edit_group"
         patch ':group_id/groups/update' => 'tournaments#update_group', as: "update_group"
+        post ':id/create_group' => 'tournaments#create_group', as: "create_group"
       end
     end
   end

@@ -1,6 +1,8 @@
 class TournamentsPlayer < ApplicationRecord
   belongs_to :tournament
   belongs_to :player
+  belongs_to :group, optional: true
+
   has_many :standings
 
   before_destroy :check_already_started

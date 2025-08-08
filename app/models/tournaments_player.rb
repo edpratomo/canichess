@@ -17,8 +17,12 @@ class TournamentsPlayer < ApplicationRecord
     Board.where(tournament: tournament, white: self).or(Board.where(tournament: tournament, black: self)).order(:round)
   end
 
-  def playing_black
-    Board.where(tournament: tournament, black: self).size
+  def playing_black round=nil
+    if round
+      Board.where(tournament: tournament, black: self, round: round).size # increment for this round
+    else
+      Board.where(tournament: tournament, black: self).size # for all rounds
+    end
   end
 
   def prev_color

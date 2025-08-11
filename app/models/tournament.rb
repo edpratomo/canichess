@@ -57,8 +57,7 @@ class Tournament < ApplicationRecord
       end
 
       berger = RR_Tournament.new(group.tournaments_players.count)
-      idx = 0
-
+      
       # create maps for players: int -> TournamentsPlayer
       players_map = group.tournaments_players.each_with_index.inject({}) do |m,o|
         m[o[1] + 1] = o[0] # start with 1
@@ -66,7 +65,13 @@ class Tournament < ApplicationRecord
       end
 
       berger.generate_pairings
+      idx = 0
+      prev_round = 0
       berger.get_pairings do |round, white, black|
+        if round != prev_round
+          prev_round = round
+          idx = 0
+        end
         idx += 1
         w_player = players_map[white.to_i]
         b_player = players_map[black.to_i]
@@ -300,17 +305,25 @@ class Tournament < ApplicationRecord
     end
   end
 
-  #def current_round_rr group
-  #  last_board = boards.where(group: group, result: nil).order(:round).first
-  #  last_board ? last_board.round : 0
-  #end
+  def current_round_rr group
+    last_board = boards.where(group: group, result: nil).order(:round).first || group.boards.order(:round).last
+    return 0 unless last_board
+    if last_board.round > 1
+      # check standings
+      prev_round_standings = group.tournaments_players.joins(:standings).where('standings.round': last_board.round - 1).count
+      if prev_round_standings > 0
+        return last_board.round
+      else
+        return last_board.round - 1
+      end
+    else
+      return last_board.round
+    end
+  end
 
   def current_round group=nil
-    last_board = if group
-      boards.where(group: group, result: nil).order(:round).first || group.boards.order(:round).last
-    else
-      boards.order(:round).last
-    end
+    return current_round_rr(group) if group
+    last_board = boards.order(:round).last
     last_board ? last_board.round : 0
   end
 

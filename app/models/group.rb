@@ -14,4 +14,8 @@ class Group < ApplicationRecord
   def current_round
     tournament.current_round(self)
   end
+
+  def completed_round
+    tournaments_players.joins(:standings).pluck(:round).max
+  end
 end

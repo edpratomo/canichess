@@ -1,7 +1,9 @@
 class TournamentsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :set_tournament, except: %i[ player ]
-  before_action :set_round, only: %i[ pairings_by_round standings_by_round ]
+  before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_round ]
+  before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group]
+  before_action :set_group, only: %i[ pairings_by_group ]
   before_action :set_tournament_player, only: %i[ player]
 
   layout 'top-nav.html.erb'
@@ -43,6 +45,18 @@ class TournamentsController < ApplicationController
     end
   end
 
+  def pairings_by_group
+    boards_per_round = @group.boards_per_round
+    if boards_per_round > 15
+      half_of_boards = (boards_per_round.to_f / 2).ceil
+      @boards_1 = Board.where(tournament: @tournament, group: @group, round: @round).order(:number).limit(half_of_boards)
+      @boards_2 = Board.where(tournament: @tournament, group: @group, round: @round).order(:number).offset(half_of_boards)
+    else
+      @boards_1 = Board.where(tournament: @tournament, group: @group, round: @round).order(:number)
+      @boards_2 = []
+    end
+  end
+
   def standings_by_round
     @standings = @tournament.sorted_standings(@round)
     respond_to do |format|
@@ -58,6 +72,14 @@ class TournamentsController < ApplicationController
 
   def set_round
     @round = params[:round_id].to_i
+  end
+
+  def set_groups
+    @groups = @tournament.groups
+  end
+
+  def set_group
+    @group = @tournament.groups.find(params[:group_id])
   end
 
   def set_tournament_player

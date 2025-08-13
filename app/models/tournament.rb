@@ -102,6 +102,12 @@ class Tournament < ApplicationRecord
     new_player
   end
 
+  def sorted_standings_rr group, round
+    standings.joins(tournaments_player: :player).where('tournaments_players.group_id': group.id, round: round).
+          order(blacklisted: :asc, points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, 
+                playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
+  end
+
   def sorted_standings round=nil
     round ||= completed_round
     # 13.1.3.1 Joining Nested Associations (Single Level)

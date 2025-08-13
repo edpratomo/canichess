@@ -14,9 +14,11 @@
       <th class="text-center">Pts</th>
       <th class="text-center">TB 1</th>
       <th class="text-center">TB 2</th>
+      <% unless @tournament.is_round_robin? %>
       <th class="text-center">TB 3</th>
       <th class="text-center">TB 4</th>
       <th class="text-center" style="width: 2%">TB 5</th>
+      <% end %>
                     </tr>
                   </thead>
                   <tbody>
@@ -30,10 +32,14 @@
             <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.end_rating %></span>
         </td>
         <td class="text-center" ><%= standing.points %></td>
+        <% unless @tournament.is_round_robin? %>
         <td class="text-center" ><%= standing.median %></td>
         <td class="text-center" ><%= standing.solkoff %></td>
         <td class="text-center" ><%= standing.cumulative %></td>
         <td class="text-center" ><%= standing.opposition_cumulative %></td>
+        <% else %>
+        <td class="text-center" ><%= standing.sb %></td>
+        <% end %>
         <td class="text-center" ><%= standing.playing_black %></td>
       </tr>
     <% end %>

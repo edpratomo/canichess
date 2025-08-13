@@ -72,12 +72,12 @@ class Tournament < ApplicationRecord
           prev_round = round
           idx = 0
         end
-        idx += 1
         w_player = players_map[white.to_i]
         b_player = players_map[black.to_i]
         
         # create board for this pairing, skip BYE
         if w_player and b_player
+          idx += 1
           Board.create!(tournament: self, group: group, number: idx, round: round, white: w_player, black: b_player)
         end
         reorder_boards(group, round)
@@ -86,7 +86,7 @@ class Tournament < ApplicationRecord
   end
 
   def reorder_boards group, round # for RR tournaments
-   
+    
   end
 
   def add_player args

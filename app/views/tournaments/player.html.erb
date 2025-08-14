@@ -29,10 +29,16 @@
               </tr>
             </thead>
             <tbody>
-            <% (1..@tournament.rounds).each do |round| %>
+            <% group = @tournament_player.group %>
+            <% rounds = group ? group.rounds : @tournament.rounds %>
+            <% (1..rounds).each do |round| %>
               <tr>
-              <% board = @games[round - 1] %>
-              <% if round <= @games.size %>
+              <% board = @games.where(round: round).first %>
+              <%# next unless board %>
+              <% if board.nil? %>
+                <td class="text-center"><%= round %></td><td/><td/><td/><td/>
+              <% else %> <%#if round <= @games.size %>
+              <%# if round <= @games.size %>
                 <td class="text-center"><%= link_to board.round, pairings_tournaments_path(@tournament, round) %></td>
                 <td class="text-center"><%= board.number %></td>
                 <% if same_player?(@tournament_player, board.white) %>
@@ -46,8 +52,6 @@
                   <td><%= board.black ? link_to("#{board.black.name} (#{board.black.points})", player_tournaments_path(board.black)) : '<BYE>' %></td>
                 <% end %>
                 <td style="text-align:center;"><%= chess_result(board.result) %><% if board.walkover %> <span class="badge bg-danger">WO</span><% end %></td>
-              <% else %>
-                <td class="text-center"><%= round %></td><td/><td/><td/><td/>
               <% end %>
               </tr>
             <% end %>

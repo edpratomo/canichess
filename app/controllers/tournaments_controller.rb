@@ -1,15 +1,18 @@
 class TournamentsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :set_tournament, except: %i[ player ]
-  before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_round ]
+  before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_round standings_by_group]
   before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group]
-  before_action :set_group, only: %i[ pairings_by_group ]
-  before_action :set_tournament_player, only: %i[ player]
+  before_action :set_group, only: %i[ pairings_by_group group_show standings_by_group ]
+  before_action :set_tournament_player, only: %i[ player ]
 
   layout 'top-nav.html.erb'
 
   helper_method :params
   
+  def group_show
+  end
+
   def show
   end
 
@@ -27,9 +30,13 @@ class TournamentsController < ApplicationController
 
   def player
     @games = @tournament_player.games
+    @group = @tournament_player.group
   end
 
   def pairings_by_round
+    #if @tournament.groups.count > 1
+    #  redirect_to group_pairings_tournaments_path(@front_page)
+    #end
     boards_per_round = @tournament.boards_per_round
     if boards_per_round > 15
       half_of_boards = (boards_per_round.to_f / 2).ceil
@@ -63,6 +70,10 @@ class TournamentsController < ApplicationController
       format.html { render :standings }
       format.json { render :standings, layout: false }
     end
+  end
+
+  def standings_by_group
+    @standings = @tournament.sorted_standings_rr(@group, @round)
   end
 
   private

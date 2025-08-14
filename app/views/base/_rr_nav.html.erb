@@ -1,0 +1,32 @@
+          <% current_round = @group ? @group.current_round : 0 %>
+          <% completed_round = @group ? @group.completed_round : 0 %>
+          <% groups = tournament.groups %>
+          <li class="nav-item dropdown">
+            <a id="dropdownSubMenu2" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Groups</a>
+            <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
+              <% groups_dropdown(groups).each do |group| %>
+              <li><a href="<%= group[:url] %>" class="dropdown-item"><%= group[:name] %></a></li>
+              <% end %>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <% if @tournament %>
+            <a href="<%= tournament_path(@tournament) %>" class="nav-link">Home</a>
+            <% elsif @simul %>
+            <a href="<%= simul_path(@simul) %>" class="nav-link">Home</a>
+            <% end %>
+          <li class="nav-item">
+            <% if @group and @group.current_round > 0 %>
+              <%= link_to "Pairings", group_pairings_tournaments_path(@tournament, @group, current_round), class: "nav-link" %>
+            <% else %>
+              <span class="nav-link disabled">Pairings</span>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <% if @group and @group.completed_round > 0 %>
+              <%= link_to 'Standings', group_standings_tournaments_path(@tournament, @group, completed_round), class: "nav-link" %>
+            <% else %>
+              <span class="nav-link disabled">Standings</span>
+            <% end %>
+          </li>

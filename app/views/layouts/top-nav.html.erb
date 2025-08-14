@@ -43,29 +43,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <% end %>
             </ul>
           </li>
-          <li class="nav-item">
-            <% if @tournament %>
-            <a href="<%= tournament_path(@tournament) %>" class="nav-link">Home</a>
-            <% elsif @simul %>
-            <a href="<%= simul_path(@simul) %>" class="nav-link">Home</a>
-            <% end %>
-          </li>
-          <% current_round = @tournament ? @tournament.current_round : 0 %>
-          <% completed_round = @tournament ? @tournament.completed_round : 0 %>
-          <li class="nav-item">
-            <% if current_round > 0 %>
-              <%= link_to "Pairings", pairings_tournaments_path(@tournament, current_round), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Pairings</span>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <% if completed_round > 0 %>
-              <%= link_to 'Standings', standings_tournaments_path(@tournament, completed_round), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Standings</span>
-            <% end %>
-          </li>
+          <%# current_round = @tournament ? @tournament.current_round : 0 %>
+          <%# completed_round = @tournament ? @tournament.completed_round : 0 %>
+          <% if @tournament.is_round_robin? %>
+          <%= render 'base/rr_nav', tournament: @tournament %>
+          <% else %>
+          <%= render 'base/swiss_nav', tournament: @tournament %>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Contact", contact_path, class: "nav-link" %>
           </li>

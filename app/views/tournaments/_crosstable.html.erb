@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-12">
+    <!-- Custom Tabs -->
+    <div class="card card-primary">
+      <div class="card-header d-flex p-0">
+        <%= render 'select_standings_by_group', group: group, round: round %>
+      </div>
+      <div class="card-body table-responsive p0">
+        <table class="table table-sm table-bordered table-striped text-nowrap">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 2%">#</th>
+              <th>Name</th>
+              <th class="text-center">Pts</th>
+              <th class="text-center">TB 1</th>
+              <th class="text-center">TB 2</th>
+              <% standings.each_with_index do |standing, idx| %>
+                <th class="text-center"><%= idx + 1 %></th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% standings.each_with_index do |standing, idx| %>
+              <tr>
+                <td class="text-right"><%= idx + 1 %></td>
+                <td>
+                  <span style="font-size: 1.0em">
+                    <%= link_to standing.tournaments_player.name, player_tournaments_path(standing.tournaments_player), class: "text-white" %>
+                  </span>
+                  <%= categories_badge(standing.tournaments_player) %>
+                  <%= winner_icon(idx + 1) %> 
+                  <%= blacklisted_icon(standing) %>
+                  <%= rating_badge(standing.tournaments_player) %> 
+                  <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.end_rating %></span>
+                </td>
+                <td class="text-center"><%= standing.points %></td>
+                <td class="text-center"><%= standing.sb %></td>
+                <td class="text-center"><%= standing.playing_black %></td>
+                <% standings.each do |stdg| %>
+                  <td class="text-center"><%= player_result(group, standing.tournaments_player, stdg.tournaments_player) %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

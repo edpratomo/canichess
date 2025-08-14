@@ -22,6 +22,42 @@ EOS
     raw(result_div)
   end
 
+  def player_result group, t_player, opponent
+    return 'x' if t_player == opponent
+    return '' unless opponent
+    board = Board.where(group: group, white: t_player, black: opponent).first
+    result = if board
+      case board.result
+      when "white"
+        "1"
+      when "black"
+        "0"
+      when "draw"
+        raw("½")
+      when "noshow"
+        "0"
+      else
+        ''
+      end
+    end
+    return result if result
+
+    board = Board.where(group: group, black: t_player, white: opponent).first 
+    return '' unless board
+    case board.result
+    when "white"
+      "0"
+    when "black"
+      "1"
+    when "draw"
+      raw("½")
+    when "noshow"
+      "0"
+    else
+      ''
+    end
+  end
+
   def chess_result val, walkover = false
     wo_badge = walkover ? ' <span class="badge bg-danger">WO</span> ' : ''
     case val
@@ -72,8 +108,9 @@ EOS
     return items.join("\n")
   end
 
-  def front_page_button tournament
+  def front_page_button tournament, group=nil
     return '' unless tournament
+    return '' if tournament.is_round_robin? && group.nil?
     if tournament.completed_round == tournament.rounds
       link_to('Check out the Final Standings', standings_tournaments_path(tournament, tournament.completed_round), class: "btn btn-primary btn-lg", role: "button")
     elsif tournament.current_round > 0
@@ -128,6 +165,12 @@ EOS
       else
         {name: eventable.name, url: simul_path(eventable)}
       end
+    end
+  end
+
+  def groups_dropdown groups
+    groups.map do |group|
+      {name: group.name, url: group_show_tournaments_path(group.tournament, group)}
     end
   end
 end

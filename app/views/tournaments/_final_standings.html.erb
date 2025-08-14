@@ -3,7 +3,11 @@
             <!-- Custom Tabs -->
             <div class="card card-primary">
               <div class="card-header d-flex p-0">
-                <%= render 'select_standings_by_rounds', tournament: tournament, round: round %> 
+                <% if group %>
+                  <%= render 'select_standings_by_group', group: group, round: round %>
+                <% else %>
+                  <%= render 'select_standings_by_rounds', tournament: tournament, round: round %> 
+                <% end %>
               </div>
               <div class="card-body table-responsive p0">
                 <table class="table table-sm table-bordered table-striped text-nowrap">

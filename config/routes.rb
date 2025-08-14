@@ -30,7 +30,9 @@ Rails.application.routes.draw do
     collection do
       get ':id/:round_id/standings' => 'tournaments#standings_by_round', as: "standings"
       get ':id/:round_id/pairings' => 'tournaments#pairings_by_round', as: "pairings"
+      get ':id/:group_id/:round_id/standings' => 'tournaments#standings_by_group', as: "group_standings"
       get ':id/:group_id/:round_id/pairings' => 'tournaments#pairings_by_group', as: "group_pairings"
+      get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
       get 'player/:player_id' => 'tournaments#player', as: "player"
       get ':id/players' => 'tournaments#players', as: "players"
     end

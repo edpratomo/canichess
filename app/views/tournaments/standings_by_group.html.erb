@@ -1,0 +1,26 @@
+<% if @standings.empty? %>
+  <% content_for :page_title do %> <%= @tournament.name %> - <small>Standings</small><% end %>
+  <p class="lead">Oops! Standings not available yet. Please check again later.</p>
+<% else %>
+  <% if @round == @tournament.rounds %>
+    <% content_for :page_title do %>
+      <%= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+      <%= @tournament.name %> - <small>Final Standings</small>
+    <% end %>
+    <%= render 'final_standings', standings: @standings, group: @group, round: @round %>
+  <% else %>
+    <% content_for :page_title do %>
+      <%= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+      <%= @tournament.name %> - <small>Standings after Round <%= @round %></small>
+    <% end %>
+    <%# use two columns for long list of standings %>
+    <% if @standings.size > 15 %>
+      <% half_of_standings = (@standings.size.to_f / 2).ceil %>
+      <%= render 'standings_progress_2_col', standings_1: @standings[0..(half_of_standings - 1)], 
+                                             standings_2: @standings[half_of_standings..], 
+                                             tournament: @tournament, round: @round %>
+    <% else %>
+      <%= render 'standings_progress_1_col', standings: @standings, group: @group, round: @round %>
+    <% end %>
+  <% end %>
+<% end %>

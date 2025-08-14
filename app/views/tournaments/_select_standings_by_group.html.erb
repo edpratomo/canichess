@@ -1,0 +1,14 @@
+<% if group.completed_round > 1 %>
+                <ul class="nav nav-pills ml-auto p-2">
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                      Round <%= round %> <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu">
+                    <% (1..group.completed_round).each do |rd_num| %>
+                      <%= link_to("Round #{rd_num}", group_standings_tournaments_path(group.tournament, group, rd_num), class: "dropdown-item") %>
+                    <% end %>
+                    </div>
+                  </li>
+                </ul>
+<% end %>

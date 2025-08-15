@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
       get 'player/:player_id' => 'tournaments#player', as: "player"
       get ':id/players' => 'tournaments#players', as: "players"
+      get ':id/groups' => 'tournaments#groups', as: "groups"
     end
   end
 

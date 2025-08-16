@@ -161,16 +161,29 @@ EOS
     eventables = PastEvent.all.order(id: :desc).map {|e| e.eventable}
     eventables.map do |eventable|
       if eventable.is_a? Tournament
-        {name: eventable.name, url: tournament_path(eventable)}
+        #{id: eventable.id, name: eventable.name, url: tournament_path(eventable),
+        # groups: eventable.groups.map do |group|
+        #   {id: group.id, name: group.name, url: group_show_tournaments_path(eventable, group)}
+        # end
+        #}
+        if eventable.is_round_robin?
+          {id: eventable.id, name: eventable.name, url: tournament_path(eventable),
+           groups: eventable.groups.map do |group|
+             {id: group.id, name: group.name, url: group_show_tournaments_path(eventable, group)}
+           end
+          }
+        else
+          {id: eventable.id, name: eventable.name, url: tournament_path(eventable)}
+        end
       else
-        {name: eventable.name, url: simul_path(eventable)}
+        {id: eventable.id, name: eventable.name, url: simul_path(eventable)}
       end
     end
   end
 
   def groups_dropdown groups
     groups.map do |group|
-      {name: group.name, url: group_show_tournaments_path(group.tournament, group)}
+      {id: group.id, name: group.name, url: group_show_tournaments_path(group.tournament, group)}
     end
   end
 end

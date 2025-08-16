@@ -38,14 +38,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Events</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <% events_dropdown.each do |ev| %>
-              <li><a href="<%= ev[:url] %>" class="dropdown-item"><%= ev[:name] %></a></li>
+              <% events_dropdown.each_with_index do |ev,idx| %>
+                <% if ev.has_key?(:groups) %>
+                  <li class="dropdown-submenu dropdown-hover">
+                    <a id="dropdownSubMenu_<%= idx %>" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle"><%= ev[:name] %></a>
+                    <ul aria-labelledby="dropdownSubMenu_<%= idx %>" class="dropdown-menu border-0 shadow">
+                      <% ev[:groups].each do |group| %>
+                        <li><a href="<%= group[:url] %>" class="dropdown-item"><%= group[:name] %></a></li>
+                      <% end %>
+                    </ul>
+                  </li>
+                <% else %>
+                  <li><a href="<%= ev[:url] %>" class="dropdown-item"><%= ev[:name] %></a></li>
+                <% end %>
               <% end %>
             </ul>
           </li>
+
           <%# current_round = @tournament ? @tournament.current_round : 0 %>
           <%# completed_round = @tournament ? @tournament.completed_round : 0 %>
-          <% if @tournament.is_round_robin? %>
+          <% if @tournament and @tournament.is_round_robin? %>
           <%= render 'base/rr_nav', tournament: @tournament %>
           <% else %>
           <%= render 'base/swiss_nav', tournament: @tournament %>

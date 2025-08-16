@@ -16,6 +16,6 @@ class Group < ApplicationRecord
   end
 
   def completed_round
-    tournaments_players.joins(:standings).pluck(:round).max
+    tournaments_players.joins(:standings).pluck(:round).max || 0
   end
 end

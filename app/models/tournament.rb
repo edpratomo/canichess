@@ -51,6 +51,7 @@ class Tournament < ApplicationRecord
     self.update(max_walkover: 100)
     groups.each do |group|
       next if group.tournaments_players.count < 3
+      next if group.current_round > 0 # already started
 
       group.tournaments_players.each do |t_player|
         t_player.update!(start_rating: t_player.rating)

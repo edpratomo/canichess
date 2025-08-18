@@ -1,6 +1,7 @@
 class Group < ApplicationRecord
   has_many :boards
   has_many :tournaments_players
+  has_many :players, through: :tournaments_players
   belongs_to :tournament, optional: true
 
   def rounds
@@ -17,5 +18,13 @@ class Group < ApplicationRecord
 
   def completed_round
     tournaments_players.joins(:standings).pluck(:round).max || 0
+  end
+
+  def all_boards_finished? round
+    not boards.find_by(result: nil, round: round)
+  end
+
+  def any_board_finished? round
+    boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
   end
 end

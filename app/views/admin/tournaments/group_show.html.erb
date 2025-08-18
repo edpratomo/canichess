@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<% content_for :page_title do %>Tournament: <%= @admin_tournament.name %><% end %>
+<% content_for :page_title do %>Tournament: <%= @admin_tournament.name %> - <%= @group.name %><% end %>
         <div class="row">
           <div class="col-md-4">
 
@@ -10,7 +10,8 @@
                   <%= image_tag @admin_tournament.logo, class: "profile-user-img img-fluid img-circle", alt: "Tournament logo" %>
                 </div>
 
-                <h3 class="profile-username text-center"><%= @admin_tournament.name %></h3>
+                <h3 class="profile-username text-center"><%= link_to @admin_tournament.name, admin_tournament_path(@admin_tournament) %></h3>
+                <h4 class="profile-username text-center"><%= @group.name %></h4>
 
                 <p class="text-muted text-center"><%= @admin_tournament.description %></p>
 
@@ -19,17 +20,17 @@
                     <b>Date</b> <span class="float-right"><%= @admin_tournament.date.strftime("%A, %B %d, %Y") %></span>
                   </li>
                   <li class="list-group-item">
-                    <b>Rounds</b> <span class="float-right"><%= @admin_tournament.rounds %></span>
+                    <b>Rounds</b> <span class="float-right"><%= @group.rounds %></span>
                   </li>
                   <li class="list-group-item">
                     <b>Players</b> 
-                    <%= link_to @admin_tournament.players.size, tournament_admin_tournaments_players_path(@admin_tournament), class: "float-right" %>
+                    <%= link_to @group.players.size, tournament_admin_tournaments_players_path(@admin_tournament), class: "float-right" %>
                   </li>
                   <li class="list-group-item">
                     <b>Rated</b> <span class="float-right"><%= @admin_tournament.rated ? "yes" : "no" %></span>
                   </li>
                   <li class="list-group-item">
-                    <b>Status</b> <span class="float-right"><%= status_badge(@admin_tournament) %></span>
+                    <b>Status</b> <span class="float-right"><%= status_badge(@group) %></span>
                   </li>
                 </ul>
 
@@ -53,14 +54,23 @@
 
                 <hr>
 
-                <strong><i class="fa fa-solid fa-users mr-1"></i> Groups</strong>
+                <strong><i class="fa fa-duotone fa-chess mr-1"></i> Pairings</strong>
 
                 <p class="text-muted">
-  <% @admin_tournament.groups.each do |group| %>
-    <%= link_to group.name, group_show_admin_tournaments_path(@admin_tournament, group), target: :_blank %> | 
+  <% (1..@group.rounds).each do |round| %>
+    <%= link_to_if round <= @group.current_round, "Round #{round}", group_admin_boards_path(@admin_tournament, @group, round) %>
   <% end %>
                 </p>
 
+                <hr>
+
+                <strong><i class="fa fa-solid fa-users mr-1"></i> Standings</strong>
+
+                <p class="text-muted">
+  <% (1..@group.rounds).each do |round| %>
+    <%= link_to_if round <= @group.completed_round, "Round #{round}", group_admin_standings_path(@admin_tournament, @group, round) %>
+  <% end %>
+                </p>
                 <hr>
 <% if @admin_tournament.current_round == 0 and @admin_tournament.players.size > 0 %>
     <%= link_to start_admin_tournaments_path(@admin_tournament), method: :patch, class: "btn btn-primary btn-sm" do %>

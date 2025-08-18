@@ -1,6 +1,7 @@
 class Admin::BoardsController < ApplicationController
   before_action :set_admin_board, only: %i[ show edit update destroy ]
-  before_action :set_tournament_round, only: %i[ index_by_round  delete_by_round ]
+  before_action :set_tournament_round, only: %i[ index_by_round  delete_by_round index_by_group delete_by_group ]
+  before_action :set_group, only: %i[ index_by_group delete_by_group ]
 
   def index_by_round
     @boards = Board.where(tournament: @tournament, round: @round).order(:number)
@@ -9,6 +10,10 @@ class Admin::BoardsController < ApplicationController
   # GET /admin/boards or /admin/boards.json
   def index
     @boards = Board.all
+  end
+
+  def index_by_group
+    @boards = Board.where(tournament: @tournament, round: @round, group: @group).order(:number)
   end
 
   # GET /admin/boards/1 or /admin/boards/1.json
@@ -62,6 +67,16 @@ class Admin::BoardsController < ApplicationController
     end
   end
 
+  def delete_by_group
+    ActiveRecord::Base.transaction do
+      Board.where(group: @group, round: @round).delete_all
+    end
+    respond_to do |format|
+      format.html { redirect_to admin_tournaments_url, notice: "Pairings for round #{@round} were successfully deleted." }
+      format.json { head :no_content }
+    end
+  end
+
   # DELETE /admin/boards/1 or /admin/boards/1.json
   def destroy
     @board.destroy
@@ -81,6 +96,10 @@ class Admin::BoardsController < ApplicationController
     def set_tournament_round
       @tournament = Tournament.find(params[:tournament_id])
       @round = params[:round_id].to_i
+    end
+
+    def set_group
+      @group = Group.find(params[:group_id])
     end
 
     # Only allow a list of trusted parameters through.

@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title do %>Tournament: <%= link_to @tournament.name, admin_tournament_path(@tournament) %>
+Group <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @group) %> - Round <%= @round %><% end %>
+<% is_round_completed = @group.completed_round >= @round %>
+
+<div class="row">
+  <div class="col-10">
+    <div class="card">
+      <table class="table text-center text-nowrap">
+        <tr>
+          <%= form_tag(finalize_rr_admin_tournaments_path(@tournament, @group, @round), {method: :patch, class: "form-horizontal", role: "form"}) do %>
+            <% if is_round_completed %>
+              <%= disable_finalize_round %>
+            <% else %>
+              <%# if this round is not completed, check if all boards have finished %>
+              <% if @group.all_boards_finished?(@round) %>
+                <%= enable_finalize_round %>
+              <% else %>
+                <% disable_finalize_round %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <%# standings button %>
+          <%= form_tag(group_admin_standings_path(@tournament, @group, @round), {method: :get}) do %>
+            <% if is_round_completed %>
+              <%= enable_standings %>
+            <% else %>
+              <%= disable_standings %>
+            <% end %>
+          <% end %>
+          <%# delete button %>
+          <%= form_tag(delete_admin_boards_path(@tournament, @round), {method: :delete, class: "form-horizontal", role: "form"}) do %>
+            <%# if @group.any_board_finished?(@round) %>
+            <% if true %>
+              <%= disable_delete_round %>
+            <% else %>
+              <%= enable_delete_round %>
+            <% end %>
+          <% end %>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-10">
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <h3 class="card-title">Pairings for Round <%= @round %></h3>
+      </div>
+      <div class="card-body">
+<!-- <div class="col-lg-6"> -->
+        <% if is_round_completed %>
+          <%= render 'completed_table', boards: @boards %>
+        <% else %>
+          <%= render 'in_progress_table', boards: @boards %>
+        <% end %>
+<!-- </div> -->
+      </div>
+    </div> <!-- ./card -->
+  </div>
+</div>

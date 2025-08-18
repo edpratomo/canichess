@@ -188,6 +188,7 @@ class Tournament < ApplicationRecord
         update_total_games(group)
       end
     end
+    true
   end
 
   def compute_tiebreaks_rr group, round

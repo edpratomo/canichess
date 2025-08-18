@@ -1,7 +1,7 @@
 class Admin::TournamentsController < ApplicationController
-  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups create_group]
+  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups create_group group_show finalize_round_rr]
   before_action :redirect_cancel, only: [:create, :update]
-
+  before_action :set_group, only: [:edit_group, :update_group, :create_group, :finalize_round_rr, :group_show ]
   before_action :redirect_cancel_players, only: [:update_players]
 
   def groups
@@ -35,9 +35,23 @@ class Admin::TournamentsController < ApplicationController
     end
   end
 
-  def start
+  def finalize_round_rr
+    round = params[:round_id].to_i
     respond_to do |format|
-      if @admin_tournament.start
+      if @admin_tournament.finalize_round_rr(@group, round)
+        format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament was successfully updated." }
+        format.json { render :show, status: :ok, location: @admin_tournament }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @admin_tournament.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def start
+    method = @admin_tournament.system == "round_robin" ? "start_rr" : "start"
+    respond_to do |format|
+      if @admin_tournament.send(method)
         format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
@@ -54,6 +68,13 @@ class Admin::TournamentsController < ApplicationController
 
   # GET /admin/tournaments/1 or /admin/tournaments/1.json
   def show
+    if @admin_tournament.system == "round_robin"
+      render :show_rr
+    end
+  end
+
+  def group_show
+
   end
 
   # GET /admin/tournaments/new
@@ -149,6 +170,10 @@ class Admin::TournamentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_tournament
       @admin_tournament = Tournament.find(params[:id])
+    end
+
+    def set_group
+      @group = Group.find(params[:group_id]) if params[:group_id]
     end
 
     # Only allow a list of trusted parameters through.

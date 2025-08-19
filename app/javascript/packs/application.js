@@ -4,8 +4,8 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-//import Turbolinks from "turbolinks"
-import "@hotwired/turbo-rails"
+import Turbolinks from "turbolinks"
+//import "@hotwired/turbo-rails"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
@@ -15,7 +15,7 @@ import "datatables.net-bs4"
 import "datatables.net-responsive-bs4"
 
 Rails.start()
-//Turbolinks.start()
+Turbolinks.start()
 ActiveStorage.start()
 
 import 'bootstrap';

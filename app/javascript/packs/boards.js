@@ -1,5 +1,4 @@
-$(document).on('turbo:load', function () {
-//document.addEventListener('turbo:load', function () {
+$(document).on('turbolinks:load', function () {
   console.log("turbolinks:load TRIGGERED");
   var last_radio_state = [];
 

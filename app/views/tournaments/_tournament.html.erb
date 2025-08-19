@@ -38,10 +38,18 @@
         <i class="fa fa-solid fa-users mr-1"></i>
       </div>
       <div class="col-xs-10" style="padding-left: 10px;">
-        <% if tournament.players.count > 0 %>
-          <%= link_to tournament.players.count, players_tournaments_path(tournament) %> registered participants
+        <% if group.nil? %>
+          <% if tournament.players.count > 0 %>
+            <%= link_to tournament.players.count, players_tournaments_path(tournament) %> registered participants
+          <% else %>
+            No registered participants yet
+          <% end %>
         <% else %>
-          No registered participants yet
+          <% if group.tournaments_players.count > 0 %>
+            <%= link_to group.tournaments_players.count, group_players_tournaments_path(tournament, group) %> registered participants
+          <% else %>
+            No participants in this group yet
+          <% end %>
         <% end %>
       </div>
     </div>

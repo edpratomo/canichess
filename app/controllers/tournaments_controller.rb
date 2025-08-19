@@ -3,7 +3,7 @@ class TournamentsController < ApplicationController
   before_action :set_tournament, except: %i[ player ]
   before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_round standings_by_group]
   before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group groups]
-  before_action :set_group, only: %i[ pairings_by_group group_show standings_by_group ]
+  before_action :set_group, only: %i[ pairings_by_group group_show standings_by_group players_in_group ]
   before_action :set_tournament_player, only: %i[ player ]
 
   layout 'top-nav.html.erb'
@@ -30,6 +30,18 @@ class TournamentsController < ApplicationController
       @players_2 = @tournament.tournaments_players.joins(:player).order(:name).offset(@half_of_players)
     else
       @players_1 = @tournament.tournaments_players.joins(:player).order(:name)
+      @players_2 = []
+    end
+  end
+
+  def players_in_group
+    num_players = @group.tournaments_players.count
+    if num_players > 15
+      @half_of_players = (num_players.to_f / 2).ceil
+      @players_1 = @group.tournaments_players.joins(:player).order(:name).limit(@half_of_players)
+      @players_2 = @group.tournaments_players.joins(:player).order(:name).offset(@half_of_players)
+    else
+      @players_1 = @group.tournaments_players.joins(:player).order(:name)
       @players_2 = []
     end
   end

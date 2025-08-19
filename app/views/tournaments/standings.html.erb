@@ -7,7 +7,7 @@
       <%= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
       <%= @tournament.name %> - <small>Final Standings</small>
     <% end %>
-    <%= render 'final_standings', standings: @standings, tournament: @tournament, round: @round %>
+    <%= render 'final_standings', standings: @standings, tournament: @tournament, group: nil, round: @round %>
   <% else %>
     <% content_for :page_title do %>
       <%= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>

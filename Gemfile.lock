@@ -328,9 +328,9 @@ GEM
     thor (1.2.1)
     tilt (2.0.10)
     timeout (0.4.3)
-    turbo-rails (2.0.12)
-      actionpack (>= 6.0.0)
-      railties (>= 6.0.0)
+    turbolinks (5.2.1)
+      turbolinks-source (~> 5.2)
+    turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unobtrusive_flash (3.3.1)
@@ -408,7 +408,7 @@ DEPENDENCIES
   stimulus-rails
   swissper
   textacular (~> 5.0)
-  turbo-rails
+  turbolinks (~> 5)
   tzinfo-data
   unobtrusive_flash (>= 3)
   web-console (>= 4.1.0)

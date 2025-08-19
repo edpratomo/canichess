@@ -43,6 +43,7 @@ yarn-debug.log*
 *~
 .env
 /bundle/*
+/sbin/*
 
 # Ignore heroku db backups
 latest.dump*

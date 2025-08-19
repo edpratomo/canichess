@@ -1,4 +1,17 @@
 module ApplicationHelper
+  def link_to_not_playing_player(group, round)
+    players_ids = Board.where(group: group, round: round).inject([]) do |m,o|
+      m << o.white.id if o.white
+      m << o.black.id if o.black
+      m
+    end
+
+    not_playing_player = group.tournaments_players.reject {|e| players_ids.include?(e.id) }.first
+    if not_playing_player
+      link_to not_playing_player.player.name, player_tournaments_path(not_playing_player), class: "text-white"
+    end
+  end
+
   def simul_score simul
     simul.score.gsub(/\.0/, '').gsub(/\b0\.5/, '½').gsub(/\.5/, '½')
   end

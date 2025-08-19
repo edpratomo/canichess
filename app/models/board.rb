@@ -7,6 +7,8 @@ class Board < ApplicationRecord
   after_create :update_bye_result
   after_commit :broadcast_score, on: :update
 
+  before_destroy :check_already_started
+
   def winner
     return nil if result == 'draw'
     return white if result == 'white'
@@ -45,5 +47,17 @@ class Board < ApplicationRecord
       result: result,
       walkover: walkover
     }
+  end
+
+  def check_already_started
+    if tournament.is_round_robin?
+      if group.boards.where.not(result: nil).any?
+        errors.add 'Tournament already started for group #{group.name}. Could not delete player.'
+        throw :abort
+      end
+    elsif tournament.current_round > 0
+      errors.add 'Tournament already started. Could not delete player.'
+      throw :abort
+    end
   end
 end

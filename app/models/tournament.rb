@@ -47,42 +47,51 @@ class Tournament < ApplicationRecord
     (((n_boards_per_round * completed_round + boards_finished_current_round) * 100) / (n_boards_per_round * rounds)).floor 
   end
 
+  def delete_group_boards group
+    boards.where(group: group).destroy_all
+  end
+
+  def start_rr_group group
+    group.reload
+    return if group.tournaments_players.count < 3
+    return if group.current_round > 0 # already started
+
+    group.tournaments_players.each do |t_player|
+      t_player.update!(start_rating: t_player.rating)
+    end
+
+    berger = RR_Tournament.new(group.tournaments_players.count)
+    
+    # create maps for players: int -> TournamentsPlayer
+    players_map = group.tournaments_players.each_with_index.inject({}) do |m,o|
+      m[o[1] + 1] = o[0] # start with 1
+      m  
+    end
+
+    berger.generate_pairings
+    idx = 0
+    prev_round = 0
+    berger.get_pairings do |round, white, black|
+      if round != prev_round
+        prev_round = round
+        idx = 0
+      end
+      w_player = players_map[white.to_i]
+      b_player = players_map[black.to_i]
+      
+      # create board for this pairing, skip BYE
+      if w_player and b_player
+        idx += 1
+        Board.create!(tournament: self, group: group, number: idx, round: round, white: w_player, black: b_player)
+      end
+      reorder_boards(group, round)
+    end
+  end
+
   def start_rr
     self.update(max_walkover: 100)
     groups.each do |group|
-      next if group.tournaments_players.count < 3
-      next if group.current_round > 0 # already started
-
-      group.tournaments_players.each do |t_player|
-        t_player.update!(start_rating: t_player.rating)
-      end
-
-      berger = RR_Tournament.new(group.tournaments_players.count)
-      
-      # create maps for players: int -> TournamentsPlayer
-      players_map = group.tournaments_players.each_with_index.inject({}) do |m,o|
-        m[o[1] + 1] = o[0] # start with 1
-        m  
-      end
-
-      berger.generate_pairings
-      idx = 0
-      prev_round = 0
-      berger.get_pairings do |round, white, black|
-        if round != prev_round
-          prev_round = round
-          idx = 0
-        end
-        w_player = players_map[white.to_i]
-        b_player = players_map[black.to_i]
-        
-        # create board for this pairing, skip BYE
-        if w_player and b_player
-          idx += 1
-          Board.create!(tournament: self, group: group, number: idx, round: round, white: w_player, black: b_player)
-        end
-        reorder_boards(group, round)
-      end
+      start_rr_group(group)
     end
   end
 

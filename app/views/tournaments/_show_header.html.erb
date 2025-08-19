@@ -1,0 +1,28 @@
+<div class="row justify-content-center">
+  <div class="col-auto d-flex align-items-center">
+    <h2><%= image_tag(tournament.logo, alt: "Tournament Logo", style: "max-width: 100px; opacity: .8") %></h2>
+    <div class="d-flex flex-column align-items-center ms-3 p-2">
+      <h2 class="mb-1 mt-2"><%= tournament.name %></h2>
+      <div>
+        <h4>
+          <% if tournament.is_round_robin? %>
+            <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
+              <% if group.nil? %>
+              Group <span class="caret"></span>
+              <% else %>
+              CLUB <%= group.name %> <span class="caret"></span>
+              <% end %>
+            </a>
+            <div class="dropdown-menu">
+            <% tournament.groups.each do |group| %>
+              <%= link_to("CLUB #{group.name}", 
+                          group_show_tournaments_path(@tournament, group),
+                          class: "dropdown-item") %>
+            <% end %>
+            </div>
+          <% end %>
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>

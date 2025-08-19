@@ -5,8 +5,10 @@
 
 <div style="background:transparent !important" class="text-center">
   <% if @tournament %>
-    <h1 class="display-6"><%= @tournament.name %></h1>
+<!--    <h1 class="display-6"><%= @tournament.name %></h1>
     <p class="lead"><%= @tournament.description %></p>
+-->
+    <%= render 'show_header', tournament: @tournament, group: @group %>
     <hr>
     <%= render 'tournament', tournament: @tournament %>
   <% else %>

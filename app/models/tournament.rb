@@ -293,7 +293,7 @@ class Tournament < ApplicationRecord
       m
     end
 
-    games = group_boards.reject {|e| e.contains_bye? or e.result == 'noshow' or e.result.nil? }
+    games = group_boards.reject {|e| e.contains_bye? or e.result == 'noshow' or e.result.nil? or e.walkover}
 
     period = Glicko2::RatingPeriod.from_objs(ar_my_players.values)
 

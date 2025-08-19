@@ -1,0 +1,29 @@
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+      <% if @groups.length > 0 %>
+        <ul class="nav flex-column">
+          <% @groups.each do |group| %>
+            <li class="nav-item">
+              <span class="lead"><%= group.name %></span> 
+
+              <a href="#" class="nav-link">
+                <span class="float-right bg-primary">Edit</span>
+              </a>
+              
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+  <%= render 'form_group', group: @group, form_url: create_group_admin_tournaments_path %>
+  </div>
+</div>

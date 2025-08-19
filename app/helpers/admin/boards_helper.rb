@@ -48,4 +48,17 @@ module Admin::BoardsHelper
     button_tag("Standings", class: "btn btn-block btn-secondary btn-lg disabled", disabled: true) +
     raw('</td>')
   end
+
+  def link_to_not_playing_player(group, round)
+    players_ids = Board.where(group: group, round: round).inject([]) do |m,o|
+      m << o.white.id if o.white
+      m << o.black.id if o.black
+      m
+    end
+
+    not_playing_player = group.tournaments_players.reject {|e| players_ids.include?(e.id) }.first
+    if not_playing_player
+      link_to not_playing_player.player.name, player_tournaments_path(group.tournament, not_playing_player), class: "text-white"
+    end
+  end
 end

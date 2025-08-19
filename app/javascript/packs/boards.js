@@ -1,5 +1,5 @@
 $(document).on('turbo:load', function () {
-//$(document).addEventListener('turbo:load', function () {
+//document.addEventListener('turbo:load', function () {
   console.log("turbolinks:load TRIGGERED");
   var last_radio_state = [];
 
@@ -50,8 +50,13 @@ $(document).on('turbo:load', function () {
       },
       'success': function(data) {
         $(td_board_id).removeClass("bg-warning");
+        console.log("group all_completed? " + data["group"]["all_completed"]);
         console.log("all_completed? " + data["tournament"]["all_completed"]);
-        if (data["tournament"]["all_completed"]) {
+        if (data["group"]["all_completed"]) {
+          $("#finalize_enabled").show();
+          $("#finalize_disabled").hide();
+        } else if (data["tournament"]["all_completed"]) {
+        //if (data["tournament"]["all_completed"]) {
           $("#finalize_enabled").show();
           $("#finalize_disabled").hide();
         }

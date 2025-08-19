@@ -40,6 +40,13 @@
                       </td>
                     </tr>
                   <% end %>
+                  <% if group.tournaments_players.count.odd? %>
+                    <tr>
+                      <td><%= group.boards_per_round + 1 %></td>
+                      <td><%= link_to_not_playing_player(group, round) %></td>
+                      <td colspan="2" class="text-center">NOT PLAYING</td>
+                    </tr>
+                    <% end %>
                   </tbody>
                 </table>
               </div>

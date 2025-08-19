@@ -1,0 +1,37 @@
+<%= form_with(model: group, url: form_url, html: { multipart: true, class: "form-horizontal", role: "form"}) do |form| %>
+  <% if group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+      <ul>
+        <% group.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">
+        <% if group.new_record? %>
+          Create Group
+        <% else %>
+          Editing Group: <%= group.name %>
+        <% end %>
+      </h3>
+    </div>
+
+    <div class="card-body">
+      <div class="form-group row">
+        <%= form.label :name, "Name", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-8">
+          <%= form.text_field :name, class: "form-control", placeholder: "Group name" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <%= form.submit class: "btn btn-primary" %>
+    <%#= link_to 'Cancel', groups_admin_tournament_path(@admin_tournament), class: "btn btn-secondary" %>
+  </div>
+<% end %>

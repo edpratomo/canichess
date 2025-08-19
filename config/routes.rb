@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     resources :standings do
       collection do
         get ':tournament_id/:round_id/show' => 'standings#index_by_round', as: "round"
+        get ':tournament_id/:group_id/:round_id/show' => 'standings#index_by_group', as: "group"
       end
     end
   end
@@ -57,6 +58,9 @@ Rails.application.routes.draw do
       collection do
         get ':tournament_id/:round_id/show' => 'boards#index_by_round', as: "round"
         delete ':tournament_id/:round_id/delete' => 'boards#delete_by_round', as: "delete"
+
+        get ':tournament_id/:group_id/:round_id/show' => 'boards#index_by_group', as: "group"
+        delete ':tournament_id/:group_id/:round_id/delete' => 'boards#delete_by_group', as: "group_delete"
       end
     end
   end
@@ -82,6 +86,9 @@ Rails.application.routes.draw do
         get ':group_id/groups/edit' => 'tournaments#edit_group', as: "edit_group"
         patch ':group_id/groups/update' => 'tournaments#update_group', as: "update_group"
         post ':id/create_group' => 'tournaments#create_group', as: "create_group"
+
+        get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
+        patch ':id/:group_id/:round_id/finalize_rr' => 'tournaments#finalize_round_rr', as: "finalize_rr"
       end
     end
   end

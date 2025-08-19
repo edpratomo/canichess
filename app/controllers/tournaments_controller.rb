@@ -2,7 +2,7 @@ class TournamentsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :set_tournament, except: %i[ player ]
   before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_round standings_by_group]
-  before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group]
+  before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group groups]
   before_action :set_group, only: %i[ pairings_by_group group_show standings_by_group ]
   before_action :set_tournament_player, only: %i[ player ]
 
@@ -10,6 +10,12 @@ class TournamentsController < ApplicationController
 
   helper_method :params
   
+  def groups
+    respond_to do |format|
+      format.json { render :groups, layout: false}
+    end
+  end
+
   def group_show
   end
 

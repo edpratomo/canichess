@@ -71,6 +71,11 @@ class TournamentsController < ApplicationController
   end
 
   def pairings_by_group
+    if @round > @group.current_round
+      redirect_to group_pairings_tournaments_path(@tournament, @group, @group.current_round)
+      return
+    end
+
     boards_per_round = @group.boards_per_round
     if boards_per_round > 15
       half_of_boards = (boards_per_round.to_f / 2).ceil

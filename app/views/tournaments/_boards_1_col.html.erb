@@ -7,11 +7,11 @@
         <h4>
         <% if group %>
           <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
-            CLUB <%= group.name %> <span class="caret"></span>
+            <%= group.name %> <span class="caret"></span>
           </a>
           <div class="dropdown-menu">
           <% groups.each do |group| %>
-            <%= link_to("CLUB #{group.name}", 
+            <%= link_to(group.name, 
                         group_pairings_tournaments_path(tournament, group, @round) + 
                         (params[:full] && params[:full] == "1" ? "?full=1" : ""),
                         class: "dropdown-item") %>

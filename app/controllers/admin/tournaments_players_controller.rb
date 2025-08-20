@@ -7,13 +7,16 @@ class Admin::TournamentsPlayersController < ApplicationController
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
     logger.debug("tournament: #{@tournament}")
-    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(name: :asc)
+    @tournaments_players = if @tournament.is_round_robin?
+      TournamentsPlayer.joins(:player).where(tournament: @tournament).order(:group_id, name: :asc)
+    else
+      TournamentsPlayer.joins(:player).where(tournament: @tournament).order(name: :asc)
+    end
 
     respond_to do |format|
       format.html
       format.js
     end
-
   end
 
   # GET /admin/tournaments_players/1 or /admin/tournaments_players/1.json

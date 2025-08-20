@@ -10,12 +10,12 @@
               <% if group.nil? %>
               Group <span class="caret"></span>
               <% else %>
-              CLUB <%= group.name %> <span class="caret"></span>
+              <%= group.name %> <span class="caret"></span>
               <% end %>
             </a>
             <div class="dropdown-menu">
             <% tournament.groups.each do |group| %>
-              <%= link_to("CLUB #{group.name}", 
+              <%= link_to(group.name, 
                           group_show_tournaments_path(@tournament, group),
                           class: "dropdown-item") %>
             <% end %>

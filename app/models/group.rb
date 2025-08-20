@@ -5,7 +5,7 @@ class Group < ApplicationRecord
   belongs_to :tournament, optional: true
 
   def rounds
-    boards.pluck(:round).max
+    boards.pluck(:round).max || 0
   end
 
   def boards_per_round
@@ -13,7 +13,7 @@ class Group < ApplicationRecord
   end
 
   def current_round
-    tournament.current_round(self)
+    tournament.current_round_rr(self)
   end
 
   def completed_round

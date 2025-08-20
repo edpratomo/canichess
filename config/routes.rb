@@ -59,9 +59,8 @@ Rails.application.routes.draw do
       collection do
         get ':tournament_id/:round_id/show' => 'boards#index_by_round', as: "round"
         delete ':tournament_id/:round_id/delete' => 'boards#delete_by_round', as: "delete"
-
+        delete ':tournament_id/:group_id/delete_by_group' => 'boards#delete_by_group', as: "delete_group"
         get ':tournament_id/:group_id/:round_id/show' => 'boards#index_by_group', as: "group"
-        delete ':tournament_id/:group_id/:round_id/delete' => 'boards#delete_by_group', as: "group_delete"
       end
     end
   end
@@ -82,6 +81,7 @@ Rails.application.routes.draw do
     resources :tournaments do
       collection do
         patch ':id/start' => 'tournaments#start', as: "start"
+        patch ':id/:group_id/start' => 'tournaments#start', as: "start_group"
         patch ':id/update_players' => 'tournaments#update_players', as: "update_players"
         get ':id/groups' => 'tournaments#groups', as: "groups"
         get ':group_id/groups/edit' => 'tournaments#edit_group', as: "edit_group"

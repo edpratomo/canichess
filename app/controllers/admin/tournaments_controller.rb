@@ -1,7 +1,7 @@
 class Admin::TournamentsController < ApplicationController
   before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups create_group group_show finalize_round_rr]
   before_action :redirect_cancel, only: [:create, :update]
-  before_action :set_group, only: [:edit_group, :update_group, :create_group, :finalize_round_rr, :group_show ]
+  before_action :set_group, only: [:edit_group, :update_group, :create_group, :finalize_round_rr, :start, :group_show ]
   before_action :redirect_cancel_players, only: [:update_players]
 
   def groups
@@ -49,10 +49,24 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def start
-    method = @admin_tournament.system == "round_robin" ? "start_rr" : "start"
+    retval =  if @group
+                @admin_tournament.start_rr_group(@group)
+              else
+                if @admin_tournament.system == "round_robin"
+                  @admin_tournament.start_rr
+                else
+                  @admin_tournament.start
+                end
+              end
+
     respond_to do |format|
-      if @admin_tournament.send(method)
-        format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
+      if retval
+        if @group
+          format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament group was successfully started." }
+        else
+          format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
+        end
+        #format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
         format.html { render :edit, status: :unprocessable_entity }

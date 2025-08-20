@@ -1,92 +1,77 @@
 <p id="notice"><%= notice %></p>
 <% content_for :page_title do %>Tournament: <%= @admin_tournament.name %> - <%= @group.name %><% end %>
-        <div class="row">
-          <div class="col-md-4">
+  <div class="row">
+    <div class="col-md-4">
 
-            <!-- Profile Image -->
-            <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                  <%= image_tag @admin_tournament.logo, class: "profile-user-img img-fluid img-circle", alt: "Tournament logo" %>
-                </div>
+      <!-- Profile Image -->
+      <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+          <div class="text-center">
+            <%= image_tag @admin_tournament.logo, class: "profile-user-img img-fluid img-circle", alt: "Tournament logo" %>
+          </div>
 
-                <h3 class="profile-username text-center"><%= link_to @admin_tournament.name, admin_tournament_path(@admin_tournament) %></h3>
-                <h4 class="profile-username text-center"><%= @group.name %></h4>
+          <h3 class="profile-username text-center"><%= link_to @admin_tournament.name, admin_tournament_path(@admin_tournament) %></h3>
+          <h4 class="profile-username text-center"><%= @group.name %></h4>
 
-                <p class="text-muted text-center"><%= @admin_tournament.description %></p>
+          <p class="text-muted text-center"><%= @admin_tournament.description %></p>
 
-                <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item">
-                    <b>Date</b> <span class="float-right"><%= @admin_tournament.date.strftime("%A, %B %d, %Y") %></span>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Rounds</b> <span class="float-right"><%= @group.rounds %></span>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Players</b> 
-                    <%= link_to @group.players.size, tournament_admin_tournaments_players_path(@admin_tournament), class: "float-right" %>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Rated</b> <span class="float-right"><%= @admin_tournament.rated ? "yes" : "no" %></span>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Status</b> <span class="float-right"><%= status_badge(@group) %></span>
-                  </li>
-                </ul>
+          <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+              <b>Date</b> <span class="float-right"><%= @admin_tournament.date.strftime("%A, %B %d, %Y") %></span>
+            </li>
+            <li class="list-group-item">
+              <b>Rounds</b> <span class="float-right"><%= @group.rounds %></span>
+            </li>
+            <li class="list-group-item">
+              <b>Players</b> 
+              <%= link_to @group.players.size, tournament_admin_tournaments_players_path(@admin_tournament), class: "float-right" %>
+            </li>
+            <li class="list-group-item">
+              <b>Rated</b> <span class="float-right"><%= @admin_tournament.rated ? "yes" : "no" %></span>
+            </li>
+            <li class="list-group-item">
+              <b>Status</b> <span class="float-right"><%= status_badge(@group) %></span>
+            </li>
+          </ul>
 
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div> <!-- /.col -->
-          <div class="col-md-8">
-            <!-- About Me Box -->
-            <div class="card card-primary card-outline">
-              <!-- /.card-header -->
-              <div class="card-body">
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Venue</strong>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div> <!-- /.col -->
 
-                <p class="text-muted">
-                  <% @admin_tournament.location.split("\n").each_with_index do |line,idx| %>
-                    <div class="text-muted" style="font-size: 0.85em"><%= line %></div>
-                  <% end %>
-                </p>
+    <div class="col-md-8">
+      <!-- About Me Box -->
+      <div class="card card-primary card-outline">
+        <!-- /.card-header -->
+        <div class="card-body">
+          <strong><i class="fas fa-map-marker-alt mr-1"></i> Venue</strong>
+          <p class="text-muted">
+            <% @admin_tournament.location.split("\n").each_with_index do |line,idx| %>
+              <div class="text-muted" style="font-size: 0.85em"><%= line %></div>
+            <% end %>
+          </p>
+          <hr>
 
-                <hr>
+          <strong><i class="fa fa-duotone fa-chess mr-1"></i> Pairings</strong>
+          <p class="text-muted">
+          <% (1..@group.rounds).each do |round| %>
+            <%= link_to_if round <= @group.current_round, "Round #{round}", group_admin_boards_path(@admin_tournament, @group, round) %>
+          <% end %>
+          </p>
+          <hr>
 
-                <strong><i class="fa fa-duotone fa-chess mr-1"></i> Pairings</strong>
-
-                <p class="text-muted">
-  <% (1..@group.rounds).each do |round| %>
-    <%= link_to_if round <= @group.current_round, "Round #{round}", group_admin_boards_path(@admin_tournament, @group, round) %>
-  <% end %>
-                </p>
-
-                <hr>
-
-                <strong><i class="fa fa-solid fa-users mr-1"></i> Standings</strong>
-
-                <p class="text-muted">
-  <% (1..@group.rounds).each do |round| %>
-    <%= link_to_if round <= @group.completed_round, "Round #{round}", group_admin_standings_path(@admin_tournament, @group, round) %>
-  <% end %>
-                </p>
-                <hr>
-<% if @admin_tournament.current_round == 0 and @admin_tournament.players.size > 0 %>
-    <%= link_to start_admin_tournaments_path(@admin_tournament), method: :patch, class: "btn btn-primary btn-sm" do %>
-        <i class="fas fa-flag-checkered"></i> Start
-    <% end %>
-<% end %>
-    <%= link_to edit_admin_tournament_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
-        <i class="fas fa-pencil-alt"></i> Edit
-    <% end %>
-    <%= link_to tournament_admin_tournaments_players_path(@admin_tournament), class: "btn btn-success btn-sm" do %>
-        <i class="fas fa-pencil-alt"></i>Players
-    <% end %>
-
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-         </div>
-        </div> <!-- /.row -->
+          <strong><i class="fa fa-solid fa-users mr-1"></i> Standings</strong>
+          <p class="text-muted">
+          <% (1..@group.rounds).each do |round| %>
+            <%= link_to_if round <= @group.completed_round, "Round #{round}", group_admin_standings_path(@admin_tournament, @group, round) %>
+          <% end %>
+          </p>
+          <hr>
+          <%= render 'buttons_group_show', tournament: @admin_tournament, group: @group %>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div> <!-- /.row -->

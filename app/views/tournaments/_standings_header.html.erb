@@ -3,6 +3,7 @@
     <h2><%= image_tag(tournament.logo, alt: "Tournament Logo", style: "max-width: 100px; opacity: .8") %></h2>
     <div class="d-flex flex-column align-items-center ms-3 p-3">
       <h2 class="mb-1 mt-2"><%= tournament.name %></h2>
+      <h5>Standings after Round <%= round %></h5>
       <div>
         <h4>
           <% if group %>

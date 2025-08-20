@@ -9,10 +9,13 @@
     <%#= render 'final_standings', tournament: @tournament, standings: @standings, group: @group, round: @round %>
     <%= render 'crosstable', tournament: @tournament, standings: @standings, group: @group, round: @round %>
   <% else %>
-    <% content_for :page_title do %>
-      <%= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
-      <%= @tournament.name %> - <small>Standings after Round <%= @round %></small>
-    <% end %>
+    <%# content_for :page_title do %>
+      <%#= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
+      <%#= @tournament.name %><!-- - <small>Standings after Round <%= @round %></small>-->
+    <%# end %>
+
+      <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>
+
     <%# use two columns for long list of standings %>
     <% if @standings.size > 15 %>
       <% half_of_standings = (@standings.size.to_f / 2).ceil %>
@@ -20,7 +23,8 @@
                                              standings_2: @standings[half_of_standings..], 
                                              tournament: @tournament, round: @round %>
     <% else %>
-      <%= render 'standings_progress_1_col', standings: @standings, group: @group, round: @round %>
+      <%= render 'standings_progress_1_col',  tournament: @tournament, standings: @standings, 
+                                              group: @group, round: @round %>
     <% end %>
   <% end %>
 <% end %>

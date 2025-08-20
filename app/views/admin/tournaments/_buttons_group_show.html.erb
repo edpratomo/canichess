@@ -1,0 +1,16 @@
+<% if group.current_round == 0 and group.players.size > 0 %>
+  <%= link_to start_group_admin_tournaments_path(@admin_tournament, @group), method: :patch, class: "btn btn-primary btn-sm" do %>
+    <i class="fas fa-flag-checkered"></i> Start
+  <% end %>
+<% end %>
+  <%= link_to edit_admin_tournament_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
+    <i class="fas fa-pencil-alt"></i> Edit
+  <% end %>
+  <%= link_to tournament_admin_tournaments_players_path(@admin_tournament), class: "btn btn-success btn-sm" do %>
+    <i class="fas fa-pencil-alt"></i> Players
+  <% end %>
+<% if group.boards.where(result: nil).all? %>
+  <%= link_to delete_group_admin_boards_path(@admin_tournament, @group), method: :delete, class: "btn btn-danger btn-sm" do %>
+    <i class="fas fa-pencil-alt"></i> Delete Pairings
+  <% end %>
+<% end %>

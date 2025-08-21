@@ -14,6 +14,8 @@
               <th class="text-center">Pts</th>
               <th class="text-center">TB 1</th>
               <th class="text-center">TB 2</th>
+              <th class="text-center">TB 3</th>
+              <th class="text-center">TB 4</th>
               <% standings.each_with_index do |standing, idx| %>
                 <th class="text-center"><%= idx + 1 %></th>
               <% end %>
@@ -35,6 +37,8 @@
                 </td>
                 <td class="text-center"><%= standing.points %></td>
                 <td class="text-center"><%= standing.sb %></td>
+                <td class="text-center"><%= standing.h2h_rank %></td>
+                <td class="text-center"><%= standing.wins %></td>
                 <td class="text-center"><%= standing.playing_black %></td>
                 <% standings.each do |stdg| %>
                   <td class="text-center"><%= player_result(group, standing.tournaments_player, stdg.tournaments_player) %></td>
@@ -43,6 +47,22 @@
             <% end %>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <!-- Custom Tabs -->
+    <div class="card card-primary">
+      <div class="card-body pb-0">
+        <ul>
+          <li>TB 1: Sonneborn-Berger</li>
+          <li>TB 2: Head-to-Head Encounters Rank</li>
+          <li>TB 3: Number of wins, excluding the WO wins</li>
+          <li>TB 4: Number of playing as black</li>
+        </ul>
       </div>
     </div>
   </div>

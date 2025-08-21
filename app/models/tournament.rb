@@ -112,9 +112,148 @@ class Tournament < ApplicationRecord
     new_player
   end
 
+  def player_result group, player1, player2
+    # returns points for player1 against player2
+    board_played = group.boards.where(white: player1, black: player2).first ||
+                   group.boards.where(black: player1, white: player2).first
+    return 0 if board_played.nil? # no game played
+    case board_played.result
+    when 'white'
+      return 1 if board_played.white == player1
+      return 0 if board_played.black == player1
+    when 'black'
+      return 0 if board_played.white == player1
+      return 1 if board_played.black == player1
+    when 'draw'
+      return 0.5
+    else
+      return 0 # no result
+    end
+  end
+
+  def player_result_on_round group, player1, round, include_walkover
+    board_played =  group.boards.where(round: round, white: player1).first ||
+                    group.boards.where(round: round, black: player1).first
+    return 0 if board_played.nil? # no game played
+    return 0 if board_played.walkover and not include_walkover # no result if walkover is not included
+
+    case board_played.result
+    when 'white'
+      return 1 if board_played.white == player1
+      return 0 if board_played.black == player1
+    when 'black'
+      return 0 if board_played.white == player1
+      return 1 if board_played.black == player1
+    when 'draw'
+      return 0.5
+    else
+      return 0 # no result
+    end
+  end
+
+  def update_h2h group, round
+    final_stds = standings.joins(tournaments_player: :player).where('tournaments_players.group_id': group.id, round: round).
+                  order(blacklisted: :asc, points: :desc, sb: :desc)
+
+    curr_idx = 0
+
+    (0..2).each do |i|
+      next if i < curr_idx
+
+      # find players with same points
+      tied_players_idx = ((i+1)..final_stds.size - 1).select do |j|
+        final_stds[j].points == final_stds[i].points and final_stds[j].sb == final_stds[i].sb
+      end
+
+      if tied_players_idx.empty?
+        curr_idx = i + 1
+        next
+      end
+
+      if tied_players_idx.size == 1
+        opponent_idx = tied_players_idx.first
+        board_played = final_stds[i].tournaments_player.group.boards.
+          where(white: final_stds[i].tournaments_player, black: final_stds[opponent_idx]).first
+        is_swap = if board_played
+          if board_played.result == 'white'
+            false
+          elsif board_played.result == 'black'
+            true
+          else
+            nil
+          end
+        else 
+          board_played = final_stds[i].tournaments_player.group.boards.
+            where(black: final_stds[i].tournaments_player, white: final_stds[opponent_idx]).first
+          if board_played
+            if board_played.result == 'black'
+              false
+            elsif board_played.result == 'white'
+              true
+            else
+              nil
+            end
+          end
+        end
+
+        unless is_swap.nil? # resolved
+          if is_swap
+            transaction do
+              final_stds[i].update(h2h_rank: opponent_idx)
+              final_stds[opponent_idx].update(h2h_rank: i)
+            end
+            curr_idx = opponent_idx + 1
+            next 
+          else
+            transaction do
+              final_stds[i].update(h2h_rank: i)
+              final_stds[opponent_idx].update(h2h_rank: opponent_idx)
+            end
+            curr_idx = opponent_idx + 1
+            next
+          end
+        else # still tied
+          transaction do
+            final_stds[i].update(h2h_rank: i)
+            final_stds[opponent_idx].update(h2h_rank: i)
+          end
+          curr_idx = opponent_idx + 1
+          next
+        end
+
+      else
+
+        players_points = {}
+        group = final_stds[i].tournaments_player.group
+        # multiple players tied, find head-to-head results
+        [i, tied_players_idx].flatten.each do |j|
+          next if i == j
+          players_points[i] += player_result(group, final_stds[i].tournaments_player, final_stds[j].tournaments_player)
+        end
+
+        # update h2h_rank for all tied players
+        points_groups = players_points.inject({}) do |m,o|
+          player_idx, points = o
+          m[points] ||= []
+          m[points] << player_idx
+          m
+        end
+
+        points_groups.keys.sort.reverse.each_with_index do |points,idx|
+          points_groups[points].each do |player_idx|
+            final_stds[player_idx].update(h2h_rank: i + idx)
+          end
+        end
+
+        curr_idx = tied_players_idx.last + 1
+        next
+      end
+    end
+  end
+
   def sorted_standings_rr group, round
     standings.joins(tournaments_player: :player).where('tournaments_players.group_id': group.id, round: round).
-          order(blacklisted: :asc, points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, 
+          order(blacklisted: :asc, points: :desc, sb: :desc, h2h_rank: :asc, wins: :desc,
                 playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
   end
 
@@ -195,6 +334,9 @@ class Tournament < ApplicationRecord
 
         # update total games played by each player
         update_total_games(group)
+
+        # update h2h ranks for tied top three players
+        update_h2h(group, round)
       end
     end
     true
@@ -375,7 +517,14 @@ class Tournament < ApplicationRecord
       end
       prev_playing_black = prev_standing ? prev_standing.playing_black : 0
       total_playing_black = prev_playing_black + t_player.playing_black(round)
-      standing.update!(tournament: self, points: t_player.points, playing_black: total_playing_black, blacklisted: t_player.blacklisted)
+
+      result = player_result_on_round(group, t_player, round, false)
+      prev_wins = prev_standing ? prev_standing.wins : 0
+      total_wins = prev_wins + (result == 1 ? 1 : 0)
+
+      standing.update!(tournament: self, points: t_player.points, 
+                       playing_black: total_playing_black, 
+                       wins: total_wins, blacklisted: t_player.blacklisted)
     end
   end
 

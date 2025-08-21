@@ -2,10 +2,8 @@
   <% content_for :page_title do %> <%= @tournament.name %> - <small>Error</small><% end %>
   <p class="lead">Oops! Player not found.</p>
 <% else %>
-  <% content_for :page_title do %>
-    <%= image_tag("logo-canichess-ccad-2024.png", alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
-    <%= @tournament.name %> - <small>Player's Progress</small>
-  <% end %>
+  <%= render 'player_header', tournament: @tournament, group: @tournament_player.group %>
+
   <div class="row justify-content-center">
     <div class="col-lg-6">
       <!-- Custom Tabs -->
@@ -39,7 +37,13 @@
                 <td class="text-center"><%= round %></td><td/><td/><td/><td/>
               <% else %> <%#if round <= @games.size %>
               <%# if round <= @games.size %>
-                <td class="text-center"><%= link_to board.round, pairings_tournaments_path(@tournament, round) %></td>
+                <td class="text-center">
+                  <% if group %>
+                    <%= link_to round, group_pairings_tournaments_path(@tournament, group, round) %>
+                  <% else %>
+                    <%= link_to board.round, pairings_tournaments_path(@tournament, round) %>
+                  <% end %>
+                </td>
                 <td class="text-center"><%= board.number %></td>
                 <% if same_player?(@tournament_player, board.white) %>
                   <td><%= board.white.name %></td>

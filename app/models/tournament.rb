@@ -172,8 +172,12 @@ class Tournament < ApplicationRecord
 
       if tied_players_idx.size == 1
         opponent_idx = tied_players_idx.first
-        board_played = final_stds[i].tournaments_player.group.boards.
-          where(white: final_stds[i].tournaments_player, black: final_stds[opponent_idx]).first
+        opponent = final_stds[opponent_idx].tournaments_player
+
+        Rails.logger.debug("Tied players: <#{final_stds[i].tournaments_player.player.name}> and <#{final_stds[opponent_idx].tournaments_player.player.name}>")
+        Rails.logger.debug("Tied players: <#{final_stds[i].tournaments_player.id}> and <#{final_stds[opponent_idx].tournaments_player.id}>")
+
+        board_played = group.boards.where(white: final_stds[i].tournaments_player, black: opponent).first
         is_swap = if board_played
           if board_played.result == 'white'
             false
@@ -183,9 +187,10 @@ class Tournament < ApplicationRecord
             nil
           end
         else 
-          board_played = final_stds[i].tournaments_player.group.boards.
-            where(black: final_stds[i].tournaments_player, white: final_stds[opponent_idx]).first
+          Rails.logger.debug("not found")
+          board_played = group.boards.where(black: final_stds[i].tournaments_player, white: opponent).first
           if board_played
+            Rails.logger.debug("board_played: #{board_played.id} for players #{final_stds[i].tournaments_player.player.name} and #{opponent.player.name}")
             if board_played.result == 'black'
               false
             elsif board_played.result == 'white'
@@ -193,6 +198,9 @@ class Tournament < ApplicationRecord
             else
               nil
             end
+          else
+            Rails.logger.debug("not found again")
+            nil
           end
         end
 

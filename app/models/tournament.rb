@@ -152,7 +152,8 @@ class Tournament < ApplicationRecord
   end
 
   def update_h2h group, round
-    final_stds = standings.joins(tournaments_player: :player).where('tournaments_players.group_id': group.id, round: round).
+    final_stds = standings.joins(tournaments_player: :player).
+                  where('tournaments_players.group_id': group.id, round: round).
                   order(blacklisted: :asc, points: :desc, sb: :desc)
 
     curr_idx = 0
@@ -230,13 +231,19 @@ class Tournament < ApplicationRecord
         end
 
       else
+  
+        Rails.logger.debug("Tied players: #{tied_players_idx.inspect} for player #{final_stds[i].tournaments_player.player.name}")
+        pp [i, tied_players_idx].flatten.map {|e| final_stds[e].tournaments_player.name}
 
         players_points = {}
         group = final_stds[i].tournaments_player.group
         # multiple players tied, find head-to-head results
         [i, tied_players_idx].flatten.each do |j|
-          next if i == j
-          players_points[i] += player_result(group, final_stds[i].tournaments_player, final_stds[j].tournaments_player)
+          [i, tied_players_idx].flatten.each do |k|
+            next if j == k
+            players_points[j] ||= 0
+            players_points[j] += player_result(group, final_stds[j].tournaments_player, final_stds[k].tournaments_player)
+          end
         end
 
         # update h2h_rank for all tied players
@@ -246,6 +253,9 @@ class Tournament < ApplicationRecord
           m[points] << player_idx
           m
         end
+
+        Rails.logger.debug("Points groups: #{points_groups.inspect}")
+        pp points_groups
 
         points_groups.keys.sort.reverse.each_with_index do |points,idx|
           points_groups[points].each do |player_idx|

@@ -96,6 +96,10 @@ class TournamentsController < ApplicationController
   end
 
   def standings_by_group
+    if @round > @group.completed_round
+      redirect_to group_standings_tournaments_path(@tournament, @group, @group.completed_round)
+      return
+    end
     @standings = @tournament.sorted_standings_rr(@group, @round)
   end
 

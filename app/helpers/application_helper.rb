@@ -124,7 +124,9 @@ EOS
   def front_page_button tournament, group=nil
     return '' unless tournament
     return '' if tournament.is_round_robin? && group.nil?
+
     if group
+      return '' if group.current_round == 0
       if group.completed_round == group.rounds
         link_to('Check out the Final Standings', group_standings_tournaments_path(tournament, group, group.completed_round), class: "btn btn-primary btn-lg", role: "button")
       elsif group.current_round > 0

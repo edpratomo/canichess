@@ -5,7 +5,7 @@ class TournamentsPlayer < ApplicationRecord
 
   has_many :standings
 
-  before_destroy :check_already_started
+  before_destroy :check_already_started, if: :swiss_system?
 
   def prev_opps
     black_opps = Board.where(tournament: tournament, white: self).map {|e| e.black}
@@ -55,6 +55,10 @@ class TournamentsPlayer < ApplicationRecord
 
   def rated_games_played
     player.rated_games_played
+  end
+
+  def swiss_system?
+    tournament.system == 'swiss'
   end
 
   def check_already_started

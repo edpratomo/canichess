@@ -21,6 +21,7 @@ class Tournament < ApplicationRecord
   validates :rounds, presence: true, unless: :is_round_robin?
 
   after_create :create_past_event
+  after_create :create_default_group
   before_destroy :delete_past_event
 
   def is_round_robin?
@@ -583,5 +584,9 @@ class Tournament < ApplicationRecord
   def delete_past_event
     past_event = PastEvent.where(eventable: self).first
     past_event.destroy if past_event
+  end
+
+  def create_default_group
+    Group.create!(tournament: self)
   end
 end

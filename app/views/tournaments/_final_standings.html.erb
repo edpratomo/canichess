@@ -1,57 +1,74 @@
-<div class="row">
-          <div class="col-12">
-            <!-- Custom Tabs -->
-            <div class="card card-primary">
-              <div class="card-header d-flex p-0">
-                <% if group %>
-                  <%= render 'select_standings_by_group', group: group, round: round %>
-                <% else %>
-                  <%= render 'select_standings_by_rounds', tournament: tournament, round: round %> 
-                <% end %>
-              </div>
-              <div class="card-body table-responsive p0">
-                <table class="table table-sm table-bordered table-striped text-nowrap">
-                  <thead>
-                    <tr>
-      <th class="text-center" style="width: 2%">#</th>
-      <th>Name</th>
-      <th class="text-center">Pts</th>
-      <th class="text-center">TB 1</th>
-      <th class="text-center">TB 2</th>
-      <% unless @tournament.is_round_robin? %>
-      <th class="text-center">TB 3</th>
-      <th class="text-center">TB 4</th>
-      <th class="text-center" style="width: 2%">TB 5</th>
-      <% end %>
-                    </tr>
-                  </thead>
-                  <tbody>
-    <% standings.each_with_index do |standing, idx| %>
-      <tr>
-        <td class="text-right"><%= idx + 1 %></td>
-        <td><span style="font-size: 1.0em"><%= link_to standing.tournaments_player.name, player_tournaments_path(standing.tournaments_player), class: "text-white" %></span>
-            <%= categories_badge(standing.tournaments_player) %>
-            <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %>
-            <%= rating_badge(standing.tournaments_player) %> 
-            <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.end_rating %></span>
-        </td>
-        <td class="text-center" ><%= standing.points %></td>
-        <% unless @tournament.is_round_robin? %>
-        <td class="text-center" ><%= standing.median %></td>
-        <td class="text-center" ><%= standing.solkoff %></td>
-        <td class="text-center" ><%= standing.cumulative %></td>
-        <td class="text-center" ><%= standing.opposition_cumulative %></td>
+<div class="row justify-content-center">
+  <!-- <div class="col-12"> -->
+    <div class="col-12 col-md-8">
+
+    <!-- Custom Tabs -->
+    <div class="card card-primary">
+      <div class="card-header d-flex p-0">
+        <% if group %>
+          <%= render 'select_standings_by_group', group: group, round: round %>
         <% else %>
-        <td class="text-center" ><%= standing.sb %></td>
+          <%= render 'select_standings_by_rounds', tournament: tournament, round: round %> 
         <% end %>
-        <td class="text-center" ><%= standing.playing_black %></td>
-      </tr>
-    <% end %>
+      </div>
+      <div class="card-body table-responsive p0">
+        <table class="table table-sm table-bordered table-striped text-nowrap">
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 2%">#</th>
+              <th>Name</th>
+              <th class="text-center">Pts</th>
+              <th class="text-center">TB 1</th>
+              <th class="text-center">TB 2</th>
+              <% unless @tournament.is_round_robin? %>
+              <th class="text-center">TB 3</th>
+              <th class="text-center">TB 4</th>
+              <th class="text-center" style="width: 2%">TB 5</th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+          <% standings.each_with_index do |standing, idx| %>
+            <tr>
+              <td class="text-right"><%= idx + 1 %></td>
+              <td><span style="font-size: 1.0em"><%= link_to standing.tournaments_player.name, player_tournaments_path(standing.tournaments_player), class: "text-white" %></span>
+                  <%= categories_badge(standing.tournaments_player) %>
+                  <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %>
+                  <%= rating_badge(standing.tournaments_player) %> 
+                  <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.end_rating %></span>
+              </td>
+              <td class="text-center" ><%= standing.points %></td>
+              <% unless @tournament.is_round_robin? %>
+              <td class="text-center" ><%= standing.median %></td>
+              <td class="text-center" ><%= standing.solkoff %></td>
+              <td class="text-center" ><%= standing.cumulative %></td>
+              <td class="text-center" ><%= standing.opposition_cumulative %></td>
+              <% else %>
+              <td class="text-center" ><%= standing.sb %></td>
+              <% end %>
+              <td class="text-center" ><%= standing.playing_black %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8">
+    <!-- Custom Tabs -->
+    <div class="card card-primary">
+      <div class="card-body pb-0">
+        <ul>
+          <li>TB 1: Modified Median</li>
+          <li>TB 2: Solkoff</li>
+          <li>TB 3: Cumulative Score</li>
+          <li>TB 4: Cumulative Opponent's Score</li>
+          <li>TB 5: Number of games played with Black pieces</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>

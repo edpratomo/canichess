@@ -4,5 +4,9 @@ class AddTypeColumnToGroup < ActiveRecord::Migration[6.1]
     rename_column :groups, :system, :type
  
     Group.where(tournament_id: 71).update_all(type: 'RoundRobin')
+
+    Tournament.where.not(tournament_id: 71).find_each do |tr|
+      Group.create!(tournament: tr, type: 'Swiss')
+    end
   end
 end

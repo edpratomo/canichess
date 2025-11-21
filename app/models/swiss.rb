@@ -1,0 +1,2 @@
+class Swiss < Group
+end

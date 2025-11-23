@@ -1,3 +1,13 @@
+<% already_started = if group.new_record?
+    false
+  else
+    if group.current_round > 0
+      true
+    else
+      false
+    end
+  end
+%>
 <%= form_with(model: group, url: form_url, html: { multipart: true, class: "form-horizontal", role: "form"}) do |form| %>
   <% if group.errors.any? %>
     <div id="error_explanation">
@@ -24,39 +34,67 @@
     <div class="card-body">
       <div class="form-group row">
         <%= form.label :name, "Name", class: "col-sm-4 col-form-label" %>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
           <%= form.text_field :name, class: "form-control", placeholder: "Group name", required: true %>
         </div>
       </div>
   
-      <h4>Points</h4>
-
-      <div class="row">
+      <!-- radio -->
+      <div class="form-group row ">
+        <%= form.label :type, class: "col-sm-4 control-label" do %>
+        System
+        <% end %>
         <div class="col-sm-4">
-          <!-- text input -->
-          <div class="form-group">
-            <%= form.label :win_point, "Win", class: "col-form-label" %>
-            <%= form.number_field :win_point, class: "form-control", value: "1", step: "0.5", placeholder: "Enter ..." %>
+          <div class="icheck-primary d-inline px-3">
+            <%= form.radio_button :type, "Swiss" %>
+            <%= form.label "type_swiss", "Swiss" %>
+          </div>
+          <div class="icheck-primary d-inline px-3">
+            <%= form.radio_button :type, "RoundRobin" %>
+            <%= form.label "type_roundrobin", "Round-Robin" %>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <%= form.label :draw_point, "Draw", class: "col-form-label" %>
-            <%= form.number_field :draw_point, class: "form-control", value: "0.5", step: "0.5", placeholder: "Enter ..." %>
-          </div>
-        </div>
-
-        <div class="col-sm-4">
-          <div class="form-group">
-            <%= form.label :bye_point, "Bye", class: "col-form-label" %>
-            <%= form.number_field :bye_point, class: "form-control", value: "1", step: "0.5", placeholder: "Enter ..." %>
-          </div>
-        </div>
-
       </div>
+
+      <div class="form-group row">
+        <%= form.label :rounds, "Number of Rounds", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-4">
+          <%= form.number_field :rounds, class: "form-control", placeholder: "Enter number of rounds", min: 3, value: 5, disabled: already_started %>
+        </div> 
+      </div>
+
+      <div class="form-group row">
+        <%= form.label :points, "Points", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-2">
+              <!-- text input -->
+              <div class="form-group">
+                <%= form.label :win_point, "Win", class: "col-form-label" %>
+                <%= form.number_field :win_point, class: "form-control", value: "1", step: "0.5", placeholder: "Enter ..." %>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-group">
+                <%= form.label :draw_point, "Draw", class: "col-form-label" %>
+                <%= form.number_field :draw_point, class: "form-control", value: "0.5", step: "0.5", placeholder: "Enter ..." %>
+              </div>
+            </div>
+
+            <div class="col-sm-2">
+              <div class="form-group">
+                <%= form.label :bye_point, "Bye", class: "col-form-label" %>
+                <%= form.number_field :bye_point, class: "form-control", value: "1", step: "0.5", placeholder: "Enter ..." %>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+        </div>
+      </div>
+
     </div>
     <div class="card-footer">
-      <%= form.submit class: "btn btn-primary" %>
+      <%= form.submit "Submit", class: "btn btn-primary" %>
     <%#= link_to 'Cancel', groups_admin_tournament_path(@admin_tournament), class: "btn btn-secondary" %>
     </div>
   </div>

@@ -1,0 +1,13 @@
+[Unit]
+Description=Canichess Puma Production
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/etc/init.d/canichess_puma_production start
+ExecStop=/etc/init.d/canichess_puma_production stop
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

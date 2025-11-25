@@ -1,4 +1,7 @@
 class Swiss < Group
+  def completed?
+    self.completed_round == self.rounds
+  end
 
   def current_round
     last_board = boards.order(:round).last

@@ -1,4 +1,7 @@
 class RoundRobin < Group
+  def completed?
+    self.completed_round == self.boards.maximum(:round)
+  end
 
   def current_round
     last_board = boards.where(group: self, result: nil).order(:round).first || self.boards.order(:round).last

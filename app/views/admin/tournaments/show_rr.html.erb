@@ -57,21 +57,25 @@
 
                 <p class="text-muted">
   <% @admin_tournament.groups.each do |group| %>
-    <%= link_to group.name, group_show_admin_tournaments_path(@admin_tournament, group), target: :_blank %> | 
+    <%= link_to group.name, group_show_admin_tournaments_path(@admin_tournament, group), target: :_blank %>
+    <%= ' | ' unless group == @admin_tournament.groups.last %>
   <% end %>
                 </p>
 
                 <hr>
-<% if @admin_tournament.current_round == 0 and @admin_tournament.players.size > 0 %>
-    <%= link_to start_admin_tournaments_path(@admin_tournament), method: :patch, class: "btn btn-primary btn-sm" do %>
+  <% if @admin_tournament.groups.count == 1 and @admin_tournament.groups.first.players.count > 0 and @admin_tournament.groups.first.current_round == 0 %>
+    <%= link_to start_group_admin_tournaments_path(@admin_tournament, @admin_tournament.groups.first), method: :patch, class: "btn btn-primary btn-sm" do %>
         <i class="fas fa-flag-checkered"></i> Start
     <% end %>
-<% end %>
+  <% end %>
     <%= link_to edit_admin_tournament_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
         <i class="fas fa-pencil-alt"></i> Edit
     <% end %>
     <%= link_to tournament_admin_tournaments_players_path(@admin_tournament), class: "btn btn-success btn-sm" do %>
-        <i class="fas fa-pencil-alt"></i>Players
+        <i class="fas fa-pencil-alt"></i> Players
+    <% end %>
+    <%= link_to groups_admin_tournaments_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
+        <i class="fas fa-pencil-alt"></i> Groups
     <% end %>
 
               </div>

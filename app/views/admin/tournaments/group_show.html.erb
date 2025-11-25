@@ -30,6 +30,10 @@
               <b>Rated</b> <span class="float-right"><%= @admin_tournament.rated ? "yes" : "no" %></span>
             </li>
             <li class="list-group-item">
+              <b>System</b> <span class="float-right"><%= @group.type %></span>
+            </li>
+
+            <li class="list-group-item">
               <b>Status</b> <span class="float-right"><%= status_badge(@group) %></span>
             </li>
           </ul>

@@ -18,7 +18,15 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def update_group
-
+    respond_to do |format|
+      if @group.update(group_params(@group.type))
+        format.html { redirect_to group_show_admin_tournaments_url(@group.tournament, @group), notice: "Group was successfully updated." }
+        format.json { render :show, status: :ok, location: @group }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @group.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def create_group
@@ -52,14 +60,10 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def start
-    retval =  if @group
-                @admin_tournament.start_rr_group(@group)
+    retval =  if @group.is_swiss_system?
+                @group.start
               else
-                if @admin_tournament.system == "round_robin"
-                  @admin_tournament.start_rr
-                else
-                  @admin_tournament.start
-                end
+                @group.start_rr
               end
 
     respond_to do |format|
@@ -207,8 +211,10 @@ class Admin::TournamentsController < ApplicationController
                     :max_walkover, :player_name, :player_id, player_names: [], player_ids: {}, group_ids: [])
     end
 
-    def group_params
-      params.require(:group).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
+    # STI params
+    def group_params(type="Group")
+      params.require(type.underscore.to_sym).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
+      #params.require(:group).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
     end
 
     def redirect_cancel

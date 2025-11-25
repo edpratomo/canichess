@@ -7,7 +7,7 @@ class AddTypeColumnToGroup < ActiveRecord::Migration[6.1]
 
     Tournament.where.not(id: 71).find_each do |tr|
       if tr.groups.count == 0
-        Group.create!(tournament: tr, type: 'Swiss')
+        Group.create!(tournament: tr, type: 'Swiss', rounds: tr.rounds)
       end
     end
   end

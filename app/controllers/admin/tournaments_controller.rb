@@ -60,12 +60,7 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def start
-    retval =  if @group.is_swiss_system?
-                @group.start
-              else
-                @group.start_rr
-              end
-
+    retval =  @group.start
     respond_to do |format|
       if retval
         if @group
@@ -89,9 +84,7 @@ class Admin::TournamentsController < ApplicationController
 
   # GET /admin/tournaments/1 or /admin/tournaments/1.json
   def show
-    #if @admin_tournament.system == "round_robin"
-      render :show_rr
-    #end
+    render :show_rr
   end
 
   def group_show

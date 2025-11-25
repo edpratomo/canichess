@@ -41,17 +41,21 @@ class Admin::TournamentsPlayersController < ApplicationController
   def preview
     @new_players = session[:new_players]
     @selected = session[:selected]
+    @groups = session[:groups]
   end
 
   # POST
   def create_preview
+    groups = []
     new_players = []
     selected = []
     registered_players = @tournament.players.inject({}) {|m,o| m[o.id] = true; m}
     if tournament_params[:players_file]
       File.foreach(tournament_params[:players_file].path).with_index do |line, index|
-        name = line.strip
+        name, group_name = line.split(',').map &:strip
         next if name.empty?
+        group_name ||= "Default Group"
+        group = Group.find_by(tournament: @tournament, name: group_name)
         suggestions = Player.fuzzy_search(name: name)
 
         if suggestions.size == 1
@@ -59,6 +63,8 @@ class Admin::TournamentsPlayersController < ApplicationController
         else
           selected.push 0
         end
+
+        groups.push group.id if group.id
         new_players.push [[name, 0]].concat(suggestions.
             map do |e|
               registered_str = registered_players[e.id] ? " - registered" : ""
@@ -71,6 +77,7 @@ class Admin::TournamentsPlayersController < ApplicationController
     logger.debug(new_players)
     session[:new_players] = new_players
     session[:selected] = selected
+    session[:groups] = groups
 
     redirect_to preview_admin_tournaments_players_path(@tournament)
   end

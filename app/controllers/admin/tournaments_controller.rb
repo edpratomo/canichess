@@ -22,7 +22,10 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def create_group
-    @group = Group.new(tournament: @admin_tournament, name: group_params[:name])
+    @group = Group.new(tournament: @admin_tournament, name: group_params[:name], type: group_params[:type],
+                       rounds: group_params[:rounds], 
+                       win_point: group_params[:win_point], draw_point: group_params[:draw_point], 
+                       bye_point: group_params[:bye_point])
 
     respond_to do |format|
       if @group.save
@@ -82,9 +85,9 @@ class Admin::TournamentsController < ApplicationController
 
   # GET /admin/tournaments/1 or /admin/tournaments/1.json
   def show
-    if @admin_tournament.system == "round_robin"
+    #if @admin_tournament.system == "round_robin"
       render :show_rr
-    end
+    #end
   end
 
   def group_show
@@ -117,7 +120,7 @@ class Admin::TournamentsController < ApplicationController
   def update_players
     player_id = admin_tournament_params[:player_id]
     player_name = admin_tournament_params[:player_name]
-    group_id = params[:tournaments_player][:group_id]
+    group_id = admin_tournament_params[:group_id]
     group = Group.find(group_id) if group_id and not group_id.empty?
 
     if player_id and not player_id.empty?
@@ -127,29 +130,35 @@ class Admin::TournamentsController < ApplicationController
     end
 
 #    player_ids = [admin_tournament_params[:player_id]].compact.reject {|e| e.empty? }
+    params_player_names = admin_tournament_params[:player_names].to_a.reject {|e| e.empty? }
+    Rails.logger.debug("player names: #{params_player_names.inspect}")
     player_ids = []
-    if admin_tournament_params[:player_ids] and not admin_tournament_params[:player_ids].empty?
-      player_ids.concat admin_tournament_params[:player_ids].values.reject {|e| e == "0"}
-    end
     player_names = []
-#    player_names = [admin_tournament_params[:player_name]].compact.reject {|e| e.empty? }
-    if admin_tournament_params[:player_names] and not admin_tournament_params[:player_names].empty?
-      player_names.concat admin_tournament_params[:player_names].reject {|e| e.empty? }
+    if admin_tournament_params[:player_ids] and not admin_tournament_params[:player_ids].empty?
+      player_ids_values = admin_tournament_params[:player_ids].values
+      player_ids_values.each_with_index do |e,idx|
+        if e == "0"
+          player_names << [params_player_names.shift, admin_tournament_params[:group_ids][idx]]
+        else
+          player_ids << [e, admin_tournament_params[:group_ids][idx]]
+        end
+      end
     end
 
     # register players already known in our database
     registered_players = @admin_tournament.players.inject({}) {|m,o| m[o.id] = true; m}
-    player_ids.map {|e| e.to_i}.reject {|e| registered_players[e]}.each do |player_id|
-      @admin_tournament.add_player(id: player_id)
+    player_ids.map {|e| [e.first.to_i, e[1].to_i]}.reject {|e| registered_players[e.first]}.each do |player_id, group_id|
+      @admin_tournament.add_player(id: player_id, group: Group.find(group_id))
     end
     # register new players not in our database
-    player_names.each do |player_name|
-      @admin_tournament.add_player(name: player_name)
+    player_names.each do |player_name, group_id|
+      @admin_tournament.add_player(name: player_name, group: Group.find(group_id))
     end
 
     # delete sessions
     session.delete(:new_players)
     session.delete(:selected)
+    session.delete(:groups)
 
     # redirect
     respond_to do |format|
@@ -195,11 +204,11 @@ class Admin::TournamentsController < ApplicationController
       #params.fetch(:tournament, {})
       params.require(:tournament).
              permit(:name, :fp, :rounds, :players_file, :description, :location, :date, :rated, :system,
-                    :max_walkover, :player_name, :player_id, player_names: [], player_ids: {})
+                    :max_walkover, :player_name, :player_id, player_names: [], player_ids: {}, group_ids: [])
     end
 
     def group_params
-      params.require(:group).permit(:name, :tournament_id, :description)
+      params.require(:group).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
     end
 
     def redirect_cancel

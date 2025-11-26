@@ -58,7 +58,7 @@ class Swiss < Group
     end
   end
 
-  def finalize_round
+  def finalize_round round
     return if completed_round == rounds # tournament is finished already
 
     transaction do
@@ -94,7 +94,7 @@ class Swiss < Group
   alias :start :finalize_round
 
   # create snapshots of every player for a specific round
-  def snapshoot_points
+  def snapshoot_points round=nil
     return if current_round < 1
     tournaments_players.each do |t_player|
       standing = Standing.find_or_create_by(tournaments_player: t_player, round: current_round)

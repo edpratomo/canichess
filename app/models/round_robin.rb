@@ -93,7 +93,7 @@ class RoundRobin < Group
           m += game.white.points if game.white
         elsif game.result == 'draw'
           opponent = [game.white, game.black].reject {|e| e == t_player }.first
-          m += 0.5 * opponent.points if opponent
+          m += self.draw_point * opponent.points if opponent
         end
         m
       end
@@ -104,6 +104,33 @@ class RoundRobin < Group
   end
 
   def finalize_round round
+    last_round = self.boards.last.round
+
+    unless group.boards.where(round: round).where(result: nil).empty?
+      errors.add(:completed_round, "All boards in group #{group.name} must have finished first")
+      return false
+    end
+
+    transaction do
+      snapshoot_points(round)
+      compute_tiebreaks(round)
+
+      # final round
+      if round == last_round
+        # update ratings for rated tournament
+        update_ratings(group) if self.rated
+
+        # update total games played by each player
+        update_total_games(group)
+
+        # update h2h ranks for tied top three players
+        update_h2h(group, round)
+      end
+    end
+    true
+  end
+
+  def finalize_round_old round
     last_round = self.boards.last.round
 
     unless self.boards.where(round: round).where(result: nil).empty?

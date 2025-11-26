@@ -31,13 +31,25 @@ class Group < ApplicationRecord
     raise NotImplementedError, "Subclasses must implement current_round method"
   end
 
+  def finalize_round round
+    raise NotImplementedError, "Subclasses must implement finalize_round method"
+  end
+
+  def snapshoot_points round
+    raise NotImplementedError, "Subclasses must implement snapshoot_points method"
+  end
+
+  def compute_tiebreaks round
+    raise NotImplementedError, "Subclasses must implement compute_tiebreaks method"
+  end
+  
   def next_round
     current_round + 1
   end
 
-  def completed_round
-    tournaments_players.joins(:standings).pluck(:round).max || 0
-  end
+ # def completed_round
+ #   tournaments_players.joins(:standings).pluck(:round).max || 0
+ # end
 
   def all_boards_finished? round
     not boards.find_by(result: nil, round: round)

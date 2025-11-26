@@ -23,7 +23,7 @@
   </thead>
 
   <tbody>
-  <% (1..@tournaments_player.tournament.rounds).each do |round| %>
+  <% (1..@tournaments_player.group.rounds).each do |round| %>
     <tr>
     <% board = @games[round - 1] %>
     <% if round <= @games.size %>

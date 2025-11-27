@@ -5,7 +5,7 @@
       <h2 class="mb-1 mt-2"><%= tournament.name %></h2>
       <div>
         <h4>
-          <% if tournament.is_round_robin? %>
+          <% if tournament.groups.count > 1 %>
             <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
               <% if group.nil? %>
               Group <span class="caret"></span>

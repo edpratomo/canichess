@@ -1,5 +1,6 @@
-          <% current_round = @tournament ? @tournament.current_round : 0 %>
-          <% completed_round = @tournament ? @tournament.completed_round : 0 %>
+          <% current_round = @group ? @group.current_round : 0 %>
+          <% completed_round = @group ? @group.completed_round : 0 %>
+          <% groups = tournament.groups %>
 
           <li class="nav-item">
             <% if current_round > 0 %>

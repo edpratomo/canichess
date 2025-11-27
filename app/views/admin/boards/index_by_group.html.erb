@@ -9,7 +9,7 @@ Group <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @g
     <div class="card">
       <table class="table text-center text-nowrap">
         <tr>
-          <%= form_tag(finalize_rr_admin_tournaments_path(@tournament, @group, @round), {method: :patch, class: "form-horizontal", role: "form"}) do %>
+          <%= form_tag(finalize_admin_tournaments_path(@tournament, @group, @round), {method: :patch, class: "form-horizontal", role: "form"}) do %>
             <% if is_round_completed %>
               <%= disable_finalize_round %>
             <% else %>

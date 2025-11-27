@@ -47,7 +47,56 @@ class Group < ApplicationRecord
     current_round + 1
   end
 
- # def completed_round
+  def update_ratings
+    group_tournaments_players = tournaments_players
+
+    group_boards = boards
+
+    result_to_rank = {
+      'white' => [1, 2],
+      'black' => [2, 1],
+      'draw'  => [1, 1]
+    }
+
+    # mapping AR instances to MyPlayer instances
+    ar_my_players = group_tournaments_players.inject({}) do |m,o|
+      m[o.id] = MyPlayer.new(o)
+      m
+    end
+
+    games = group_boards.reject {|e| e.contains_bye? or e.result == 'noshow' or e.result.nil? or e.walkover}
+
+    period = Glicko2::RatingPeriod.from_objs(ar_my_players.values)
+
+    transaction do
+      games.each do |game|
+        period.game([ar_my_players[game.white.id], ar_my_players[game.black.id]], result_to_rank[game.result])
+      end
+      # tau constant = 0.5
+      period.generate_next(0.5).players.each(&:update_obj)
+
+      ar_my_players.values.each(&:save_rating)
+
+      # update end_rating for each tournament_player
+      group_tournaments_players.each do |t_player|
+        t_player.update!(end_rating: t_player.rating)
+      end
+    end
+  end
+
+  def update_total_games
+    group_tournaments_players = tournaments_players
+
+    group_tournaments_players.each do |t_player|
+      games_played = t_player.games.reject {|e| e.contains_bye? }.size
+      t_player.player.update!(games_played: t_player.games_played + games_played)
+      if self.tournament.rated
+        t_player.player.update!(rated_games_played: t_player.rated_games_played + games_played)
+      end
+    end
+  end
+
+  # def completed_round
  #   tournaments_players.joins(:standings).pluck(:round).max || 0
  # end
 

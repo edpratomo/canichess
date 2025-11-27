@@ -58,11 +58,11 @@ class TournamentsPlayer < ApplicationRecord
   end
 
   def swiss_system?
-    tournament.system == 'swiss'
+    group.is_swiss_system?
   end
 
   def check_already_started
-    if tournament.current_round > 0
+    if group.current_round > 0
       errors.add 'Tournament already started. Could not delete player.'
       throw :abort
     end

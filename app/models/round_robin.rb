@@ -118,41 +118,10 @@ class RoundRobin < Group
       # final round
       if round == last_round
         # update ratings for rated tournament
-        update_ratings(group) if self.rated
+        update_ratings if self.tournament.rated
 
         # update total games played by each player
-        update_total_games(group)
-
-        # update h2h ranks for tied top three players
-        update_h2h(group, round)
-      end
-    end
-    true
-  end
-
-  def finalize_round_old round
-    last_round = self.boards.last.round
-
-    unless self.boards.where(round: round).where(result: nil).empty?
-      errors.add(:completed_round, "All boards in group #{self.name} must have finished first")
-      return false
-    end
-
-    transaction do
-      if current_round > 0
-        update!(completed_round: completed_round + 1)
-      end
-
-      snapshoot_points(round)
-      compute_tiebreaks(round)
-
-      # final round
-      if round == last_round
-        # update ratings for rated tournament
-        update_ratings() if self.tournament.rated
-
-        # update total games played by each player
-        update_total_games()
+        update_total_games
 
         # update h2h ranks for tied top three players
         update_h2h(round)

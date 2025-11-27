@@ -89,7 +89,7 @@ Rails.application.routes.draw do
         post ':id/create_group' => 'tournaments#create_group', as: "create_group"
 
         get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
-        patch ':id/:group_id/:round_id/finalize_rr' => 'tournaments#finalize_round_rr', as: "finalize_rr"
+        patch ':id/:group_id/:round_id/finalize' => 'tournaments#finalize_round', as: "finalize"
       end
     end
   end

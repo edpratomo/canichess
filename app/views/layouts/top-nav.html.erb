@@ -59,8 +59,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <%# completed_round = @tournament ? @tournament.completed_round : 0 %>
           <% if @tournament %> <%# and @tournament.is_round_robin? %>
           <%= render 'base/rr_nav', tournament: @tournament %>
-          <% else %>
-          <%= render 'base/swiss_nav', tournament: @tournament %>
+          <%# else %>
+          <%#= render 'base/swiss_nav', tournament: @tournament %>
           <% end %>
           <li class="nav-item">
             <%= link_to "Contact", contact_path, class: "nav-link" %>

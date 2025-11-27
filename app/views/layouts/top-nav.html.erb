@@ -57,7 +57,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           <%# current_round = @tournament ? @tournament.current_round : 0 %>
           <%# completed_round = @tournament ? @tournament.completed_round : 0 %>
-          <% if @tournament and @tournament.is_round_robin? %>
+          <% if @tournament %> <%# and @tournament.is_round_robin? %>
           <%= render 'base/rr_nav', tournament: @tournament %>
           <% else %>
           <%= render 'base/swiss_nav', tournament: @tournament %>

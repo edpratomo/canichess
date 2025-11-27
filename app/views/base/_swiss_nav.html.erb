@@ -3,15 +3,16 @@
           <% groups = tournament.groups %>
 
           <li class="nav-item">
-            <% if current_round > 0 %>
-              <%= link_to "Pairings", pairings_tournaments_path(@tournament, current_round), class: "nav-link" %>
+            <% if @group and @group.current_round > 0 %>
+              <%= link_to "Pairings", group_pairings_tournaments_path(@tournament, @group, current_round), class: "nav-link" %>
+
             <% else %>
               <span class="nav-link disabled">Pairings</span>
             <% end %>
           </li>
           <li class="nav-item">
-            <% if completed_round > 0 %>
-              <%= link_to 'Standings', standings_tournaments_path(@tournament, completed_round), class: "nav-link" %>
+            <% if @group and @group.completed_round > 0 %>
+              <%= link_to 'Standings', group_standings_tournaments_path(@tournament, @group, completed_round), class: "nav-link" %>
             <% else %>
               <span class="nav-link disabled">Standings</span>
             <% end %>

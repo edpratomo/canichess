@@ -100,7 +100,7 @@ class TournamentsController < ApplicationController
       redirect_to group_standings_tournaments_path(@tournament, @group, @group.completed_round)
       return
     end
-    @standings = @tournament.sorted_standings_rr(@group, @round)
+    @standings = @group.sorted_standings(@round)
   end
 
   private

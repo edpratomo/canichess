@@ -20,6 +20,9 @@ class TournamentsController < ApplicationController
   end
 
   def show
+    if @tournament.groups.count == 1
+      redirect_to group_show_tournaments_path(@tournament, @tournament.groups.first)
+    end
   end
 
   def players

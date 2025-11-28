@@ -1,4 +1,12 @@
 class RoundRobin < Group
+  def completed_round
+    tournaments_players.joins(:standings).pluck(:round).max || 0
+  end
+
+  def rounds
+    boards.pluck(:round).max || 0
+  end
+
   def completed?
     self.completed_round == self.boards.maximum(:round)
   end

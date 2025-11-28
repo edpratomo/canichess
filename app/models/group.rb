@@ -19,13 +19,13 @@ class Group < ApplicationRecord
     (((n_boards_per_round * completed_round + boards_finished_current_round) * 100) / (n_boards_per_round * rounds)).floor 
   end
 
-  #def rounds
-  #  boards.pluck(:round).max || 0
-  #end
-
-  def boards_per_round
-    boards.where(round: 1).count
+    def boards_per_round
+    (players.size.to_f / 2).ceil
   end
+
+  #def boards_per_round
+  #  boards.where(round: 1).count
+  #end
 
   def current_round
     raise NotImplementedError, "Subclasses must implement current_round method"
@@ -95,10 +95,6 @@ class Group < ApplicationRecord
       end
     end
   end
-
-  # def completed_round
- #   tournaments_players.joins(:standings).pluck(:round).max || 0
- # end
 
   def all_boards_finished? round
     not boards.find_by(result: nil, round: round)

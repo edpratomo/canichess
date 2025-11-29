@@ -219,7 +219,7 @@ EOS
         #   {id: group.id, name: group.name, url: group_show_tournaments_path(eventable, group)}
         # end
         #}
-        if eventable.is_round_robin?
+        if eventable.groups.count > 1
           {id: eventable.id, name: eventable.name, url: tournament_path(eventable),
            groups: eventable.groups.map do |group|
              {id: group.id, name: group.name, url: group_show_tournaments_path(eventable, group)}

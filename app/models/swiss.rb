@@ -58,7 +58,7 @@ class Swiss < Group
     end
   end
 
-  def finalize_round round
+  def finalize_round round=nil
     return if completed_round == rounds # tournament is finished already
 
     transaction do

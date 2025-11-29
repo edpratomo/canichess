@@ -29,7 +29,7 @@
                       <% end %>
                       </td>
                       <td id="res_<%= board.id %>" style="text-align:center;">
-                        <%= chess_result(board.result, board.walkover) %>
+                        <%= chess_result(group, board) %>
                       </td>
                       <td><% if board.black %>
                         <%= link_to board.black.name, player_tournaments_path(board.black), class: "text-white" %> <%= points(board.black, board.round) %>
@@ -40,7 +40,7 @@
                       </td>
                     </tr>
                   <% end %>
-                  <% if group and group.tournaments_players.count.odd? %>
+                  <% if group and group.tournaments_players.count.odd? and group.is_a?(RoundRobin) %>
                     <tr>
                       <td><%= group.boards_per_round + 1 %></td>
                       <td><%= link_to_not_playing_player(group, round) %></td>

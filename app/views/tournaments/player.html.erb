@@ -55,7 +55,7 @@
                 <% else %>
                   <td><%= board.black ? link_to("#{board.black.name} (#{board.black.points})", player_tournaments_path(board.black)) : '<BYE>' %></td>
                 <% end %>
-                <td style="text-align:center;"><%= chess_result(board.result) %><% if board.walkover %> <span class="badge bg-danger">WO</span><% end %></td>
+                <td style="text-align:center;"><%= chess_result(group, board) %><% if board.walkover %> <span class="badge bg-danger">WO</span><% end %></td>
               <% end %>
               </tr>
             <% end %>

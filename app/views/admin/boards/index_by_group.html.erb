@@ -53,9 +53,9 @@ Group <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @g
       <div class="card-body">
 <!-- <div class="col-lg-6"> -->
         <% if is_round_completed %>
-          <%= render 'completed_table', boards: @boards %>
+          <%= render 'completed_table', boards: @boards, group: @group %>
         <% else %>
-          <%= render 'in_progress_table', boards: @boards %>
+          <%= render 'in_progress_table', boards: @boards, group: @group %>
         <% end %>
 <!-- </div> -->
       </div>

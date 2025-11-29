@@ -35,6 +35,10 @@ EOS
     raw(result_div)
   end
 
+  def remove_fraction(str)
+    str.to_s.sub(/0\.5/, '½').sub(/\.0$/, '')
+  end
+
   def player_result group, t_player, opponent
     return 'x' if t_player == opponent
     return '' unless opponent
@@ -42,11 +46,11 @@ EOS
     result = if board
       case board.result
       when "white"
-        "1"
+        remove_fraction(group.win_point.to_s)
       when "black"
         "0"
       when "draw"
-        raw("½")
+        remove_fraction(group.draw_point.to_s)
       when "noshow"
         "0"
       else
@@ -61,9 +65,9 @@ EOS
     when "white"
       "0"
     when "black"
-      "1"
+      remove_fraction(group.win_point.to_s)
     when "draw"
-      raw("½")
+      remove_fraction(group.draw_point.to_s)
     when "noshow"
       "0"
     else
@@ -71,7 +75,7 @@ EOS
     end
   end
 
-  def chess_result val, walkover = false
+  def chess_result_old val, walkover = false
     wo_badge = walkover ? ' <span class="badge bg-danger">WO</span> ' : ''
     case val
     when "white"
@@ -80,6 +84,30 @@ EOS
       raw(wo_badge + "0 - 1")
     when "draw"
       raw("&#189; - &#189;")
+    when "noshow"
+      "0 - 0"
+    else
+      ''
+    end
+  end
+
+  def chess_result group, board
+    wo_badge = board.walkover ? ' <span class="badge bg-danger">WO</span> ' : ''
+    case board.result
+    when "white"
+      if board.contains_bye?
+        raw("#{remove_fraction(group.bye_point)} - 0")
+      else
+        raw("#{remove_fraction(group.win_point)} - 0" + wo_badge)
+      end
+    when "black"
+      if board.contains_bye?
+        raw("0 - #{remove_fraction(group.bye_point)}")
+      else
+        raw(wo_badge + "0 - #{remove_fraction(group.win_point)}")
+      end
+    when "draw"
+      "#{remove_fraction(group.draw_point)} - #{remove_fraction(group.draw_point)}"
     when "noshow"
       "0 - 0"
     else
@@ -123,8 +151,8 @@ EOS
 
   def front_page_button tournament, group=nil
     return '' unless tournament
-    return '' if tournament.is_round_robin? && group.nil?
-
+    return '' if tournament.groups.count > 0 && group.nil?
+    
     if group
       return '' if group.current_round == 0
       if group.completed_round == group.rounds
@@ -133,14 +161,15 @@ EOS
         link_to("Check out pairings for Round #{group.current_round}", group_pairings_tournaments_path(tournament, group, group.current_round), 
                 class: "btn btn-primary btn-lg", role: "button")
       end
-    else
-      if tournament.completed_round == tournament.rounds
-        link_to('Check out the Final Standings', standings_tournaments_path(tournament, tournament.completed_round), class: "btn btn-primary btn-lg", role: "button")
-      elsif tournament.current_round > 0
-        link_to("Check out pairings for Round #{tournament.current_round}", pairings_tournaments_path(tournament, tournament.current_round), 
-                class: "btn btn-primary btn-lg", role: "button")
-      end
     end
+#    else
+#      if tournament.completed_round == tournament.rounds
+#        link_to('Check out the Final Standings', standings_tournaments_path(tournament, tournament.completed_round), class: "btn btn-primary btn-lg", role: "button")
+#      elsif tournament.current_round > 0
+#        link_to("Check out pairings for Round #{tournament.current_round}", pairings_tournaments_path(tournament, tournament.current_round), 
+#                class: "btn btn-primary btn-lg", role: "button")
+#      end
+#    end
   end
 
   def front_page_button_for_simul simul

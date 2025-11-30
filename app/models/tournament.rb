@@ -14,11 +14,9 @@ class Tournament < ApplicationRecord
   has_many :tournaments_players, dependent: :destroy
   has_many :players, through: :tournaments_players
 
-  # for RR tournaments
   has_many :groups
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
-  validates :rounds, presence: true, unless: :is_round_robin?
 
   after_create :create_past_event
   after_create :create_default_group
@@ -40,6 +38,10 @@ class Tournament < ApplicationRecord
   end
 
   def percentage_completion
+    0
+  end
+  
+  def percentage_completion_old
     return 100 if completed_round == rounds
     return 0 if current_round == 0
     n_boards_per_round = boards_per_round
@@ -383,147 +385,10 @@ class Tournament < ApplicationRecord
     end
   end
 
-  def finalize_round
-    return if completed_round == rounds # tournament is finished already
-
-    transaction do
-      # remove players who lost by WO more than max_walkover
-      withdraw_wo_players
-
-      # check if no pairing has been created yet
-      if current_round > 0
-        update!(completed_round: completed_round + 1)
-        snapshoot_points
-      else
-        # first round, save start_rating for each tournament player
-        tournaments_players.each do |t_player|
-          t_player.update!(start_rating: t_player.rating)
-        end
-      end
-      if completed_round < rounds
-        generate_pairings
-      else
-        # final round
-        compute_tiebreaks
-
-        # update ratings for rated tournament
-        update_ratings if self.rated
-
-        # update total games played by each player
-        update_total_games
-      end
-    end
-    true
-  end
-
   def withdraw_wo_players
     tournaments_players.where('wo_count > ?', self.max_walkover).each do |t_player|
       t_player.update!(blacklisted: true)
     end
-  end
-
-  def update_total_games group=nil
-    group_tournaments_players = if group
-      group.tournaments_players
-    else
-      tournaments_players
-    end
-
-    group_tournaments_players.each do |t_player|
-      games_played = t_player.games.reject {|e| e.contains_bye? }.size
-      t_player.player.update!(games_played: t_player.games_played + games_played)
-      if self.rated
-        t_player.player.update!(rated_games_played: t_player.rated_games_played + games_played)
-      end
-    end
-  end
-
-  def update_ratings group=nil
-    group_tournaments_players = if group
-      group.tournaments_players
-    else
-      tournaments_players
-    end
-
-    group_boards = if group
-      boards.where(group: group)
-    else
-      boards
-    end
-
-    result_to_rank = {
-      'white' => [1, 2],
-      'black' => [2, 1],
-      'draw'  => [1, 1]
-    }
-
-    # mapping AR instances to MyPlayer instances
-    ar_my_players = group_tournaments_players.inject({}) do |m,o|
-      m[o.id] = MyPlayer.new(o)
-      m
-    end
-
-    games = group_boards.reject {|e| e.contains_bye? or e.result == 'noshow' or e.result.nil? or e.walkover}
-
-    period = Glicko2::RatingPeriod.from_objs(ar_my_players.values)
-
-    transaction do
-      games.each do |game|
-        period.game([ar_my_players[game.white.id], ar_my_players[game.black.id]], result_to_rank[game.result])
-      end
-      # tau constant = 0.5
-      period.generate_next(0.5).players.each(&:update_obj)
-
-      ar_my_players.values.each(&:save_rating)
-
-      # update end_rating for each tournament_player
-      group_tournaments_players.each do |t_player|
-        t_player.update!(end_rating: t_player.rating)
-      end
-    end
-  end
-
-  def current_round_rr group
-    last_board = boards.where(group: group, result: nil).order(:round).first || group.boards.order(:round).last
-    return 0 unless last_board
-    if last_board.round > 1
-      # check standings
-      prev_round_standings = group.tournaments_players.joins(:standings).where('standings.round': last_board.round - 1).count
-      if prev_round_standings > 0
-        return last_board.round
-      else
-        return last_board.round - 1
-      end
-    else
-      return last_board.round
-    end
-  end
-
-  def current_round group=nil
-    return current_round_rr(group) if group
-    last_board = boards.order(:round).last
-    last_board ? last_board.round : 0
-  end
-
-  def next_round group=nil
-    current_round(group) + 1
-  end
-
-  # must add validation that previous round must be completed
-  def generate_pairings
-    players_list = ActiveRecordPlayersList.new(self)
-    pairing = Pairing.new(players_list)
-    round = next_round
-    # use bipartite for this round?
-    use_bipartite_matching = bipartite_matching.any?(round)
-    if use_bipartite_matching
-      Rails.logger.debug("Using bipartite matching for round #{round}")
-    else
-      Rails.logger.debug("Using general matching for round #{round}")
-    end
-    pairing.generate_pairings(use_bipartite_matching) {|idx, w_player, b_player|
-      Board.create!(tournament: self, number: idx, round: round, white: w_player, black: b_player)
-    }
   end
 
   def snapshoot_points_rr group, round
@@ -566,8 +431,6 @@ class Tournament < ApplicationRecord
     boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
   end
 
-  alias :start :finalize_round
-
   protected
   def all_boards_finished
     Rails.logger.debug(">>>>>>> all_boards_finished called")
@@ -587,6 +450,6 @@ class Tournament < ApplicationRecord
   end
 
   def create_default_group
-    Group.create!(tournament: self)
+    Swiss.create!(tournament: self, name: 'Default Group', rounds: 7)
   end
 end

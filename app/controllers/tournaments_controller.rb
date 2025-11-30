@@ -88,6 +88,11 @@ class TournamentsController < ApplicationController
       @boards_1 = Board.where(tournament: @tournament, group: @group, round: @round).order(:number)
       @boards_2 = []
     end
+
+    #respond_to do |format|
+    #  format.html { render :pairings_by_group, layout: 'pairing' }
+    #  format.json { render :pairings_by_group, layout: false }
+    #end
   end
 
   def standings_by_round

@@ -6,7 +6,7 @@
   <%= link_to edit_group_admin_tournaments_path(group), class: "btn btn-info btn-sm" do %>
     <i class="fas fa-pencil-alt"></i> Edit
   <% end %>
-  <%= link_to tournament_admin_tournaments_players_path(tournament), class: "btn btn-success btn-sm" do %>
+  <%= link_to group_admin_tournaments_players_path(tournament, group), class: "btn btn-success btn-sm" do %>
     <i class="fas fa-pencil-alt"></i> Players
   <% end %>
 <% unless group.boards.where.not(result: nil).any? %>

@@ -1,20 +1,24 @@
 class Admin::TournamentsPlayersController < ApplicationController
   before_action :set_admin_tournaments_player, only: %i[ show edit update destroy ]
-  before_action :set_tournament, only: %i[ index_by_tournament new upload create_preview preview ]
-
+  before_action :set_tournament, only: %i[ index_by_tournament index_by_group new upload create_preview preview ]
+  before_action :set_group, only: %i[ index_by_group ]
   before_action :redirect_cancel, only: [:create, :update ]
 
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
     logger.debug("tournament: #{@tournament}")
-    @tournaments_players = if @tournament.is_round_robin?
-      TournamentsPlayer.joins(:player).where(tournament: @tournament).order(:group_id, name: :asc)
-    else
-      TournamentsPlayer.joins(:player).where(tournament: @tournament).order(name: :asc)
-    end
+    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament).order(:group_id, name: :asc)
 
     respond_to do |format|
       format.html
+      format.js
+    end
+  end
+
+  def index_by_group
+    @tournaments_players = TournamentsPlayer.joins(:player).where(tournament: @tournament, group: @group).order(name: :asc)
+    respond_to do |format|
+      format.html { render :index_by_tournament }
       format.js
     end
   end
@@ -135,6 +139,10 @@ class Admin::TournamentsPlayersController < ApplicationController
 
     def set_tournament
       @tournament = Tournament.find(params[:id])
+    end
+
+    def set_group
+      @group = Group.find(params[:group_id])
     end
 
     # Only allow a list of trusted parameters through.

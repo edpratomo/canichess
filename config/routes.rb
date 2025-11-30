@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :tournaments do
     collection do
       get ':id/:round_id/standings' => 'tournaments#standings_by_round', as: "standings"
-      get ':id/:round_id/pairings' => 'tournaments#pairings_by_round', as: "pairings"
+      #get ':id/:round_id/pairings' => 'tournaments#pairings_by_round', as: "pairings"
       get ':id/:group_id/:round_id/standings' => 'tournaments#standings_by_group', as: "group_standings"
       get ':id/:group_id/:round_id/pairings' => 'tournaments#pairings_by_group', as: "group_pairings"
       get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
@@ -40,7 +40,8 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'events/:id/pairings' => 'events#pairings', as: "events_pairings"
+  #get 'events/:id/pairings' => 'events#pairings', as: "events_pairings"
+  get 'events/:group_id/:round_id/pairings' => 'events#pairings', as: "events_pairings"
   get 'events/simul'
   get 'simuls/:id/show' => 'simuls#show', as: "simul"
   get 'simuls/:id/result' => 'simuls#result', as: "simul_result"
@@ -97,6 +98,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :tournaments_players do
       collection do
+        get  ':id/:group_id/list' => 'tournaments_players#index_by_group', as: "group"
         get  ':id/list' => 'tournaments_players#index_by_tournament', as: "tournament"
         get  ':id/new' => 'tournaments_players#new', as: "new"
 

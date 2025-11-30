@@ -5,7 +5,7 @@
       <h2 class="mb-1 mt-2"><%= @tournament.name %></h2>
       <div>
         <h4>
-        <% if group %>
+        <% if groups.count > 1 %>
           <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
             <%= group.name %> <span class="caret"></span>
           </a>

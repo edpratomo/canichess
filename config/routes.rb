@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   resources :tournaments do
     collection do
-      get ':id/:round_id/standings' => 'tournaments#standings_by_round', as: "standings"
+      get ':id/:group_id/standings' => 'tournaments#merged_standings', as: "merged_standings"
       #get ':id/:round_id/pairings' => 'tournaments#pairings_by_round', as: "pairings"
       get ':id/:group_id/:round_id/standings' => 'tournaments#standings_by_group', as: "group_standings"
       get ':id/:group_id/:round_id/pairings' => 'tournaments#pairings_by_group', as: "group_pairings"

@@ -210,6 +210,20 @@ EOS
     raw(labels_str)
   end
 
+  def categories_badge2 player_labels, labels
+    colors = CircularArray.new %w[success warning primary secondary info indigo lightblue navy purple fuschia orange lime teal olive]
+    label_colors = player_labels.inject({}) do |m,o|
+      m[o] = colors.next
+      m
+    end
+    labels_str = labels.inject('') do |m,o|
+      m += ' '
+      m += %Q(<span class="badge bg-#{label_colors[o]}">#{o}</span>)
+      m
+    end
+    raw(labels_str)
+  end
+
   def events_dropdown
     eventables = PastEvent.all.order(id: :desc).map {|e| e.eventable}
     eventables.map do |eventable|

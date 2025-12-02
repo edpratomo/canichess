@@ -17,7 +17,8 @@ class Standing < ApplicationRecord
       playing_black: 0,
       sb: 0,
       h2h_rank: 0,
-      wins: 0
+      wins: 0,
+      blacklisted: false
     }
 
     # for each group in separate tournaments
@@ -32,14 +33,18 @@ class Standing < ApplicationRecord
       next unless standing
     
       new_rec.keys.each do |k|
-        new_rec[k] += standing.send(k) || 0
+        if k == :blacklisted
+          new_rec[k] ||= standing.send(k)
+        else
+          new_rec[k] += standing.send(k) || 0
+        end
       end
     end
 
     merged_standing = MergedStanding.find_or_create_by(
         merged_standings_config: config,
         player: tournaments_player.player,
-        labels: tournaments_player.labels
+        labels: tournaments_player.labels,
       )
 
     merged_standing.update!(new_rec)

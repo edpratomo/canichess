@@ -1,9 +1,9 @@
 class TournamentsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :set_tournament, except: %i[ player ]
-  before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_round standings_by_group]
+  before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_group]
   before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group groups]
-  before_action :set_group, only: %i[ pairings_by_group group_show standings_by_group players_in_group ]
+  before_action :set_group, only: %i[ pairings_by_group group_show merged_standings standings_by_group players_in_group ]
   before_action :set_tournament_player, only: %i[ player ]
 
   layout 'top-nav.html.erb'
@@ -101,6 +101,18 @@ class TournamentsController < ApplicationController
       format.html { render :standings }
       format.json { render :standings, layout: false }
     end
+  end
+
+  def merged_standings
+    @standings_config = @group.merged_standings_config
+    unless @standings_config
+      raise ActiveRecord::RecordNotFound
+    end
+    @standings = @group.sorted_merged_standings
+    #respond_to do |format|
+    #  format.html { render :standings }
+    #  format.json { render :standings, layout: false }
+    #end
   end
 
   def standings_by_group

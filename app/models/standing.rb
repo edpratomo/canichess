@@ -38,7 +38,8 @@ class Standing < ApplicationRecord
 
     merged_standing = MergedStanding.find_or_create_by(
         merged_standings_config: config,
-        player: tournaments_player.player
+        player: tournaments_player.player,
+        labels: tournaments_player.labels
       )
 
     merged_standing.update!(new_rec)
@@ -47,5 +48,4 @@ class Standing < ApplicationRecord
   def merged_standings_config
     tournaments_player.group.merged_standings_config
   end
-
 end

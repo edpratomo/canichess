@@ -40,6 +40,14 @@ class Group < ApplicationRecord
     raise NotImplementedError, "Subclasses must implement compute_tiebreaks method"
   end
   
+  def sorted_standings round=nil
+    raise NotImplementedError, "Subclasses must implement sorted_standings method"
+  end
+
+  def sorted_merged_standings
+    raise NotImplementedError, "Subclasses must implement sorted_merged_standings method"
+  end
+  
   def next_round
     current_round + 1
   end

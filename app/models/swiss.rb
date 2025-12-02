@@ -111,6 +111,13 @@ class Swiss < Group
                     playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
   end
 
+  def sorted_merged_standings
+    return [] unless merged_standings_config
+
+    merged_standings_config.merged_standings.joins(:player).
+      order('points DESC, median DESC, solkoff DESC, cumulative DESC, playing_black DESC, players.name ASC')
+  end
+
   private
   def withdraw_wo_players
     tournaments_players.where('wo_count > ?', self.tournament.max_walkover).each do |t_player|

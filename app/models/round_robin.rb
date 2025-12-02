@@ -145,6 +145,13 @@ class RoundRobin < Group
             playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
   end
 
+  def sorted_merged_standings
+    return [] unless merged_standings_config
+
+    merged_standings_config.merged_standings.joins(:player).
+      order('points DESC, sb DESC, h2h_rank ASC, wins DESC, playing_black DESC, players.name ASC')
+  end
+
   private
   def update_h2h round
     final_stds = standings.joins(tournaments_player: :player).

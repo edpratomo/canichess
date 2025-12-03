@@ -29,7 +29,10 @@
               <td class="text-right"><%= idx + 1 %></td>
               <td><span style="font-size: 1.0em" class="text-white"><%= standing.player.name %></span>
                   <%= categories_badge2(standings_config.player_labels, standing.labels) %>
-                  <%= winner_icon(idx + 1) %> <%= blacklisted_icon(standing) %>
+                  <% if standings_config.all_groups_finished? %>
+                    <%= winner_icon(idx + 1) %>
+                  <% end %> 
+                  <%= blacklisted_icon(standing) %>
                   <%#= rating_badge(standing.tournaments_player) %> 
                   <span style="padding-right: 10px;" class="text-warning float-right"><%#= standing.tournaments_player.end_rating %></span>
               </td>

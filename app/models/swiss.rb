@@ -115,7 +115,7 @@ class Swiss < Group
     return [] unless merged_standings_config
 
     merged_standings_config.merged_standings.joins(:player).
-      order('points DESC, median DESC, solkoff DESC, cumulative DESC, playing_black DESC, players.name ASC')
+      order('blacklisted ASC, points DESC, median DESC, solkoff DESC, cumulative DESC, playing_black DESC, players.name ASC')
   end
 
   private

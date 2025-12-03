@@ -7,6 +7,10 @@ class Group < ApplicationRecord
 
   validates :rounds, presence: true, if: :is_swiss_system?
 
+  def is_finished?
+    completed_round == rounds
+  end
+
   def is_swiss_system?
     type == 'Swiss'
   end

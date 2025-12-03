@@ -5,11 +5,7 @@
     <!-- Custom Tabs -->
     <div class="card card-primary">
       <div class="card-header d-flex p-0">
-        <% if group %>
-          <%= render 'select_standings_by_group', group: group, round: round %>
-        <% else %>
-          <%= render 'select_standings_by_rounds', tournament: tournament, round: round %> 
-        <% end %>
+        <%= render 'select_standings_by_group', group: group, round: round %>
       </div>
       <div class="card-body table-responsive p0">
         <table class="table table-sm table-bordered table-striped text-nowrap">
@@ -20,11 +16,11 @@
               <th class="text-center">Pts</th>
               <th class="text-center">TB 1</th>
               <th class="text-center">TB 2</th>
-              <% unless @tournament.is_round_robin? %>
+              <%# if group.is_swiss_system? %>
               <th class="text-center">TB 3</th>
               <th class="text-center">TB 4</th>
               <th class="text-center" style="width: 2%">TB 5</th>
-              <% end %>
+              <%# end %>
             </tr>
           </thead>
           <tbody>

@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-  <% already_started = admin_tournament.current_round > 0 %>
+  <% already_started = false %>
   <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">
@@ -43,23 +43,6 @@
           </div>
         </div>
       </div>
-      <!-- radio -->
-      <div class="form-group row ">
-        <%= form.label :system, class: "col-sm-4 control-label" do %>
-        System
-        <% end %>
-        <div class="col-sm-4">
-          <div class="icheck-primary d-inline px-3">
-            <%= form.radio_button :system, "swiss" %>
-            <%= form.label "system_swiss", "Swiss" %>
-          </div>
-          <div class="icheck-primary d-inline px-3">
-            <%= form.radio_button :system, "round_robin" %>
-            <%= form.label "system_round_robin", "Round-robin" %>
-          </div>
-        </div>
-      </div>
-      <!-- ./form-group -->
       <div class="form-group row">
         <%= form.label :name, "Description", class: "col-sm-4 col-form-label" %>
         <div class="col-sm-8">
@@ -76,12 +59,6 @@
         <%= form.label :location, "Location", class: "col-sm-4 col-form-label" %>
         <div class="col-sm-8">
           <%= form.text_area :location, size: "70x3", class: "form-control", placeholder: "Venue for this event" %>
-        </div>
-      </div>
-      <div class="form-group row">
-        <%= form.label :rounds, "Rounds", class: "col-sm-4 col-form-label" %>
-        <div class="col-sm-2">
-          <%= form.number_field :rounds, class: "form-control", disabled: already_started %>
         </div>
       </div>
       <div class="form-group row">

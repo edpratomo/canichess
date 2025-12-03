@@ -6,7 +6,7 @@
       <h5>Standings after Round <%= round %></h5>
       <div>
         <h4>
-          <% if group %>
+          <% if tournament.groups.count > 1 %>
             <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
               <%= group.name %> <span class="caret"></span>
             </a>

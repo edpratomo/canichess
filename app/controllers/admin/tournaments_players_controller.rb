@@ -68,7 +68,7 @@ class Admin::TournamentsPlayersController < ApplicationController
           selected.push 0
         end
 
-        groups.push group.id if group.id
+        groups.push group.id if group
         new_players.push [[name, 0]].concat(suggestions.
             map do |e|
               registered_str = registered_players[e.id] ? " - registered" : ""

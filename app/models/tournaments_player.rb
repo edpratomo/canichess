@@ -42,7 +42,7 @@ class TournamentsPlayer < ApplicationRecord
   end
 
   def canisian?
-    player.affiliation == 'student' || player.affiliation == 'alumni'
+    player.canisian?
   end
 
   def rating

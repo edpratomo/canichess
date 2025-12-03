@@ -9,6 +9,10 @@ class Player < ApplicationRecord
   
   validates :rating, numericality: {only_integer: true}
 
+  def canisian?
+    self.affiliation == 'student' || self.affiliation == 'alumni'
+  end
+
   def tournament_points(tournament)
     tourney_player = tournaments_players.find_by(tournament: tournament)
     tourney_player.points if tourney_player

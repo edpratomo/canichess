@@ -23,6 +23,9 @@
               <b>Rounds</b> <span class="float-right"><%= @group.rounds %></span>
             </li>
             <li class="list-group-item">
+              <b>Points</b> <span class="float-right">win <%= @group.win_point %>, draw <%= @group.draw_point %>, bye <%= @group.draw_point %></span>
+            </li>
+            <li class="list-group-item">
               <b>Players</b> 
               <%= link_to @group.players.size, tournament_admin_tournaments_players_path(@admin_tournament), class: "float-right" %>
             </li>

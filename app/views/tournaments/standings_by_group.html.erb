@@ -17,17 +17,17 @@
       <%#= @tournament.name %><!-- - <small>Standings after Round <%= @round %></small>-->
     <%# end %>
 
-      <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>
+    <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>
 
     <%# use two columns for long list of standings %>
     <% if @standings.size > 15 %>
       <% half_of_standings = (@standings.size.to_f / 2).ceil %>
       <%= render 'standings_progress_2_col', standings_1: @standings[0..(half_of_standings - 1)], 
                                              standings_2: @standings[half_of_standings..], 
-                                             tournament: @tournament, round: @round %>
+                                             group: @group, round: @round %>
     <% else %>
-      <%= render 'standings_progress_1_col',  tournament: @tournament, standings: @standings, 
-                                              group: @group, round: @round %>
+      <%= render 'standings_progress_1_col', standings: @standings, 
+                                             group: @group, round: @round %>
     <% end %>
   <% end %>
 <% end %>

@@ -17,7 +17,7 @@
                       <th style="width: 2%">#</th>
                       <th>Name</th>
                       <th style="width: 2%">Points</th>
-                      <% if tournament.is_round_robin? %>
+                      <% unless group.is_swiss_system? %>
                         <th style="width: 2%">SB</th>
                       <% end %>
                     </tr>
@@ -31,7 +31,7 @@
                           <%= blacklisted_icon(standing) %>
                       </td>
                       <td><%= standing.points %></td>
-                      <% if tournament.is_round_robin? %>
+                      <% unless group.is_swiss_system? %>
                         <td><%= standing.sb %></td>
                       <% end %>
                     </tr>

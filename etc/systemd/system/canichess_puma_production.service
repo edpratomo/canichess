@@ -6,6 +6,7 @@ After=network.target
 Type=forking
 ExecStart=/etc/init.d/canichess_puma_production start
 ExecStop=/etc/init.d/canichess_puma_production stop
+ExecReload=/etc/init.d/canichess_puma_production restart
 Restart=on-failure
 RestartSec=5s
 

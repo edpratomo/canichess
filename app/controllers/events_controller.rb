@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :set_tournament
-  before_action :set_round, set_group, only: %i[ pairings ]
+  before_action :set_round, :set_group, only: %i[ pairings ]
 
   # Rack hijacking API (partial)
   def pairings
@@ -30,7 +30,7 @@ class EventsController < ApplicationController
       #  sse.write(JSON.pretty_generate(data2))
       #end
 
-      @group.boards.where(round: @round).where.not(result: nil).map {|brd|
+      @group.boards.where(round: @round).where.not(result: nil).map do |brd|
         data2 = data.map {|e| e[:result] = helpers.chess_result(@group, brd); e}
         sse.write(JSON.pretty_generate(data2))
       end

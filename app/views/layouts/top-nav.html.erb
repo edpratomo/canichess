@@ -40,13 +40,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
               <% events_dropdown.each_with_index do |ev,idx| %>
                 <% if ev.has_key?(:groups) %>
-                  <li class="dropdown-submenu dropdown-hover">
+                  <!-- Desktop: Show dropdown toggle -->
+                  <li class="dropdown-submenu dropdown-hover d-none d-md-block">
                     <a id="dropdownSubMenu_<%= idx %>" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle"><%= ev[:name] %></a>
                     <ul aria-labelledby="dropdownSubMenu_<%= idx %>" class="dropdown-menu border-0 shadow">
                       <% ev[:groups].each do |group| %>
                         <li><a href="<%= group[:url] %>" class="dropdown-item"><%= group[:name] %></a></li>
                       <% end %>
                     </ul>
+                  </li>
+                  
+                  <!-- Mobile: Show as regular link to first group -->
+                  <li class="d-block d-md-none">
+                    <a href="<%= ev[:groups].first[:url] %>" class="dropdown-item"><%= ev[:name] %></a>
                   </li>
                 <% else %>
                   <li><a href="<%= ev[:url] %>" class="dropdown-item"><%= ev[:name] %></a></li>

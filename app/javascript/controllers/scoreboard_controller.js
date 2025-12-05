@@ -9,7 +9,7 @@ export default class extends Controller {
       received: data => {
         // Update DOM
         console.log("stimulus received data:", data);
-        $('#res_' + data.id).html(this.resultText(data.result, data.walkover))
+        $('#res_' + data.id).html(this.resultText(data.result, data.walkover, data.points))
       }
     })
   }
@@ -20,16 +20,17 @@ export default class extends Controller {
     }
   }
 
-  resultText(val, walkover) {
+  resultText(val, walkover, points) {
     const woBadge = walkover ? ' <span class="badge bg-danger">WO</span> ' : ''
+    const [winPts, drawPts, byePts] = points.split('/')
 
     switch (val) {
       case "white":
-        return `1 - 0${woBadge}`
+        return `${winPts} - 0${woBadge}`
       case "black":
-        return `${woBadge}0 - 1`
+        return `${woBadge}0 - ${winPts}`
       case "draw":
-        return "½ - ½"
+        return `${drawPts} - ${drawPts}`
       case "noshow":
         return "0 - 0"
       default:

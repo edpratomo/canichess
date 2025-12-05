@@ -45,7 +45,10 @@ class Board < ApplicationRecord
     ActionCable.server.broadcast "score_board", {
       id: id,
       result: result,
-      walkover: walkover
+      walkover: walkover,
+      points: %w[win draw bye].map do |e|
+          ApplicationController.helpers.remove_fraction(group.send("#{e}_point").to_s)
+        end.join('/')
     }
   end
 

@@ -58,7 +58,7 @@ class TournamentsPlayer < ApplicationRecord
   end
 
   def swiss_system?
-    group.is_swiss_system?
+    group and group.is_swiss_system?
   end
 
   def check_already_started

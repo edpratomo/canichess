@@ -21,13 +21,15 @@
       </div>
     </div>
 
-    <% if @tournament.system == 'round_robin' %>
+    <% if groups.count > 1 %>
     <div class="form-group row">
       <%= form.label :group, "Group", class: "col-sm-4 col-form-label" %>
       <div class="col-sm-8" >
-        <%= form.select :group_id, options_for_select(@groups), { include_blank: 'Select Group' }, class: "form-control" %>
+        <%= form.select :group_id, options_for_select(groups), { include_blank: 'Select Group' }, class: "form-control" %>
       </div>
     </div>
+    <% else %>
+      <%= form.hidden_field :group_id, value: groups.first[1] %>
     <% end %>
   </div>
 

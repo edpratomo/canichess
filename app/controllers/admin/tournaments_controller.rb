@@ -130,7 +130,8 @@ class Admin::TournamentsController < ApplicationController
   def update_players
     player_id = admin_tournament_params[:player_id]
     player_name = admin_tournament_params[:player_name]
-    group_id = admin_tournament_params[:group_id]
+ #   group_id = admin_tournament_params[:group_id]
+    group_id = admin_tournaments_player_params[:group_id]
     group = Group.find(group_id) if group_id and not group_id.empty?
 
     if player_id and not player_id.empty?
@@ -215,6 +216,10 @@ class Admin::TournamentsController < ApplicationController
       params.require(:tournament).
              permit(:name, :fp, :rounds, :players_file, :description, :location, :date, :rated, :system,
                     :max_walkover, :player_name, :player_id, player_names: [], player_ids: {}, group_ids: [])
+    end
+
+    def admin_tournaments_player_params
+      params.require(:tournaments_player).permit(:group_id)
     end
 
     # STI params

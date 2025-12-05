@@ -80,3 +80,10 @@ set :keep_releases, 3
 
 #  after :publishing, :restart
 #end
+
+# puma:reload is BROKEN since using systemd unit
+# Skip the default puma:reload
+Rake::Task["puma:reload"].clear_actions if Rake::Task.task_defined?("puma:reload")
+
+# Use restart instead
+after 'deploy:publishing', 'puma:restart'

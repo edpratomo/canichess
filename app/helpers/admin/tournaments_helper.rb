@@ -1,10 +1,9 @@
 module Admin::TournamentsHelper
   def status_badge(tournament)
-    #if tournament.groups.all?(&:completed?)
-      #raw '<span class="badge badge-warning">Not started yet</span>'
-    #elsif tournament.completed_round == tournament.rounds
-    if false
+    if tournament.groups.all?(&:is_finished?)
       raw '<span class="badge badge-info">Completed</span>'
+    elsif tournament.boards.count == 0
+      raw '<span class="badge badge-warning">Not started yet</span>'
     else
       raw '<span class="badge badge-success">On going</span>'
     end

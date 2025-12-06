@@ -38,7 +38,10 @@ class Tournament < ApplicationRecord
   end
 
   def percentage_completion
-    0
+    return 100 if groups.all?(&:is_finished?)
+    return 0 if boards.count == 0
+
+    (groups.sum {|e| e.completed_round } * 100 / groups.sum {|e| e.rounds }).floor
   end
   
   def percentage_completion_old

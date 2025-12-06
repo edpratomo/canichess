@@ -224,7 +224,15 @@ class Admin::TournamentsController < ApplicationController
 
     # STI params
     def group_params(type="Group")
-      params.require(type.underscore.to_sym).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
+      params.require(type.underscore.to_sym).
+        permit(:name, :tournament_id, :description, :type, :rounds, 
+               :win_point, :draw_point, :bye_point).tap do |whitelisted|
+        if params[type.underscore.to_sym][:bipartite_matching].to_i > 0
+          whitelisted[:bipartite_matching] = Array.new(params[type.underscore.to_sym][:bipartite_matching].to_i) { |e| e + 1 }
+        else
+          whitelisted[:bipartite_matching] = []
+        end
+      end
       #params.require(:group).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
     end
 

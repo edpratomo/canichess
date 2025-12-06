@@ -35,7 +35,11 @@
             <li class="list-group-item">
               <b>System</b> <span class="float-right"><%= @group.type %></span>
             </li>
-
+            <% if @group.is_swiss_system? %>
+            <li class="list-group-item">
+              <b>Bipartite Matching</b> <span class="float-right"><%= @group.bipartite_matching.count %></span>
+            </li>
+            <% end %>
             <li class="list-group-item">
               <b>Status</b> <span class="float-right"><%= status_badge(@group) %></span>
             </li>

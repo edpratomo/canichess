@@ -37,4 +37,11 @@ class Player < ApplicationRecord
       sleep 5
     end
   end
+
+  # list of joined events before the given event
+  def history event
+    PastEvent.includes(:eventable).where('created_at < ?', event.created_at).
+      order(created_at: :asc).map {|e| e.eventable }.
+      select {|e| e.players.any? {|ply| ply == self } }
+  end
 end

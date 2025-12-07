@@ -12,9 +12,12 @@
                   <% players.each_with_index do |player, idx| %>
                     <tr>
                       <td><%= offset + idx + 1 %></td>
-                      <td>
-                        <span style="font-size: 1.0em"><%= player.name %></span>
-                        <%= categories_badge(player) %>
+                      <td style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="mr-1">
+                          <span style="font-size: 1.0em"><%= player.name %></span>
+                          <%= categories_badge(player) %>
+                        </div>
+                        <%= render 'player_history', player: player, tournament: tournament %>
                       </td>
                     </tr>
                   <% end %>

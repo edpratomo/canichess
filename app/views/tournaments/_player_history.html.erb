@@ -1,0 +1,14 @@
+  <div class="d-flex">
+    <% player.player.history(tournament).each do |e| %>
+      <span title="<%= e.name %>"
+      data-controller="flash"
+      data-action="click->flash#show"
+      data-flash-message="<%= e.name %>"
+      <% if e.is_a?(Tournament) %>
+        class="badge bg-primary mr-1">T
+      <% elsif e.is_a?(Simul) %>
+        class="badge bg-info mr-1">S
+      <% end %>
+      </span>
+    <% end %>
+  </div>

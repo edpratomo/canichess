@@ -55,3 +55,5 @@ window.toastr = toastr
 require("@fortawesome/fontawesome-free");
 
 import "../controllers";
+
+window.BootstrapDialog = require("bootstrap4-dialog/dist/js/bootstrap-dialog.min");

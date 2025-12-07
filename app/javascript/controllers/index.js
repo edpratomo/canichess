@@ -7,6 +7,9 @@ import { application } from "./application"
 import EscapeController from "./escape_controller"
 application.register("escape", EscapeController)
 
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
+
 import FullscreenController from "./fullscreen_controller"
 application.register("fullscreen", FullscreenController)
 

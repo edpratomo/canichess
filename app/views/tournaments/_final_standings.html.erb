@@ -34,7 +34,7 @@
                   <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.end_rating %></span>
               </td>
               <td class="text-center" ><%= standing.points %></td>
-              <% unless @tournament.is_round_robin? %>
+              <% if group.is_swiss_system? %>
               <td class="text-center" ><%= standing.median %></td>
               <td class="text-center" ><%= standing.solkoff %></td>
               <td class="text-center" ><%= standing.cumulative %></td>

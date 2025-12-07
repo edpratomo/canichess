@@ -152,6 +152,10 @@ class RoundRobin < Group
       order('points DESC, sb DESC, h2h_rank ASC, wins DESC, playing_black DESC, players.name ASC')
   end
 
+  def reorder_boards group, round
+    
+  end
+
   private
   def update_h2h round
     final_stds = standings.joins(tournaments_player: :player).
@@ -268,6 +272,46 @@ class RoundRobin < Group
         curr_idx = tied_players_idx.last + 1
         next
       end
+    end
+  end
+
+  private
+  def player_result group, player1, player2
+    # returns points for player1 against player2
+    board_played = group.boards.where(white: player1, black: player2).first ||
+                   group.boards.where(black: player1, white: player2).first
+    return 0 if board_played.nil? # no game played
+    case board_played.result
+    when 'white'
+      return group.win_point if board_played.white == player1
+      return 0 if board_played.black == player1
+    when 'black'
+      return 0 if board_played.white == player1
+      return group.win_point if board_played.black == player1
+    when 'draw'
+      return group.draw_point
+    else
+      return 0 # no result
+    end
+  end
+
+  def player_result_on_round group, player1, round, include_walkover
+    board_played =  group.boards.where(round: round, white: player1).first ||
+                    group.boards.where(round: round, black: player1).first
+    return 0 if board_played.nil? # no game played
+    return 0 if board_played.walkover and not include_walkover # no result if walkover is not included
+
+    case board_played.result
+    when 'white'
+      return group.win_point if board_played.white == player1
+      return 0 if board_played.black == player1
+    when 'black'
+      return 0 if board_played.white == player1
+      return group.win_point if board_played.black == player1
+    when 'draw'
+      return group.draw_point
+    else
+      return 0 # no result
     end
   end
 

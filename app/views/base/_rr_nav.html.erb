@@ -22,3 +22,12 @@
               <span class="nav-link disabled">Standings</span>
             <% end %>
           </li>
+          <% if msconfig %>
+          <li class="nav-item">
+            <% if msconfig.groups.any?(&:is_finished?) %>
+              <%= link_to 'Overall Standings', merged_standings_tournaments_path(tournament, @group), class: "nav-link" %>
+            <% else %>
+              <span class="nav-link disabled">Overall Standings</span>
+            <% end %>
+          </li>
+          <% end %>

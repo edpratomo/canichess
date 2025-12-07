@@ -4,6 +4,7 @@ class TournamentsController < ApplicationController
   before_action :set_round, only: %i[ pairings_by_round pairings_by_group standings_by_group]
   before_action :set_groups, only: %i[ show players pairings_by_round standings_by_round pairings_by_group groups]
   before_action :set_group, only: %i[ pairings_by_group group_show merged_standings standings_by_group players_in_group ]
+  before_action :set_merged_standings_config, only: %i[ pairings_by_group group_show merged_standings standings_by_group players_in_group ]
   before_action :set_tournament_player, only: %i[ player ]
 
   layout 'top-nav.html.erb'
@@ -143,5 +144,11 @@ class TournamentsController < ApplicationController
   def set_tournament_player
     @tournament_player = TournamentsPlayer.find(params[:player_id])
     @tournament = @tournament_player.tournament
+  end
+
+  def set_merged_standings_config
+    @merged_standings_config = if @group
+      @group.merged_standings_config
+    end
   end
 end

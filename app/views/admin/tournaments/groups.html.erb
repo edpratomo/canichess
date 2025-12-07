@@ -2,21 +2,17 @@
   <!-- left column -->
   <div class="col-md-8">
     <div class="card">
-      <div class="card-body">
-      <% if @groups.length > 0 %>
-        <ul class="nav flex-column">
+      <div class="card-body table-responsive p-2">
+        <table id="datatable_with_search" class="table table-bordered table-hover text-nowrap">
+          <tbody>
           <% @groups.each do |group| %>
-            <li class="nav-item">
-              <span class="lead"><%= group.name %></span> 
-
-              <a href="#" class="nav-link">
-                <span class="float-right bg-primary">Edit</span>
-              </a>
-              
-            </li>
+            <tr>
+              <td><%= group.name %></td> 
+              <td><%= link_to "Edit", edit_group_admin_tournaments_path(group) %></td>
+            </tr>
           <% end %>
-        </ul>
-      <% end %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

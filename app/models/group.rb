@@ -6,6 +6,7 @@ class Group < ApplicationRecord
   belongs_to :merged_standings_config, optional: true
 
   validates :rounds, presence: true, if: :is_swiss_system?
+  validate :check_all_boards_finished, on: :update, if: :completed_round_changed?
 
   def is_finished?
     completed_round == rounds
@@ -112,4 +113,13 @@ class Group < ApplicationRecord
   def any_board_finished? round
     boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
   end
+
+  protected
+  def check_all_boards_finished
+    Rails.logger.debug(">>>>>>> all_boards_finished called")
+    if boards.find_by(result: nil, round: completed_round)
+      errors.add(:completed_round, "All boards must have finished first")
+    end
+  end
+
 end

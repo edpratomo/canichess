@@ -1,7 +1,7 @@
 class Admin::BoardsController < ApplicationController
   before_action :set_admin_board, only: %i[ show edit update destroy ]
   before_action :set_tournament_round, only: %i[ index_by_round  delete_by_round index_by_group delete_by_group ]
-  before_action :set_group, only: %i[ index_by_group delete_by_group ]
+  before_action :set_group, only: %i[ index_by_group delete_by_round ]
   before_action :set_tournament, only: %i[ delete_by_group ]
 
   def index_by_round
@@ -60,10 +60,13 @@ class Admin::BoardsController < ApplicationController
 
   def delete_by_round
     ActiveRecord::Base.transaction do
-      Board.where(tournament: @tournament, round: @round).delete_all
+      Board.where(group: @group, round: @round).delete_all
+      if @group.completed_round == @group.current_round
+        @group.update(completed_round: @group.current_round - 1)
+      end
     end
     respond_to do |format|
-      format.html { redirect_to admin_tournaments_url, notice: "Pairings for round #{@round} were successfully deleted." }
+      format.html { redirect_to group_show_admin_tournaments_url(@tournament, @group), notice: "Pairings for group #{@group.name}, round #{@round} were successfully deleted." }
       format.json { head :no_content }
     end
   end

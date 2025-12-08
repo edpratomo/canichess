@@ -30,9 +30,9 @@ Group <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @g
             <% end %>
           <% end %>
           <%# delete button %>
-          <%= form_tag(delete_admin_boards_path(@tournament, @round), {method: :delete, class: "form-horizontal", role: "form"}) do %>
-            <%# if @group.any_board_finished?(@round) %>
-            <% if true %>
+          <%= form_tag(delete_admin_boards_path(@tournament, @group, @round), {method: :delete, class: "form-horizontal", role: "form"}) do %>
+            <% if @group.any_board_finished?(@round) %>
+            <%# if true %>
               <%= disable_delete_round %>
             <% else %>
               <%= enable_delete_round %>

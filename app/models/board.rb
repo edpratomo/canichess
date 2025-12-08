@@ -53,14 +53,14 @@ class Board < ApplicationRecord
   end
 
   def check_already_started
-    if group.is_a? RoundRobin
+    #if group.is_a? RoundRobin
       if group.boards.where.not(result: nil).any?
         errors.add 'Tournament already started for group #{group.name}. Could not delete player.'
         throw :abort
       end
-    elsif tournament.current_round > 0
-      errors.add 'Tournament already started. Could not delete player.'
-      throw :abort
-    end
+    #elsif group.current_round > 0
+    #  errors.add 'Tournament already started. Could not delete player.'
+    #  throw :abort
+    #end
   end
 end

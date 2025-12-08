@@ -20,6 +20,11 @@ Standings after <%= link_to "Round #{@round}", group_admin_boards_path(@tourname
       <th>Points</th>
       <th>TB 1</th>
       <th>TB 2</th>
+      <% if @group.is_swiss_system? %>
+        <th>TB 3</th>
+        <th>TB 4</th>
+        <th>TB 5</th>
+      <% end %>
     </tr>
     </thead>
 
@@ -29,8 +34,16 @@ Standings after <%= link_to "Round #{@round}", group_admin_boards_path(@tourname
         <td><%= idx + 1 %></td>
         <td><%= link_to(standing.tournaments_player.name + " (#{standing.tournaments_player.start_rating})", admin_tournaments_player_path(standing.tournaments_player)) %> <%= blacklisted_icon(standing) %></td>
         <td><%= standing.points %></td>
-        <td><%= standing.sb %></td>
-        <td><%= standing.playing_black %></td>
+        <% if @group.is_swiss_system? %>
+          <td><%= standing.median %></td>
+          <td><%= standing.solkoff %></td>
+          <td><%= standing.cumulative %></td>
+          <td><%= standing.opposition_cumulative %></td>
+          <td><%= standing.playing_black %></td>
+        <% else %>
+          <td><%= standing.sb %></td>
+          <td><%= standing.playing_black %></td>
+        <% end %>
       </tr>
     <% end %>
     </tbody>

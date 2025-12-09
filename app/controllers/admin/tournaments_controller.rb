@@ -46,19 +46,6 @@ class Admin::TournamentsController < ApplicationController
     end
   end
 
-#  def finalize_round_rr
-#    round = params[:round_id].to_i
-#    respond_to do |format|
-#      if @admin_tournament.finalize_round_rr(@group, round)
-#        format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament was successfully updated." }
-#        format.json { render :show, status: :ok, location: @admin_tournament }
-#      else
-#        format.html { render :edit, status: :unprocessable_entity }
-#        format.json { render json: @admin_tournament.errors, status: :unprocessable_entity }
-#      end
-#    end
-#  end
-
   def finalize_round
     round = params[:round_id].to_i
     respond_to do |format|

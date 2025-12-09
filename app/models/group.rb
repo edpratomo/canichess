@@ -8,6 +8,10 @@ class Group < ApplicationRecord
   validates :rounds, presence: true, if: :is_swiss_system?
   validate :check_all_boards_finished, on: :update, if: :completed_round_changed?
 
+  def completed_round
+    tournaments_players.joins(:standings).pluck(:round).max || 0
+  end
+
   def is_finished?
     completed_round == rounds
   end

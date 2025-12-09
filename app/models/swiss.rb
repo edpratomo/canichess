@@ -67,7 +67,7 @@ class Swiss < Group
 
       # check if no pairing has been created yet
       if current_round > 0
-        update!(completed_round: completed_round + 1)
+        #update!(completed_round: completed_round + 1)
         snapshoot_points()
       else
         # first round, save start_rating for each tournament player

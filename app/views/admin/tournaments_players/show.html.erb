@@ -33,7 +33,7 @@
       <td><%= link_to board.round, round_admin_boards_path(@tournaments_player.tournament, board.round) %></td>
       <td <%= same_player?(@tournaments_player, board.white) ? raw('class="text-info"') : ''  %>><%= board.white ? board.white.name : '<BYE>' %></td>
       <td <%= same_player?(@tournaments_player, board.black) ? raw('class="text-info"') : ''  %>><%= board.black ? board.black.name : '<BYE>' %></td>
-      <td style="text-align:center;"><%= chess_result(board.result) %> <% if board.walkover %><span class="badge bg-danger">WO</span> <% end %>
+      <td style="text-align:center;"><%= chess_result(@tournaments_player.group, board) %> <% if board.walkover %><span class="badge bg-danger">WO</span> <% end %>
         <% if board.result and board.result == 'noshow' %><span class="badge bg-warning">no-show</span> <% end %>
       </td>
     <% else %>

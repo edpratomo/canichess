@@ -9,6 +9,7 @@
             <tr>
               <th style="width: 1%">#</th>
               <th>Name</th>
+              <th>CCM Awarded at</th>
               <th>Email</th>
               <th>FIDE</th>
               <th style="text-align:center; width: 10%">Affiliation</th>
@@ -22,6 +23,7 @@
       <tr>
         <td><%= idx + 1 %></td>
         <td><%= player.name %></td>
+        <td><%= player.ccm_awarded_at ? player.ccm_awarded_at.eventable.name : '' %></td>
         <td><%= player.email %></td>
         <td><%= player.fide_id %></td>
         <td><%= player.affiliation %></td>

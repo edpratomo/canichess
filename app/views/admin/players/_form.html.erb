@@ -62,9 +62,16 @@
     </div>
 
     <div class="form-group row">
+      <%= form.label :ccm_awarded_at, "CCM Title Awarded at", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-4">
+        <%= form.select :ccm_awarded_at, indexed_events, {prompt: "Select event"}, {class: "select2bs4 form-control"} %>
+      </div>
+    </div>
+
+    <div class="form-group row">
       <%= form.label :remarks, "Remarks", class: "col-sm-4 col-form-label" %>
       <div class="col-sm-6">
-        <%= form.text_field :remarks, class: "form-control" %>
+        <%= form.text_area :remarks, class: "form-control" %>
       </div>
     </div>
 

@@ -2,9 +2,9 @@ class Player < ApplicationRecord
   has_one :title
   has_many :tournaments_players
   has_many :tournaments, through: :tournaments_players
-
   has_many :simuls_players
-
+  belongs_to :ccm_awarded_at, class_name: 'PastEvent', optional: true
+  
   alias_attribute :volatility, :rating_volatility
   
   validates :rating, numericality: {only_integer: true}

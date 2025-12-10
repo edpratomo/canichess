@@ -12,6 +12,11 @@
                   <li class="list-group-item">
                     <b>Canichess Rating</b> <span class="float-right"><%= @admin_player.rating %></span>
                   </li>
+                  <% if @admin_player.ccm_awarded_at %>
+                  <li class="list-group-item">
+                    <b>CCM Title Awarded at</b> <span class="float-right"><%= @admin_player.ccm_awarded_at.eventable.name %></span>
+                  </li>
+                  <% end %>
                   <li class="list-group-item">
                     <b>FIDE ID</b> <span class="float-right"><%= @admin_player.fide_id %></span>
                   </li>

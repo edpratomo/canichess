@@ -4,7 +4,7 @@
     <div class="d-flex flex-column align-items-center ms-3 p-3">
       <h2 class="mb-1 mt-2"><%= tournament.name %></h2>
       <h4>Player's Progress</h4>
-      <% if group %>
+      <% if tournament.groups.count > 1 %>
       <h5>Group: <%= link_to group.name, group_show_tournaments_path(tournament, group) %></h5>
       <% end %>
     </div>

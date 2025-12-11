@@ -44,4 +44,9 @@ class Player < ApplicationRecord
       order(created_at: :asc).map {|e| e.eventable }.
       select {|e| e.players.any? {|ply| ply == self } }
   end
+
+  def already_ccm_at? event
+    return false unless ccm_awarded_at
+    ccm_awarded_at.eventable.created_at < event.created_at
+  end
 end

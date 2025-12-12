@@ -94,3 +94,5 @@ gem 'mutex_m', require: false
 gem 'puma-daemon', require: false
 
 gem "rack", ">= 2.2.7"
+
+gem "meta-tags", "~> 2.22"

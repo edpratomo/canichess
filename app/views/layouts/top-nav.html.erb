@@ -7,7 +7,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Canichess Alumni</title>
+
+  <%= display_meta_tags site: "Canichess Alumni" %>
+  <%= display_meta_tags og: {
+      title: :title,
+      site_name: :site,
+      description: :description
+    }
+  %>
 
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>

@@ -11,7 +11,7 @@
         <div class="card-header">
           <h3 class="card-title"><%= @tournament_player.name %>
             <% if @tournament_player.player.already_ccm_at? @tournament %>
-            <span title="Canichess Master" class="badge bg-olive" data-toggle="modal" data-target="#modal-default"><small>CCM</small></span>
+            <span title="Canichess Master" class="badge bg-olive"><small>CCM</small></span>
             <% end %>
             <% if @tournament_player.player.fide_data %>
             <span class="badge bg-info" data-toggle="modal" data-target="#modal-default"><small>FIDE</small></span>

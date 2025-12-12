@@ -2,6 +2,9 @@
   <% content_for :page_title do %> <%= @standings_config.name %> - <small>Overall Standings</small><% end %>
   <p class="lead">Oops! Standings not available yet. Please check again later.</p>
 <% else %>
+  <% title @standings_config.name %>
+  <% description "Overall Standings: #{@standings_config.description}" %>
+
   <%= render 'tournaments/merged_standings/standings_header', standings_config: @standings_config %>
   <%= render 'tournaments/merged_standings/standings_body', standings: @standings, standings_config: @standings_config %>
 <% end %>

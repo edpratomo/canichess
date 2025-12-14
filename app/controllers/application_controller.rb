@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   before_action :check_redirect_key
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user!
-  after_action :prepare_unobtrusive_flash
 
   layout :set_layout
 

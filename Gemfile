@@ -12,7 +12,6 @@ gem 'render_async'
 #gem 'will_paginate'
 gem 'will_paginate-bootstrap-style'
 gem 'filterrific'
-gem 'unobtrusive_flash', '>=3'
 gem "schema_validations"
 gem 'dotenv-rails'
 

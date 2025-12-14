@@ -6,12 +6,15 @@ export default class extends Controller {
   static values = { message: String }
 
   connect() {
-    let type = this.element.dataset.flashType;
-    let message = this.element.dataset.flashMessage;
+    const type = this.element.dataset.flashType;
+    const message = this.element.dataset.flashMessage;
 
-    console.log("flash_controller: " + type + " - " + message);
-    console.log("toastr: " + toastr);
-    //toastr[type](message);
+    if (type) {
+      console.log("flash_controller: " + type + " - " + message);
+      console.log("toastr: " + toastr);
+
+      toastr[type](message);
+    }
   }
 
   show() {

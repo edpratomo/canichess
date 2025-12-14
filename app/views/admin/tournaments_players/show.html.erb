@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 <% content_for :page_title do %>
    Tournament: <%= link_to @tournaments_player.tournament.name + " - " + @tournaments_player.group.name, 
   group_show_admin_tournaments_path(@tournaments_player.tournament, @tournaments_player.group) %>

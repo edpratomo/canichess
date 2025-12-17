@@ -21,6 +21,11 @@ crumb :pairings do |group, round|
   parent :group, group
 end
 
+crumb :standings do |group, round|
+  link "Round #{round}", group_admin_standings_path(group.tournament, group, round)
+  parent :group, group
+end
+
 # crumb :issue do |issue|
 #   link issue.title, issue_path(issue)
 #   parent :project_issues, issue.project

@@ -16,10 +16,10 @@ crumb :group do |group|
   parent :tournament, group.tournament
 end
 
-# crumb :project_issues do |project|
-#   link "Issues", project_issues_path(project)
-#   parent :project, project
-# end
+crumb :pairings do |group, round|
+  link "Round #{round}", group_admin_boards_path(group.tournament, group, round)
+  parent :group, group
+end
 
 # crumb :issue do |issue|
 #   link issue.title, issue_path(issue)

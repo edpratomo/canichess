@@ -1,7 +1,7 @@
-
-
 <% content_for :page_title do %>Tournament: <%= link_to @tournament.name, admin_tournament_path(@tournament) %>
-Group <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @group) %> - Round <%= @round %><% end %>
+<br/><small> <%= optional_group_name(@group) %> - Round <%= @round %> </small><% end %>
+<% breadcrumb :pairings, @group, @round %>
+
 <% is_round_completed = @group.completed_round >= @round %>
 
 <div class="row">

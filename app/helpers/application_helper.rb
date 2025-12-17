@@ -1,4 +1,9 @@
 module ApplicationHelper
+  def optional_group_name group
+    return '' if group.tournament.groups.count == 1
+    "Group: #{group.name}"
+  end
+
   def link_to_not_playing_player(group, round)
     players_ids = Board.where(group: group, round: round).inject([]) do |m,o|
       m << o.white.id if o.white
@@ -140,7 +145,7 @@ EOS
     end
   end
 
-  def breadcrumb_items active_idx, paths
+  def breadcrumb_items active_idx, links
     items = ['<ol class="breadcrumb float-sm-right">']
     links.each_with_index do |link,idx|
       items.push '<li class="breadcrumb-item' + (idx == active_idx ? ' active">' : '">') + link + '</li>'

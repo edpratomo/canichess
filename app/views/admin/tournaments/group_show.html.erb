@@ -1,5 +1,7 @@
 
 <% content_for :page_title do %>Tournament: <%= @admin_tournament.name %> - <%= @group.name %><% end %>
+<% breadcrumb :group, @group %>
+  
   <div class="row">
     <div class="col-md-4">
 

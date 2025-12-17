@@ -95,3 +95,9 @@ gem 'puma-daemon', require: false
 gem "rack", ">= 2.2.7"
 
 gem "meta-tags", "~> 2.22"
+
+gem "lucide-rails", "~> 0.7.1"
+
+gem "view_component", "~> 3.24"
+
+gem "gretel", "~> 5.1"

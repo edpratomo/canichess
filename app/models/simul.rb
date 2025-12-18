@@ -10,10 +10,20 @@ class Simul < ApplicationRecord
   has_many :simuls_players, dependent: :destroy
   has_many :players, through: :simuls_players
 
+  has_one_attached :logo
+  
   after_create :create_past_event
   before_destroy :delete_past_event
 
   enum status: [ :not_started, :on_going, :completed ]
+
+  def logo_url
+    if logo.attached?
+      logo
+    else
+     'logo-canichess-transparent.webp' 
+    end
+  end
 
   def percentage_completion
     if players.count == 0

@@ -9,7 +9,7 @@
       <div class="card card-primary card-outline">
         <div class="card-body box-profile">
           <div class="text-center">
-            <%= image_tag @admin_tournament.logo, class: "profile-user-img img-fluid img-circle", alt: "Tournament logo" %>
+            <%= image_tag @admin_tournament.logo_url, class: "profile-user-img img-fluid img-circle", alt: "Tournament logo" %>
           </div>
 
           <h3 class="profile-username text-center"><%= link_to @admin_tournament.name, admin_tournament_path(@admin_tournament) %></h3>

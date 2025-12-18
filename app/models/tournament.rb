@@ -15,12 +15,21 @@ class Tournament < ApplicationRecord
   has_many :players, through: :tournaments_players
 
   has_many :groups
+  has_one_attached :logo
 
   validate :all_boards_finished, on: :update, if: :completed_round_changed?
 
   after_create :create_past_event
   after_create :create_default_group
   before_destroy :delete_past_event
+
+  def logo_url
+    if logo.attached?
+      logo
+    else
+     'logo-canichess-transparent.webp' 
+    end
+  end
 
   def get_results round=nil
     round ||= current_round

@@ -26,10 +26,10 @@ crumb :standings do |group, round|
   parent :group, group
 end
 
-# crumb :issue do |issue|
-#   link issue.title, issue_path(issue)
-#   parent :project_issues, issue.project
-# end
+crumb :edit_group do |group|
+  link "Editing #{group.name}", edit_group_admin_tournaments_path(group)
+  parent :group, group
+end
 
 # If you want to split your breadcrumbs configuration over multiple files, you
 # can create a folder named `config/breadcrumbs` and put your configuration

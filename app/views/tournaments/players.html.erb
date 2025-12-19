@@ -5,7 +5,7 @@
   <%= render('players_1_col', players: @players_1, tournament: @tournament) %>
 <% else %>
   <% content_for :page_title do %>
-    <%= image_tag(@tournament.logo, alt: "Tournament Logo", style: "max-width: 10%; opacity: .8") %>
+    <%= image_tag(@tournament.logo_url, alt: "Tournament Logo", style: "max-width: 10%; opacity: .8") %>
     <%= @tournament.name %>
   <% end %>
   <%= render('players_2_col', players_1: @players_1, players_2: @players_2, 

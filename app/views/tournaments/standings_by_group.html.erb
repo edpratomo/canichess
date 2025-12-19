@@ -15,11 +15,6 @@
       <%= render 'crosstable', tournament: @tournament, standings: @standings, group: @group, round: @round %>
     <% end %>
   <% else %>
-    <%# content_for :page_title do %>
-      <%#= image_tag(@tournament.logo, alt: "CCE CCAD Logo", style: "max-width: 10%; opacity: .8") %>
-      <%#= @tournament.name %><!-- - <small>Standings after Round <%= @round %></small>-->
-    <%# end %>
-
     <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>
 
     <%# use two columns for long list of standings %>

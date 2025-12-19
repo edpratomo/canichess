@@ -41,6 +41,21 @@ crumb :edit_simul do |simul|
   parent :simul, simul
 end
 
+crumb :upload_tournament_players do |tournament|
+  link "Upload Players", preview_admin_tournaments_players_path(tournament)
+  parent :tournament, tournament
+end
+
+crumb :simul_players do |simul|
+  link "Players", simul_admin_simuls_players_path(simul)
+  parent :simul, simul
+end
+
+crumb :upload_simul_players do |simul|
+  link "Upload Players", preview_admin_simuls_players_path(simul)
+  parent :simul_players, simul
+end
+
 # If you want to split your breadcrumbs configuration over multiple files, you
 # can create a folder named `config/breadcrumbs` and put your configuration
 # files there. All *.rb files (e.g. `frontend.rb` or `products.rb`) in that

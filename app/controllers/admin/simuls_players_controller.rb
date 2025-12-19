@@ -73,6 +73,13 @@ class Admin::SimulsPlayersController < ApplicationController
 
         if suggestions.size == 1
           selected.push suggestions.first.id
+        elsif suggestions.size > 1
+          exact_match_suggestions = suggestions.select {|sugg| sugg.name.match(name)}
+          if exact_match_suggestions.count == 1
+            selected.push exact_match_suggestions.first.id
+          else
+            selected.push 0
+          end
         else
           selected.push 0
         end

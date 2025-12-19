@@ -27,7 +27,7 @@
 
   <div class="card-footer">
     <button type="submit" class="btn btn-primary">Submit</button>
-    <button type="submit" class="btn btn-default float-right" name="cancel">Cancel</button>
+    <button type="button" onclick="window.location.href='<%= tournament_admin_tournaments_players_path(tournament) %>'" class="btn btn-default float-right" name="cancel">Cancel</button>
   </div>
 
 <% end %>

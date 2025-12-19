@@ -98,6 +98,6 @@ class Tournament < ApplicationRecord
   end
 
   def create_default_group
-    Swiss.create!(tournament: self, name: 'Default Group', rounds: 7)
+    Swiss.create!(tournament: self, name: 'Default', rounds: 7)
   end
 end

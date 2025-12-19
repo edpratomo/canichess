@@ -58,7 +58,7 @@ class Admin::TournamentsPlayersController < ApplicationController
       File.foreach(tournament_params[:players_file].path).with_index do |line, index|
         name, group_name = line.split(',').map &:strip
         next if name.empty?
-        group_name ||= "Default Group"
+        group_name ||= "Default"
         group = Group.find_by(tournament: @tournament, name: group_name)
         suggestions = Player.fuzzy_search_limit(0.4, name: name)
 

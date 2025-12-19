@@ -41,9 +41,14 @@ crumb :edit_simul do |simul|
   parent :simul, simul
 end
 
+crumb :tournament_players do |tournament|
+  link "Players", tournament_admin_tournaments_players_path(tournament)
+  parent :tournament, tournament
+end
+
 crumb :upload_tournament_players do |tournament|
   link "Upload Players", preview_admin_tournaments_players_path(tournament)
-  parent :tournament, tournament
+  parent :tournament_players, tournament
 end
 
 crumb :simul_players do |simul|

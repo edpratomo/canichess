@@ -60,10 +60,14 @@ class Admin::TournamentsPlayersController < ApplicationController
         next if name.empty?
         group_name ||= "Default Group"
         group = Group.find_by(tournament: @tournament, name: group_name)
-        suggestions = Player.fuzzy_search(name: name)
+        suggestions = Player.fuzzy_search_limit(0.4, name: name)
 
         if suggestions.size == 1
-          selected.push suggestions.first.id
+          if suggestions.first.name.match(name)
+            selected.push suggestions.first.id
+          else
+            selected.push 0
+          end
         elsif suggestions.size > 1
           exact_match_suggestions = suggestions.select {|sugg| sugg.name.match(name)}
           if exact_match_suggestions.count == 1

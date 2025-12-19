@@ -9,6 +9,13 @@ class Player < ApplicationRecord
   
   validates :rating, numericality: {only_integer: true}
 
+  def self.fuzzy_search_limit threshold, args
+    ActiveRecord::Base.transaction do
+      ActiveRecord::Base.connection.execute("SET pg_trgm.similarity_threshold = #{threshold}")
+      Player.fuzzy_search(args)
+    end
+  end
+
   def canisian?
     self.affiliation == 'student' || self.affiliation == 'alumni'
   end

@@ -28,7 +28,7 @@ set :puma_systemctl_user, :system
 set :puma_phased_restart, true
 
 append :linked_files, "config/master.key", ".env"
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "public/uploads"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "public/uploads", "storage"
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

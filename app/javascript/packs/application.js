@@ -19,6 +19,7 @@ Turbolinks.start()
 ActiveStorage.start()
 
 import 'bootstrap';
+import bsCustomFileInput from 'bs-custom-file-input'
 
 // https://stackoverflow.com/questions/62946298/uncaught-referenceerror-is-not-defined-in-rails-6-jquery-webpacker
 window.jQuery = $;
@@ -41,6 +42,7 @@ document.addEventListener("turbolinks:load", () => {
     } );
   }
 
+  bsCustomFileInput.init()
 });
 
 import '../stylesheets/scaffolds';

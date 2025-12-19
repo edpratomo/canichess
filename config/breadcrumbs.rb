@@ -31,6 +31,16 @@ crumb :edit_group do |group|
   parent :group, group
 end
 
+crumb :simul do |simul|
+  link simul.name, admin_simul_path(simul)
+  parent :admin
+end
+
+crumb :edit_simul do |simul|
+  link "Editing #{simul.name}", edit_admin_simul_path(simul)
+  parent :simul, simul
+end
+
 # If you want to split your breadcrumbs configuration over multiple files, you
 # can create a folder named `config/breadcrumbs` and put your configuration
 # files there. All *.rb files (e.g. `frontend.rb` or `products.rb`) in that

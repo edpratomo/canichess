@@ -17,8 +17,6 @@ class Tournament < ApplicationRecord
   has_many :groups
   has_one_attached :logo
 
-  validate :all_boards_finished, on: :update, if: :completed_round_changed?
-
   after_create :create_past_event
   after_create :create_default_group
   before_destroy :delete_past_event
@@ -87,14 +85,6 @@ class Tournament < ApplicationRecord
 
   def any_board_finished? round
     boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
-  end
-
-  protected
-  def all_boards_finished
-    Rails.logger.debug(">>>>>>> all_boards_finished called")
-    if boards.find_by(result: nil, round: completed_round)
-      errors.add(:completed_round, "All boards must have finished first")
-    end
   end
 
   private

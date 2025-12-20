@@ -58,7 +58,7 @@ class RoundRobin < Group
       # create board for this pairing, skip BYE
       if w_player and b_player
         idx += 1
-        Board.create!(tournament: self, group: self, number: idx, round: round, white: w_player, black: b_player)
+        Board.create!(tournament: self.tournament, group: self, number: idx, round: round, white: w_player, black: b_player)
       end
       self.reorder_boards(round)
     end
@@ -146,10 +146,6 @@ class RoundRobin < Group
 
     merged_standings_config.merged_standings.joins(:player).
       order('points DESC, sb DESC, h2h_rank ASC, wins DESC, playing_black DESC, players.name ASC')
-  end
-
-  def reorder_boards group, round
-    
   end
 
   private

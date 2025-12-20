@@ -115,10 +115,13 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def update_players
+    # adding single player
     player_id = admin_tournament_params[:player_id]
     player_name = admin_tournament_params[:player_name]
  #   group_id = admin_tournament_params[:group_id]
-    group_id = admin_tournaments_player_params[:group_id]
+    group_id = unless admin_tournament_params[:group_ids]
+      admin_tournaments_player_params[:group_id]
+    end
     group = Group.find(group_id) if group_id and not group_id.empty?
 
     if player_id and not player_id.empty?
@@ -127,7 +130,7 @@ class Admin::TournamentsController < ApplicationController
       @admin_tournament.add_player(name: player_name, group: group)
     end
 
-#    player_ids = [admin_tournament_params[:player_id]].compact.reject {|e| e.empty? }
+    # adding multiple players (file upload)
     params_player_names = admin_tournament_params[:player_names].to_a.reject {|e| e.empty? }
     Rails.logger.debug("player names: #{params_player_names.inspect}")
     player_ids = []

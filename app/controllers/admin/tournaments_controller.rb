@@ -204,8 +204,9 @@ class Admin::TournamentsController < ApplicationController
     def admin_tournament_params
       #params.fetch(:tournament, {})
       params.require(:tournament).
-             permit(:name, :fp, :logo, :rounds, :players_file, :description, :location, :date, :rated, :system,
-                    :max_walkover, :player_name, :player_id, player_names: [], player_ids: {}, group_ids: [])
+             permit(:name, :fp, :logo, :players_file, :description, :location, :date, :rated,
+                    :max_walkover, :player_name, :player_id, :listed,
+                    player_names: [], player_ids: {}, group_ids: [])
     end
 
     def admin_tournaments_player_params

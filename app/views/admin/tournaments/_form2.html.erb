@@ -48,6 +48,12 @@
             <%= form.label :rated, "Rated" %>
           </div>
         </div>
+        <div class="offset-sm-4 col-sm-8">
+          <div class="form-check">
+            <%= form.check_box :listed, class: "form-check-input" %>
+            <%= form.label :listed, "Listed on Dropdown menu" %>
+          </div>
+        </div>
       </div>
       <div class="form-group row">
         <%= form.label :name, "Description", class: "col-sm-4 col-form-label" %>

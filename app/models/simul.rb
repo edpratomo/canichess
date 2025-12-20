@@ -12,8 +12,8 @@ class Simul < ApplicationRecord
 
   has_one_attached :logo
   
-  after_create :create_past_event
-  before_destroy :delete_past_event
+  after_create :create_listed_event
+  before_destroy :delete_listed_event
 
   enum status: [ :not_started, :on_going, :completed ]
 
@@ -57,12 +57,12 @@ class Simul < ApplicationRecord
   end
 
   private
-  def create_past_event
+  def create_listed_event
     ListedEvent.create(eventable: self)
   end
 
-  def delete_past_event
-    past_event = ListedEvent.where(eventable: self).first
-    past_event.destroy if past_event
+  def delete_listed_event
+    listed_event = ListedEvent.where(eventable: self).first
+    listed_event.destroy if listed_event
   end
 end

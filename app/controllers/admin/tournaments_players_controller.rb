@@ -53,13 +53,31 @@ class Admin::TournamentsPlayersController < ApplicationController
     groups = []
     new_players = []
     selected = []
+    #default_group_name = if @tournament.groups.count == 1
+    #  @tournament.groups.first.name
+    #else
+    #  "Default"
+    #end
+
+    # tournament has a single group
+    default_group = @tournament.groups.first if @tournament.groups.count == 1
+
     registered_players = @tournament.players.inject({}) {|m,o| m[o.id] = true; m}
     if tournament_params[:players_file]
       File.foreach(tournament_params[:players_file].path).with_index do |line, index|
         name, group_name = line.split(',').map &:strip
         next if name.empty?
-        group_name ||= "Default"
-        group = Group.find_by(tournament: @tournament, name: group_name)
+
+        #group_name ||= "Default"
+        #group = Group.find_by(tournament: @tournament, name: group_name)
+
+        group = if default_group
+          # ignore group_name if tournament has a single group
+          default_group
+        else
+          Group.find_by(tournament: @tournament, name: group_name)
+        end
+
         suggestions = Player.fuzzy_search_limit(0.4, name: name)
 
         if suggestions.size == 1

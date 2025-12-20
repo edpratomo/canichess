@@ -51,6 +51,11 @@ crumb :tournament_players do |tournament|
   parent :tournament, tournament
 end
 
+crumb :tournament_player do |t_player|
+  link t_player.name, admin_tournaments_player_path(t_player)
+  parent :tournament_players, t_player.tournament
+end
+
 crumb :upload_tournament_players do |tournament|
   link "Upload Players", preview_admin_tournaments_players_path(tournament)
   parent :tournament_players, tournament

@@ -3,7 +3,7 @@ class Player < ApplicationRecord
   has_many :tournaments_players
   has_many :tournaments, through: :tournaments_players
   has_many :simuls_players
-  belongs_to :ccm_awarded_at, class_name: 'PastEvent', optional: true
+  belongs_to :ccm_awarded_at, class_name: 'ListedEvent', optional: true
   
   alias_attribute :volatility, :rating_volatility
   
@@ -47,7 +47,7 @@ class Player < ApplicationRecord
 
   # list of joined events before the given event
   def history event
-    PastEvent.includes(:eventable).where('created_at < ?', event.created_at).
+    ListedEvent.includes(:eventable).where('created_at < ?', event.created_at).
       order(created_at: :asc).map {|e| e.eventable }.
       select {|e| e.players.any? {|ply| ply == self } }
   end

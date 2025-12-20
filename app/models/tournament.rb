@@ -17,9 +17,9 @@ class Tournament < ApplicationRecord
   has_many :groups
   has_one_attached :logo
 
-  after_create :create_past_event
+  after_create :create_listed_event
   after_create :create_default_group
-  before_destroy :delete_past_event
+  before_destroy :delete_listed_event
 
   def logo_url
     if logo.attached?
@@ -88,13 +88,13 @@ class Tournament < ApplicationRecord
   end
 
   private
-  def create_past_event
-    PastEvent.create(eventable: self)
+  def create_listed_event
+    ListedEvent.create(eventable: self)
   end
 
-  def delete_past_event
-    past_event = PastEvent.where(eventable: self).first
-    past_event.destroy if past_event
+  def delete_listed_event
+    listed_event = ListedEvent.where(eventable: self).first
+    listed_event.destroy if listed_event
   end
 
   def create_default_group

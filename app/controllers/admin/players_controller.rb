@@ -70,7 +70,7 @@ class Admin::PlayersController < ApplicationController
     end
 
     def set_indexed_events_select_options
-      @indexed_events = PastEvent.includes(:eventable).order(created_at: :asc).map do |e|
+      @indexed_events = ListedEvent.includes(:eventable).order(created_at: :asc).map do |e|
         [ e.eventable.name, e.id ]
       end
     end
@@ -81,7 +81,7 @@ class Admin::PlayersController < ApplicationController
         :graduation_year, :affiliation, :remarks, :ccm_awarded_at).tap do |whitelisted|
           past_event_id = params[:player][:ccm_awarded_at].to_i
           if past_event_id > 0
-            whitelisted[:ccm_awarded_at] = PastEvent.find_by(id: past_event_id)
+            whitelisted[:ccm_awarded_at] = ListedEvent.find_by(id: past_event_id)
           else
             whitelisted[:ccm_awarded_at] = nil
           end

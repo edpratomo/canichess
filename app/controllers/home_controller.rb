@@ -19,7 +19,7 @@ class HomeController < ApplicationController
 
   private
   def set_front_page
-    front_page = PastEvent.includes(:eventable).find {|e| e.eventable.fp }
+    front_page = ListedEvent.includes(:eventable).find {|e| e.eventable.fp }
     if front_page
       @front_page = front_page.eventable
     end

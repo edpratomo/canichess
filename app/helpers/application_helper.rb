@@ -230,7 +230,7 @@ EOS
   end
 
   def events_dropdown
-    eventables = PastEvent.all.order(id: :desc).map {|e| e.eventable}
+    eventables = ListedEvent.all.order(id: :desc).map {|e| e.eventable}
     eventables.map do |eventable|
       if eventable.is_a? Tournament
         #{id: eventable.id, name: eventable.name, url: tournament_path(eventable),

@@ -58,11 +58,11 @@ class Simul < ApplicationRecord
 
   private
   def create_past_event
-    PastEvent.create(eventable: self)
+    ListedEvent.create(eventable: self)
   end
 
   def delete_past_event
-    past_event = PastEvent.where(eventable: self).first
+    past_event = ListedEvent.where(eventable: self).first
     past_event.destroy if past_event
   end
 end

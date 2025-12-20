@@ -7,8 +7,13 @@ crumb :admin do
 end
 
 crumb :tournament do |tournament|
-  link tournament.name, admin_tournament_path(tournament)
+  link "Tournament: #{tournament.name}", admin_tournament_path(tournament)
   parent :admin
+end
+
+crumb :edit_tournament do |tournament|
+  link "Editing Tournament", edit_admin_tournament_path(tournament)
+  parent :tournament, tournament
 end
 
 crumb :group do |group|
@@ -48,6 +53,11 @@ end
 
 crumb :upload_tournament_players do |tournament|
   link "Upload Players", preview_admin_tournaments_players_path(tournament)
+  parent :tournament_players, tournament
+end
+
+crumb :add_tournament_player do |tournament|
+  link "Add Player", new_admin_tournaments_players_path(tournament)
   parent :tournament_players, tournament
 end
 

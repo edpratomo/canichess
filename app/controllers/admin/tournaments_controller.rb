@@ -49,7 +49,7 @@ class Admin::TournamentsController < ApplicationController
   def finalize_round
     round = params[:round_id].to_i
     respond_to do |format|
-      if @group.finalize_round(@round)
+      if @group.finalize_round(round)
         format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else

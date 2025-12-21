@@ -75,11 +75,11 @@ class RoundRobin < Group
       prev_playing_black = prev_standing ? prev_standing.playing_black : 0
       total_playing_black = prev_playing_black + t_player.playing_black(round)
 
-      result = player_result_on_round(group, t_player, round, false)
+      result = player_result_on_round(self, t_player, round, false)
       prev_wins = prev_standing ? prev_standing.wins : 0
       total_wins = prev_wins + (result == 1 ? 1 : 0)
 
-      standing.update!(tournament: self, points: t_player.points, 
+      standing.update!(tournament: self.tournament, points: t_player.points, 
                        playing_black: total_playing_black, 
                        wins: total_wins, blacklisted: t_player.blacklisted)
     end
@@ -110,8 +110,8 @@ class RoundRobin < Group
   def finalize_round round
     last_round = self.boards.last.round
 
-    unless group.boards.where(round: round).where(result: nil).empty?
-      errors.add(:completed_round, "All boards in group #{group.name} must have finished first")
+    unless self.boards.where(round: round).where(result: nil).empty?
+      errors.add(:completed_round, "All boards in group #{self.name} must have finished first")
       return false
     end
 
@@ -234,13 +234,14 @@ class RoundRobin < Group
         pp [i, tied_players_idx].flatten.map {|e| final_stds[e].tournaments_player.name}
 
         players_points = {}
-        group = final_stds[i].tournaments_player.group
+        #group = final_stds[i].tournaments_player.group
+        
         # multiple players tied, find head-to-head results
         [i, tied_players_idx].flatten.each do |j|
           [i, tied_players_idx].flatten.each do |k|
             next if j == k
             players_points[j] ||= 0
-            players_points[j] += player_result(group, final_stds[j].tournaments_player, final_stds[k].tournaments_player)
+            players_points[j] += player_result(self, final_stds[j].tournaments_player, final_stds[k].tournaments_player)
           end
         end
 

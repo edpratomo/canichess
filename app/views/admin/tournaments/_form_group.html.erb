@@ -31,7 +31,7 @@
       </h3>
     </div>
 
-    <div class="card-body">
+    <div class="card-body" data-controller="toggle-input">
       <div class="form-group row">
         <%= form.label :name, "Name", class: "col-sm-4 col-form-label" %>
         <div class="col-sm-4">
@@ -46,11 +46,15 @@
         <% end %>
         <div class="col-sm-4">
           <div class="icheck-primary d-inline px-3">
-            <%= form.radio_button :type, "Swiss", disabled: already_started %>
+            <%= form.radio_button :type, "Swiss", disabled: already_started,
+                                  data: { action: "change->toggle-input#toggle",
+                                          "toggle-input-target": "radio" } %>
             <%= form.label "type_swiss", "Swiss" %>
           </div>
           <div class="icheck-primary d-inline px-3">
-            <%= form.radio_button :type, "RoundRobin", disabled: already_started %>
+            <%= form.radio_button :type, "RoundRobin", disabled: already_started,
+                                  data: { action: "change->toggle-input#toggle",
+                                         "toggle-input-target": "radio" } %>
             <%= form.label "type_roundrobin", "Round-Robin" %>
           </div>
         </div>
@@ -59,14 +63,17 @@
       <div class="form-group row">
         <%= form.label :rounds, "Number of Rounds", class: "col-sm-4 col-form-label" %>
         <div class="col-sm-4">
-          <%= form.number_field :rounds, class: "form-control", placeholder: "Enter number of rounds", min: 3, disabled: already_started %>
+          <%= form.number_field :rounds, class: "form-control", placeholder: "Enter number of rounds", 
+                            min: 3, disabled: already_started, data: { "toggle-input-target": "field" } %>
         </div> 
       </div>
 
       <div class="form-group row">
         <%= form.label :rounds, "Bipartite Matching", class: "col-sm-4 col-form-label" %>
         <div class="col-sm-4">
-          <%= form.number_field :bipartite_matching, class: "form-control", placeholder: "How many initial rounds", value: group.bipartite_matching.last, disabled: already_started %>
+          <%= form.number_field :bipartite_matching, class: "form-control", placeholder: "How many initial rounds", 
+                            value: group.bipartite_matching.last, disabled: already_started,
+                            data: { "toggle-input-target": "field" } %>
         </div> 
       </div>
 

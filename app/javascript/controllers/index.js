@@ -30,3 +30,6 @@ application.register("simul-result", SimulResultController)
 
 import SimulScoreController from "./simul_score_controller"
 application.register("simul-score", SimulScoreController)
+
+import ToggleInputController from "./toggle_input_controller"
+application.register("toggle-input", ToggleInputController)

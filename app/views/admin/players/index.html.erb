@@ -1,9 +1,9 @@
-
+<% breadcrumb :players_list %>
 
 <div class="row">
   <div class="col-md-10">
     <div class="card card-primary card-outline">
-      <div class="card-body table-responsive p-2">
+      <div class="card-body table-responsive p-3">
         <table id="datatable_with_search" class="table table-bordered table-hover text-nowrap">
           <thead>
             <tr>
@@ -21,15 +21,15 @@
           <tbody>
     <% @admin_players.each_with_index do |player,idx| %>
       <tr>
-        <td><%= idx + 1 %></td>
-        <td><%= player.name %></td>
-        <td><%= player.ccm_awarded_at ? player.ccm_awarded_at.eventable.name : '' %></td>
-        <td><%= player.email %></td>
-        <td><%= player.fide_id %></td>
-        <td><%= player.affiliation %></td>
-        <td><%= player.graduation_year %></td>
-        <td><%= player.rating %></td>
-        <td class="project-actions text-right">
+        <td style="vertical-align: middle;" class="text-right"><%= idx + 1 %></td>
+        <td style="vertical-align: middle;"><%= player.name %></td>
+        <td style="vertical-align: middle;"><%= player.ccm_awarded_at ? player.ccm_awarded_at.eventable.name : '' %></td>
+        <td style="vertical-align: middle;"><%= player.email %></td>
+        <td style="vertical-align: middle;"><%= player.fide_id %></td>
+        <td style="vertical-align: middle;"><%= player.affiliation %></td>
+        <td style="vertical-align: middle;" class="text-center"><%= player.graduation_year %></td>
+        <td style="vertical-align: middle;" class="text-center"><%= player.rating %></td>
+        <td class="project-actions text-center">
             <%= link_to admin_player_path(player), class: "btn btn-primary btn-sm" do %>
               <i class="fas fa-folder"></i>View
             <% end %>

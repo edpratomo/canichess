@@ -3,14 +3,11 @@
     <i class="fas fa-flag-checkered"></i> Start
   <% end %>
 <% end %>
-  <%= link_to edit_group_admin_tournaments_path(group), class: "btn btn-info btn-sm" do %>
-    <i class="fas fa-pencil-alt"></i> Edit
-  <% end %>
-  <%= link_to group_admin_tournaments_players_path(tournament, group), class: "btn btn-success btn-sm" do %>
-    <i class="fas fa-pencil-alt"></i> Players
-  <% end %>
-<% unless group.boards.where.not(result: nil).any? %>
-  <%#= link_to delete_admin_boards_path(tournament, group), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-danger btn-sm" do %>
-    <i class="fas fa-pencil-alt"></i> Delete Pairings
-  <%# end %>
+
+<%= link_to edit_group_admin_tournaments_path(group), class: "btn btn-info btn-sm" do %>
+  <i class="fas fa-pencil-alt"></i> Edit
+<% end %>
+
+<%= link_to group_admin_tournaments_players_path(tournament, group), class: "btn btn-success btn-sm" do %>
+  <i class="fas fa-pencil-alt"></i> Players
 <% end %>

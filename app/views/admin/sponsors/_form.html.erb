@@ -1,0 +1,17 @@
+<%= form_with(model: admin_sponsor) do |form| %>
+  <% if admin_sponsor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(admin_sponsor.errors.count, "error") %> prohibited this admin_sponsor from being saved:</h2>
+
+      <ul>
+        <% admin_sponsor.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

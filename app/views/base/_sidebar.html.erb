@@ -45,6 +45,23 @@
               </p>
             <% end %>
           </li>
+          <li class="nav-header">SPONSORS</li>
+          <li class="nav-item">
+            <%= link_to new_admin_sponsor_path, class: "nav-link" do %>
+              <i class="nav-icon far fa-edit"></i>
+              <p>
+                Create New
+              </p>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to admin_sponsors_path, class: "nav-link" do %>
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                List
+              </p>
+            <% end %>
+          </li>
           <li class="nav-header">PLAYERS</li>
           <li class="nav-item">
             <%= link_to admin_players_path, class: "nav-link" do %>

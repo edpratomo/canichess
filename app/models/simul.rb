@@ -12,9 +12,6 @@ class Simul < ApplicationRecord
 
   has_one_attached :logo
   
-  after_create :create_listed_event
-  before_destroy :delete_listed_event
-
   enum status: [ :not_started, :on_going, :completed ]
 
   def logo_url
@@ -56,13 +53,4 @@ class Simul < ApplicationRecord
     "#{total_completed - total_participants_score} - #{total_participants_score}"
   end
 
-  private
-  def create_listed_event
-    ListedEvent.create(eventable: self)
-  end
-
-  def delete_listed_event
-    listed_event = ListedEvent.where(eventable: self).first
-    listed_event.destroy if listed_event
-  end
 end

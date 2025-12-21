@@ -28,6 +28,12 @@
             <b>Rated</b> <span class="float-right"><%= @admin_tournament.rated ? "yes" : "no" %></span>
           </li>
           <li class="list-group-item">
+            <b>Front page</b> <span class="float-right"><%= @admin_tournament.fp ? "yes" : "no" %></span>
+          </li>
+          <li class="list-group-item">
+            <b>Listed on Dropdown menu</b> <span class="float-right"><%= @admin_tournament.listed ? "yes" : "no" %></span>
+          </li>
+          <li class="list-group-item">
             <b>Status</b> <span class="float-right"><%= status_badge(@admin_tournament) %></span>
           </li>
         </ul>

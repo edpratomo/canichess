@@ -23,6 +23,9 @@
               <%= link_to @admin_simul.players.size, simul_admin_simuls_players_path(@admin_simul), class: "float-right" %>
             </li>
             <li class="list-group-item">
+              <b>Listed on Dropdown menu</b> <span class="float-right"><%= @admin_simul.listed ? "yes" : "no" %></span>
+            </li>
+            <li class="list-group-item">
               <b>Status</b> <span class="float-right"><%= simul_status_badge(@admin_simul) %></span>
             </li>
           </ul>

@@ -32,7 +32,7 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/db/backup
+/backups
 /public/packs
 /public/packs-test
 /node_modules
@@ -45,5 +45,4 @@ yarn-debug.log*
 /bundle/*
 /sbin/*
 
-# Ignore heroku db backups
-latest.dump*
+.env.production

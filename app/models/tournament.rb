@@ -17,14 +17,10 @@ class Tournament < ApplicationRecord
   has_many :groups
   has_one_attached :logo
 
-  after_create :create_listed_event, if: -> { listed }
   after_create :create_default_group
   before_destroy :delete_listed_event
 
-  after_commit :create_listed_event, on: :update, if: -> { saved_change_to_listed? and listed }
-  after_commit :delete_listed_event, on: :update, if: -> { saved_change_to_listed? and not listed }
-
-  def logo_url
+   def logo_url
     if logo.attached?
       logo
     else
@@ -91,14 +87,6 @@ class Tournament < ApplicationRecord
   end
 
   private
-  def create_listed_event
-    ListedEvent.create(eventable: self)
-  end
-
-  def delete_listed_event
-    listed_event = ListedEvent.where(eventable: self).first
-    listed_event.destroy if listed_event
-  end
 
   def create_default_group
     Swiss.create!(tournament: self, name: 'Default', rounds: 7)

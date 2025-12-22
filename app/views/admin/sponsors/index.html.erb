@@ -19,7 +19,7 @@
               <td style="vertical-align: middle;"><%= image_tag sponsor.logo_thumb if sponsor.logo.attached? %></td>
               <td style="vertical-align: middle;"><%= sponsor.name %></td>
               <td style="vertical-align: middle;"><%= sponsor.url %></td>
-              <td class="project-actions text-center">
+              <td style="vertical-align: middle;" class="project-actions text-center">
                   <%= link_to admin_sponsor_path(sponsor), class: "btn btn-primary btn-sm" do %>
                     <i class="fas fa-folder"></i>View
                   <% end %>

@@ -1,4 +1,35 @@
-<p id="notice"><%= notice %></p>
+<% breadcrumb :sponsor, @admin_sponsor %>
 
-<%= link_to 'Edit', edit_admin_sponsor_path(@admin_sponsor) %> |
-<%= link_to 'Back', admin_sponsors_path %>
+<div class="row">
+  <div class="col-md-4">
+
+    <!-- Profile Image -->
+    <div class="card card-primary card-outline">
+      <div class="card-body box-profile">
+        <div class="text-center">
+          <%= image_tag @admin_sponsor.logo_url, class: "img-fluid", alt: "Sponsor's logo" %>
+        </div>
+
+        <h3 class="profile-username text-center"><%= @admin_sponsor.name %></h3>
+
+        <p class="text-muted text-center"><%= @admin_sponsor.remark %></p>
+
+        <dl class="row">
+          <dt class="col-sm-4">URL</dt>
+          <dd class="col-sm-8"><%= link_to @admin_sponsor.url, @admin_sponsor.url, target: "_blank" %></dd>
+          <dt class="col-sm-4">Sponsored events</dt>
+          <dd class="col-sm-8">
+            <ol>
+            <% @eventables.each do |eventable| %>
+              <li style="font-size: 1.2em"><%= eventable.class.name %>: <%= eventable.name %></li>
+            <% end %>
+            </ol>         
+          </dd>
+        </dl>
+
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div> <!-- /.col -->
+</div>

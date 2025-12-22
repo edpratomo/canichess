@@ -20,7 +20,7 @@ class Tournament < ApplicationRecord
   after_create :create_default_group
   before_destroy :delete_listed_event
 
-   def logo_url
+  def logo_url
     if logo.attached?
       logo
     else

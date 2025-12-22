@@ -32,7 +32,7 @@
           <div class="carousel-inner">
             <% @tournament.sponsors.each_with_index do |sponsor,idx| %>
               <div class="carousel-item<% if idx == 0 %> active<% end %>">
-                <%= link_to image_tag(sponsor.logo, alt: sponsor.name, class: "d-block w-100"), sponsor.url, target: "_blank" %>
+                <%= link_to image_tag(sponsor.logo_url, alt: sponsor.name, class: "d-block w-100"), sponsor.url, target: "_blank" %>
               </div>
             <% end %>
           </div>

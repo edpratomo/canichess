@@ -3,7 +3,7 @@ class Admin::SponsorsController < ApplicationController
 
   # GET /admin/sponsors or /admin/sponsors.json
   def index
-    @admin_sponsors = Admin::Sponsor.all
+    @admin_sponsors = Sponsor.all.order(created_at: :desc)
   end
 
   # GET /admin/sponsors/1 or /admin/sponsors/1.json
@@ -12,7 +12,7 @@ class Admin::SponsorsController < ApplicationController
 
   # GET /admin/sponsors/new
   def new
-    @admin_sponsor = Admin::Sponsor.new
+    @admin_sponsor = Sponsor.new
   end
 
   # GET /admin/sponsors/1/edit
@@ -21,7 +21,7 @@ class Admin::SponsorsController < ApplicationController
 
   # POST /admin/sponsors or /admin/sponsors.json
   def create
-    @admin_sponsor = Admin::Sponsor.new(admin_sponsor_params)
+    @admin_sponsor = Sponsor.new(admin_sponsor_params)
 
     respond_to do |format|
       if @admin_sponsor.save
@@ -60,11 +60,11 @@ class Admin::SponsorsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_admin_sponsor
-      @admin_sponsor = Admin::Sponsor.find(params[:id])
+      @admin_sponsor = Sponsor.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def admin_sponsor_params
-      params.fetch(:admin_sponsor, {})
+      params.fetch(:sponsor, {}).permit(:name, :remark, :logo, :url)
     end
 end

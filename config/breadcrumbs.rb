@@ -91,6 +91,21 @@ crumb :edit_player do |player|
   parent :player, player
 end
 
+crumb :sponsor do |sponsor|
+  link sponsor.name, admin_sponsor_path(sponsor)
+  parent :sponsors_list
+end
+
+crumb :edit_sponsor do |sponsor|
+  link "Editing #{sponsor.name}", edit_admin_sponsor_path(sponsor)
+  parent :sponsor, sponsor
+end
+
+crumb :sponsors_list do
+  link "Sponsors List", admin_sponsors_path
+  parent :admin
+end
+
 # If you want to split your breadcrumbs configuration over multiple files, you
 # can create a folder named `config/breadcrumbs` and put your configuration
 # files there. All *.rb files (e.g. `frontend.rb` or `products.rb`) in that

@@ -101,3 +101,5 @@ gem "lucide-rails", "~> 0.7.1"
 gem "view_component", "~> 3.24"
 
 gem "gretel", "~> 5.1"
+
+gem "turbo-rails", "~> 2.0"

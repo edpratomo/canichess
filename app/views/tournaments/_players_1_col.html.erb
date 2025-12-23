@@ -3,6 +3,8 @@
             <%= image_tag(@tournament.logo_url, alt: "Tournament Logo", style: "max-width: 10%; opacity: .8") %>
             <%= @tournament.name %>
           </h2>
+        </div>
+        <div class="row justify-content-center">
           <%= render 'players_table', players: players, tournament: tournament, offset: 0 %>
         </div>
         <!-- /.row -->

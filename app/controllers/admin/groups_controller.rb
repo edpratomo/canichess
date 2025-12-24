@@ -1,0 +1,79 @@
+class Admin::GroupsController < ApplicationController
+  before_action :set_admin_group, only: %i[ show edit update destroy ]
+  before_action :set_admin_tournament, only: %i[ new create ], if: :tournament_context?
+  
+  def tournament_context?
+    params[:tournament_id].present?
+  end
+
+  # GET /admin/groups or /admin/groups.json
+  def index
+    @admin_groups = Group.all
+  end
+
+  # GET /admin/groups/1 or /admin/groups/1.json
+  def show
+  end
+
+  # GET /admin/groups/new
+  def new
+    @admin_group = Group.new(tournament: @admin_tournament)
+  end
+
+  # GET /admin/groups/1/edit
+  def edit
+  end
+
+  # POST /admin/groups or /admin/groups.json
+  def create
+    @admin_group = Group.new(admin_group_params)
+
+    respond_to do |format|
+      if @admin_group.save
+        format.html { redirect_to admin_group_url(@admin_group), notice: "Group was successfully created." }
+        format.json { render :show, status: :created, location: @admin_group }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @admin_group.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /admin/groups/1 or /admin/groups/1.json
+  def update
+    respond_to do |format|
+      if @admin_group.update(admin_group_params)
+        format.html { redirect_to admin_group_url(@admin_group), notice: "Group was successfully updated." }
+        format.json { render :show, status: :ok, location: @admin_group }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @admin_group.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /admin/groups/1 or /admin/groups/1.json
+  def destroy
+    @admin_group.destroy
+
+    respond_to do |format|
+      format.html { redirect_to admin_groups_url, notice: "Group was successfully destroyed." }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_admin_group
+      @admin_group = Group.find(params[:id])
+    end
+
+    def set_admin_tournament
+      @admin_tournament = Tournament.find(params[:tournament_id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def admin_group_params
+      params.fetch(:admin_group, {})
+    end
+end

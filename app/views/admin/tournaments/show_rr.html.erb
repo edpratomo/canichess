@@ -59,10 +59,7 @@
 
         <strong><i class="fa fa-solid fa-users mr-1"></i> Groups</strong>
         <p class="text-muted">
-          <% @admin_tournament.groups.each do |group| %>
-            <%= link_to group.name, group_show_admin_tournaments_path(@admin_tournament, group), target: :_blank %>
-            <%= ' | ' unless group == @admin_tournament.groups.last %>
-          <% end %>
+          <%= render 'groups', admin_tournament: @admin_tournament %>
         </p>
 
         <hr>

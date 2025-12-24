@@ -97,6 +97,7 @@ Rails.application.routes.draw do
       end
 
       resources :sponsors
+      resources :groups
     end
   end
 

@@ -1,10 +1,17 @@
-          <%= turbo_frame_tag("sponsors_#{admin_tournament.id}") do %>
-            <%= link_to new_admin_tournament_sponsor_path(admin_tournament), class: "btn btn-warning btn-sm" do %>
-              <i class="fas fa-plus"></i> Add Sponsor
-            <% end %>
+<%= turbo_frame_tag("sponsors_#{admin_tournament.id}") do %>
+  <%= link_to new_admin_tournament_sponsor_path(admin_tournament), class: "btn btn-warning btn-sm" do %>
+    <i class="fas fa-plus"></i> Add Sponsor
+  <% end %>
 
-            <% admin_tournament.sponsors.each do |sponsor| %>
-              <%= link_to sponsor.name, sponsor.url, target: :_blank %>
-              <%= ' | ' unless sponsor == admin_tournament.sponsors.last %>
-            <% end %>
-          <% end %>
+  <% admin_tournament.sponsors.each do |sponsor| %>
+    <%= link_to sponsor.name, sponsor.url, target: :_blank %>
+
+    <%= link_to admin_tournament_sponsor_path(admin_tournament, sponsor), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-danger ml-2" do %>
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
+    <% end %>
+
+    <%= ' | ' unless sponsor == admin_tournament.sponsors.last %>
+  <% end %>
+<% end %>

@@ -1,6 +1,6 @@
 class Admin::SponsorsController < ApplicationController
   before_action :set_admin_sponsor, only: %i[ show edit update destroy ]
-  before_action :set_tournament, only: %i[ new create show index ], if: :tournament_context?
+  before_action :set_tournament, only: %i[ new create show index destroy ], if: :tournament_context?
 
   # GET /admin/sponsors or /admin/sponsors.json
   def index
@@ -39,7 +39,7 @@ class Admin::SponsorsController < ApplicationController
       redirect_to admin_tournament_path(@tournament),
                 notice: "Sponsor added to tournament"
     else
-      @admin_sponsor = Sponsor.new(sponsor_params)
+      @admin_sponsor = Sponsor.new(admin_sponsor_params)
 
       if @admin_sponsor.save
         redirect_to admin_sponsor_path(@admin_sponsor), notice: "Sponsor was successfully created." 
@@ -64,6 +64,12 @@ class Admin::SponsorsController < ApplicationController
 
   # DELETE /admin/sponsors/1 or /admin/sponsors/1.json
   def destroy
+    if @tournament
+      @tournament.sponsors.delete(@admin_sponsor)
+      redirect_to admin_tournament_path(@tournament), notice: "Sponsor removed from tournament"
+      return
+    end
+
     @admin_sponsor.destroy
 
     respond_to do |format|

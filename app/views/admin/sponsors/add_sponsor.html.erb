@@ -1,5 +1,5 @@
 <%= turbo_frame_tag("sponsors_#{@tournament.id}") do %>
-  <%= form_with(model: @tournament, url: admin_tournament_sponsors_path(@tournament), html: { method: :post, class: "form-horizontal", role: "form"}) do |form| %>
+  <%= form_with(model: @tournament, url: admin_tournament_sponsors_path(@tournament), html: { method: :post, class: "form-horizontal", role: "form"}, data: { turbo_frame: "_top" }) do |form| %>
   <div class="card card-primary">
     <div class="card-body">
       <div class="form-group">

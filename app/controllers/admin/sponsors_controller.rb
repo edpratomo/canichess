@@ -1,10 +1,14 @@
 class Admin::SponsorsController < ApplicationController
   before_action :set_admin_sponsor, only: %i[ show edit update destroy ]
-  before_action :set_tournament, only: %i[ new create show ], if: :tournament_context?
+  before_action :set_tournament, only: %i[ new create show index ], if: :tournament_context?
 
   # GET /admin/sponsors or /admin/sponsors.json
   def index
-    @admin_sponsors = Sponsor.all.order(created_at: :desc)
+    if @tournament
+      render 'admin/tournaments/sponsors', admin_tournament: @tournament
+    else
+      @admin_sponsors = Sponsor.all.order(created_at: :desc)
+    end
   end
 
   # GET /admin/sponsors/1 or /admin/sponsors/1.json

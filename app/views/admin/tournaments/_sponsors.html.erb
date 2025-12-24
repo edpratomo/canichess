@@ -1,5 +1,7 @@
           <%= turbo_frame_tag("sponsors_#{admin_tournament.id}") do %>
-            <%= link_to "Add sponsor", new_admin_tournament_sponsor_path(admin_tournament) %>
+            <%= link_to new_admin_tournament_sponsor_path(admin_tournament), class: "btn btn-warning btn-sm" do %>
+              <i class="fas fa-plus"></i> Add Sponsor
+            <% end %>
 
             <% admin_tournament.sponsors.each do |sponsor| %>
               <%= link_to sponsor.name, sponsor.url, target: :_blank %>

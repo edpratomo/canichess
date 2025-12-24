@@ -1,0 +1,17 @@
+<%= turbo_frame_tag("sponsors_#{@tournament.id}") do %>
+  <%= form_with(model: @tournament, url: admin_tournament_sponsors_path(@tournament), html: { method: :post, class: "form-horizontal", role: "form"}) do |form| %>
+  <div class="card card-primary">
+    <div class="card-body">
+      <div class="form-group">
+        <div class="col-sm-6">
+          <%= form.select :sponsor_id, @sponsors_selection, { prompt: "Select a sponsor" }, { class: "form-control" } %>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <%= form.submit "Add Sponsor", class: "btn btn-primary" %>
+      <%= link_to "Cancel", admin_tournament_path(@tournament), type: "button", class: "btn btn-secondary" %>
+    </div>
+  </div>
+  <% end %>
+<% end %>

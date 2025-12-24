@@ -56,14 +56,22 @@
           <% end %>
         </p>
         <hr>
-        <strong><i class="fa fa-solid fa-users mr-1"></i> Groups</strong>
 
+        <strong><i class="fa fa-solid fa-users mr-1"></i> Groups</strong>
         <p class="text-muted">
           <% @admin_tournament.groups.each do |group| %>
             <%= link_to group.name, group_show_admin_tournaments_path(@admin_tournament, group), target: :_blank %>
             <%= ' | ' unless group == @admin_tournament.groups.last %>
           <% end %>
         </p>
+
+        <hr>
+        <strong><i class="fas fa-ad mr-1"></i> Sponsors</strong>
+
+        <p class="text-muted">
+          <%= render 'sponsors', admin_tournament: @admin_tournament %>
+        </p>
+
         <hr>
         <% if @admin_tournament.groups.count == 1 and @admin_tournament.groups.first.players.count > 0 and @admin_tournament.groups.first.current_round == 0 %>
           <%= link_to start_group_admin_tournaments_path(@admin_tournament, @admin_tournament.groups.first), method: :patch, class: "btn btn-primary btn-sm" do %>

@@ -1,8 +1,14 @@
 class Admin::TournamentsController < ApplicationController
-  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups create_group group_show finalize_round]
+  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups 
+                                                 create_group group_show sponsors finalize_round]
   before_action :redirect_cancel, only: [:create, :update]
   before_action :set_group, only: [:edit_group, :update_group, :create_group, :finalize_round, :start, :group_show ]
   before_action :redirect_cancel_players, only: [:update_players]
+  before_action :set_sponsors_selection, only: [:edit, :update, :new, :create]
+
+  def sponsors
+    render 'sponsors', admin_tournament: @admin_tournament
+  end
 
   def groups
     @groups = @admin_tournament.groups.order(:name)
@@ -14,7 +20,6 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def edit_group
-
   end
 
   def update_group
@@ -88,7 +93,6 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def group_show
-
   end
 
   # GET /admin/tournaments/new
@@ -206,7 +210,7 @@ class Admin::TournamentsController < ApplicationController
       params.require(:tournament).
              permit(:name, :fp, :logo, :players_file, :description, :location, :date, :rated,
                     :max_walkover, :player_name, :player_id, :listed,
-                    player_names: [], player_ids: {}, group_ids: [])
+                    player_names: [], player_ids: {}, group_ids: [], sponsor_ids: [])
     end
 
     def admin_tournaments_player_params
@@ -224,7 +228,6 @@ class Admin::TournamentsController < ApplicationController
           whitelisted[:bipartite_matching] = []
         end
       end
-      #params.require(:group).permit(:name, :tournament_id, :description, :type, :rounds, :win_point, :draw_point, :bye_point)
     end
 
     def redirect_cancel
@@ -235,4 +238,7 @@ class Admin::TournamentsController < ApplicationController
       redirect_to admin_tournament_path(params[:id]) if params[:cancel]
     end
 
+    def set_sponsors_selection
+      @sponsors_selection = Sponsor.all.order(:name).pluck(:name, :id)
+    end
 end

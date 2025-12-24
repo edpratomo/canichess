@@ -1,5 +1,6 @@
 class Admin::SponsorsController < ApplicationController
   before_action :set_admin_sponsor, only: %i[ show edit update destroy ]
+  before_action :set_tournament, only: %i[ new create show ], if: :tournament_context?
 
   # GET /admin/sponsors or /admin/sponsors.json
   def index
@@ -13,7 +14,12 @@ class Admin::SponsorsController < ApplicationController
 
   # GET /admin/sponsors/new
   def new
-    @admin_sponsor = Sponsor.new
+    if @tournament
+      @sponsors_selection = Sponsor.all.order(:name).pluck(:name, :id)
+      render :add_sponsor
+    else
+      @admin_sponsor = Sponsor.new
+    end
   end
 
   # GET /admin/sponsors/1/edit
@@ -22,15 +28,19 @@ class Admin::SponsorsController < ApplicationController
 
   # POST /admin/sponsors or /admin/sponsors.json
   def create
-    @admin_sponsor = Sponsor.new(admin_sponsor_params)
+    if @tournament
+      sponsor = Sponsor.find(tournament_params[:sponsor_id])
+      @tournament.sponsors << sponsor unless @tournament.sponsors.include?(sponsor)
 
-    respond_to do |format|
+      redirect_to admin_tournament_path(@tournament),
+                notice: "Sponsor added to tournament"
+    else
+      @admin_sponsor = Sponsor.new(sponsor_params)
+
       if @admin_sponsor.save
-        format.html { redirect_to admin_sponsor_url(@admin_sponsor), notice: "Sponsor was successfully created." }
-        format.json { render :show, status: :created, location: @admin_sponsor }
+        redirect_to admin_sponsor_path(@admin_sponsor), notice: "Sponsor was successfully created." 
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @admin_sponsor.errors, status: :unprocessable_entity }
+        render :new
       end
     end
   end
@@ -59,9 +69,21 @@ class Admin::SponsorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    def tournament_context?
+      params[:tournament_id].present?
+    end
+  
+      # Use callbacks to share common setup or constraints between actions.
     def set_admin_sponsor
       @admin_sponsor = Sponsor.find(params[:id])
+    end
+
+    def set_tournament
+      @tournament = Tournament.find(params[:tournament_id])
+    end
+
+    def tournament_params
+      params.fetch(:tournament, {}).permit(:sponsor_id)
     end
 
     # Only allow a list of trusted parameters through.

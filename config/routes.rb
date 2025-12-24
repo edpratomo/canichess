@@ -95,6 +95,8 @@ Rails.application.routes.draw do
         get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
         patch ':id/:group_id/:round_id/finalize' => 'tournaments#finalize_round', as: "finalize"
       end
+
+      resources :sponsors
     end
   end
 

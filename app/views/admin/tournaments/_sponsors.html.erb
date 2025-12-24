@@ -7,7 +7,7 @@
     <%= link_to sponsor.name, sponsor.url, target: :_blank %>
 
     <%= link_to admin_tournament_sponsor_path(admin_tournament, sponsor), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-danger ml-2" do %>
-      <button type="button" class="btn btn-tool" data-card-widget="remove">
+      <button type="button" class="btn btn-tool p-0">
         <i class="fas fa-times"></i>
       </button>
     <% end %>

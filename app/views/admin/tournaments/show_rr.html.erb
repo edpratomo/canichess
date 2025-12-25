@@ -57,8 +57,8 @@
         </p>
         <hr>
 
-        <strong><i class="fa fa-solid fa-users mr-1"></i> Groups</strong>
-        <p class="text-muted">
+        <strong class="pb-2 d-inline-block"><i class="fa fa-solid fa-users mr-1"></i> Groups</strong>
+        <p>
           <%= render 'groups', admin_tournament: @admin_tournament %>
         </p>
 
@@ -80,9 +80,6 @@
         <% end %>
         <%= link_to tournament_admin_tournaments_players_path(@admin_tournament), class: "btn btn-success btn-sm" do %>
             <i class="fas fa-pencil-alt"></i> Players
-        <% end %>
-        <%= link_to groups_admin_tournaments_path(@admin_tournament), class: "btn btn-info btn-sm" do %>
-            <i class="fas fa-pencil-alt"></i> Groups
         <% end %>
 
       </div> <!-- /.card-body -->

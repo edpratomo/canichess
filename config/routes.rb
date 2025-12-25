@@ -87,10 +87,10 @@ Rails.application.routes.draw do
         patch ':id/start' => 'tournaments#start', as: "start"
         patch ':id/:group_id/start' => 'tournaments#start', as: "start_group"
         patch ':id/update_players' => 'tournaments#update_players', as: "update_players"
-        get ':id/groups' => 'tournaments#groups', as: "groups"
+        #get ':id/groups' => 'tournaments#groups', as: "groups"
         get ':group_id/groups/edit' => 'tournaments#edit_group', as: "edit_group"
         patch ':group_id/groups/update' => 'tournaments#update_group', as: "update_group"
-        post ':id/create_group' => 'tournaments#create_group', as: "create_group"
+        #post ':id/create_group' => 'tournaments#create_group', as: "create_group"
 
         get ':id/:group_id/show' => 'tournaments#group_show', as: "group_show"
         patch ':id/:group_id/:round_id/finalize' => 'tournaments#finalize_round', as: "finalize"

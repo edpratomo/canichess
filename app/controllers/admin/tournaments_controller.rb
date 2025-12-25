@@ -1,22 +1,13 @@
 class Admin::TournamentsController < ApplicationController
-  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players groups 
-                                                 create_group group_show sponsors finalize_round]
+  before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players 
+                                                 group_show sponsors finalize_round]
   before_action :redirect_cancel, only: [:create, :update]
-  before_action :set_group, only: [:edit_group, :update_group, :create_group, :finalize_round, :start, :group_show ]
+  before_action :set_group, only: [:edit_group, :update_group, :finalize_round, :start, :group_show ]
   before_action :redirect_cancel_players, only: [:update_players]
   before_action :set_sponsors_selection, only: [:edit, :update, :new, :create]
 
   def sponsors
     render 'sponsors', admin_tournament: @admin_tournament
-  end
-
-  def groups
-    @groups = @admin_tournament.groups.order(:name)
-    @group = Group.new(tournament: @admin_tournament)
-    respond_to do |format|
-      format.html # groups.html.erb
-      format.json { render json: @groups }
-    end
   end
 
   def edit_group
@@ -30,23 +21,6 @@ class Admin::TournamentsController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def create_group
-    @group = Group.new(tournament: @admin_tournament, name: group_params[:name], type: group_params[:type],
-                       rounds: group_params[:rounds], 
-                       win_point: group_params[:win_point], draw_point: group_params[:draw_point], 
-                       bye_point: group_params[:bye_point])
-
-    respond_to do |format|
-      if @group.save
-        format.html { redirect_to groups_admin_tournaments_url(@admin_tournament), notice: "Tournament group was successfully created." }
-        format.json { render :show, status: :created, location: @admin_tournament }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @admin_tournament.errors, status: :unprocessable_entity }
       end
     end
   end

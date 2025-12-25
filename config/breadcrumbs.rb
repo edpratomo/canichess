@@ -17,7 +17,7 @@ crumb :edit_tournament do |tournament|
 end
 
 crumb :group do |group|
-  link group.name, group_show_admin_tournaments_path(group.tournament, group)
+  link "Group: #{group.name}", group_show_admin_tournaments_path(group.tournament, group)
   parent :tournament, group.tournament
 end
 
@@ -49,6 +49,11 @@ end
 crumb :tournament_players do |tournament|
   link "Players", tournament_admin_tournaments_players_path(tournament)
   parent :tournament, tournament
+end
+
+crumb :tournament_players_in_group do |tournament, group|
+  link "Players in #{group.name}", group_admin_tournaments_players_path(tournament, group)
+  parent :group, group
 end
 
 crumb :tournament_player do |t_player|

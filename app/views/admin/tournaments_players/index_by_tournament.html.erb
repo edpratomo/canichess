@@ -1,8 +1,14 @@
-<% breadcrumb :tournament_players, @tournament %>
+<% if @group %>
+  <% breadcrumb :tournament_players_in_group, @tournament, @group %>
+<% else %>
+  <% breadcrumb :tournament_players, @tournament %>
+<% end %>
 
 <% content_for :page_title do %>
 Tournament <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %>
-- <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @group) if @group %>
+  <% if @group %>
+  - <%= link_to @group.name, group_show_admin_tournaments_path(@tournament, @group) %>
+  <% end %>
 <% end %>
 
 <div class="row">
@@ -40,12 +46,12 @@ Tournament <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %>
     <tbody>
       <% @tournaments_players.each_with_index do |player,idx| %>
         <tr>
-          <td><%= idx + 1 %></td>
-          <td><%= link_to(player.name, admin_tournaments_player_path(player)) %> <%= blacklisted_icon(player) %></td>
-          <td><%= player.rating %></td>
-          <td><%= player.group ? player.group.name : "No Group" %></td>
-          <td style="text-align:center;"><%= player.labels.sort.join(",") %></td>
-          <td style="text-align:center;"><%= player.points %></td>
+          <td style="vertical-align: middle;" class="text-right"><%= idx + 1 %></td>
+          <td style="vertical-align: middle;"><%= link_to(player.name, admin_tournaments_player_path(player)) %> <%= blacklisted_icon(player) %></td>
+          <td style="vertical-align: middle;" class="text-center"><%= player.rating %></td>
+          <td style="vertical-align: middle;"><%= player.group ? player.group.name : "No Group" %></td>
+          <td style="vertical-align: middle;" class="text-center"><%= player.labels.sort.join(",") %></td>
+          <td style="vertical-align: middle;" class="text-center"><%= player.points %></td>
 
           <td class="project-actions text-right">
             <%= link_to admin_tournaments_player_path(player), class: "btn btn-primary btn-sm" do %>

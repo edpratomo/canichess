@@ -26,11 +26,13 @@ class Admin::GroupsController < ApplicationController
 
   # POST /admin/groups or /admin/groups.json
   def create
-    @admin_group = Group.new(admin_group_params)
-
+    @admin_group = Group.new(admin_group_params.merge(tournament: @admin_tournament))
+    
     respond_to do |format|
       if @admin_group.save
-        format.html { redirect_to admin_group_url(@admin_group), notice: "Group was successfully created." }
+        #@admin_tournament.groups << @admin_group
+    
+        format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Group was successfully created." }
         format.json { render :show, status: :created, location: @admin_group }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -74,6 +76,6 @@ class Admin::GroupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_group_params
-      params.fetch(:admin_group, {})
+      params.fetch(:group, {}).permit(:name, :type, :win_point, :draw_point, :bye_point, :tournament_id)
     end
 end

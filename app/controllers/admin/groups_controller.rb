@@ -1,6 +1,6 @@
 class Admin::GroupsController < ApplicationController
   before_action :set_admin_group, only: %i[ show edit update destroy ]
-  before_action :set_admin_tournament, only: %i[ new create ], if: :tournament_context?
+  before_action :set_admin_tournament, only: %i[ new create update destroy ], if: :tournament_context?
   
   def tournament_context?
     params[:tournament_id].present?
@@ -45,7 +45,7 @@ class Admin::GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @admin_group.update(admin_group_params)
-        format.html { redirect_to admin_group_url(@admin_group), notice: "Group was successfully updated." }
+        format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Group was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_group }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -59,7 +59,7 @@ class Admin::GroupsController < ApplicationController
     @admin_group.destroy
 
     respond_to do |format|
-      format.html { redirect_to admin_groups_url, notice: "Group was successfully destroyed." }
+      format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Group was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -76,6 +76,7 @@ class Admin::GroupsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_group_params
-      params.fetch(:group, {}).permit(:name, :type, :win_point, :draw_point, :bye_point, :tournament_id)
+      params.fetch(:group, {}).permit(:name, :type, :win_point, :draw_point, :bye_point, 
+                                      :rounds, :bipartite_matching, :tournament_id)
     end
 end

@@ -9,7 +9,8 @@
   end
 %>
 <%= turbo_frame_tag("groups_#{tournament.id}") do %>
-  <%= form_with(model: group, url: group.new_record? ? admin_tournament_groups_path(tournament) : admin_tournament_group_path(tournament, group), html: { multipart: true, class: "form-horizontal", role: "form"}) do |form| %>
+  <%= form_with(model: group, url: group.new_record? ? admin_tournament_groups_path(tournament) : admin_tournament_group_path(tournament, group), html: { multipart: true, class: "form-horizontal", role: "form"}, 
+                data: { turbo_frame: "_top" }) do |form| %>
     <% if group.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(group.errors.count, "error") %> prohibited this group from being saved:</h2>

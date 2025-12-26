@@ -1,6 +1,7 @@
 class Admin::TournamentsController < ApplicationController
   before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players 
-                                                 group_show sponsors finalize_round]
+                                                 group_show sponsors finalize_round
+                                                 edit_player_labels ]
   before_action :redirect_cancel, only: [:create, :update]
   before_action :set_group, only: [:edit_group, :update_group, :finalize_round, :start, :group_show ]
   before_action :redirect_cancel_players, only: [:update_players]
@@ -8,6 +9,16 @@ class Admin::TournamentsController < ApplicationController
 
   def sponsors
     render 'sponsors', admin_tournament: @admin_tournament
+  end
+
+  def edit_player_labels
+    render partial: 'edit_player_labels', locals: { admin_tournament: @admin_tournament }
+  end
+
+  def update_player_labels
+    @admin_tournament.player_labels << admin_tournament_params[:new_player_label] if admin_tournament_params[:new_player_label].present?
+    @admin_tournament.player_labels.delete(admin_tournament_params[:delete_player_label]) if admin_tournament_params[:delete_player_label].present?
+    @admin_tournament.save
   end
 
   def edit_group
@@ -147,8 +158,15 @@ class Admin::TournamentsController < ApplicationController
 
   # PATCH/PUT /admin/tournaments/1 or /admin/tournaments/1.json
   def update
+    if update_player_labels
+      redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament player labels were successfully updated."
+      return
+    end
+
+    exclude_params = [:players_file, :player_name, :player_id, 
+                      :new_player_label, :delete_player_label]
     respond_to do |format|
-      if @admin_tournament.update(admin_tournament_params.except(:players_file, :player_name, :player_id))
+      if @admin_tournament.update(admin_tournament_params.except(*exclude_params))
         format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
@@ -183,7 +201,8 @@ class Admin::TournamentsController < ApplicationController
       #params.fetch(:tournament, {})
       params.require(:tournament).
              permit(:name, :fp, :logo, :players_file, :description, :location, :date, :rated,
-                    :max_walkover, :player_name, :player_id, :listed,
+                    :max_walkover, :player_name, :player_id, :listed, 
+                    :new_player_label, :delete_player_label,
                     player_names: [], player_ids: {}, group_ids: [], sponsor_ids: [])
     end
 

@@ -1,0 +1,21 @@
+<%= turbo_frame_tag("player_labels_#{admin_tournament.id}") do %>
+  <% form_with(model: admin_tournament, url: admin_tournament_path(admin_tournament), 
+               data: { turbo_frame: "_top" }) do |form| %>
+    <div class="card card-primary">
+      <div class="card-body">
+        <div class="form-group">
+          <%= form.label :new_player_label, "New Player Label", class: "col-sm-4" %>
+          <div class="col-sm-4">
+            <%= form.text_field :new_player_label, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="form-group">
+          <%= form.submit "Submit", class: "btn btn-primary" %>
+          <%= link_to "Cancel", admin_tournament_path(admin_tournament), type: "button", class: "btn btn-secondary" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

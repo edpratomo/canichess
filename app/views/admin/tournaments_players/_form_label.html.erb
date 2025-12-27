@@ -1,0 +1,18 @@
+<%= turbo_frame_tag("labels_#{dom_id(tournaments_player)}") do %>
+  <% form_with(model: tournaments_player, url: update_labels_admin_tournaments_players_path(tournaments_player), 
+               data: { turbo_frame: "_top" }, method: :patch) do |form| %>
+      <div class="card card-primary">
+        <div class="card-body">
+          <div class="sm-4">
+            <%= form.select :label, options_for_select(available_labels), 
+                { prompt: "Select label"} , { class: "form-control select2bs4", style: "width: 100%;" } %>
+          </div>
+        </div>
+        <div class="card-footer">
+          <%= form.submit "Submit", class: "btn btn-primary" %>
+          <%= link_to "Cancel", tournament_admin_tournaments_players_path(tournaments_player.tournament), 
+              type: "button", class: "btn btn-secondary" %>
+        </div>
+      </div>
+  <% end %>
+<% end %>

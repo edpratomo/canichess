@@ -1,0 +1,5 @@
+<%= turbo_frame_tag("labels_#{dom_id(player)}") do %>
+  <%= link_to attach_label_admin_tournaments_players_path(player) do %>
+    <i class="fas fa-plus"></i> Attach
+  <% end %>
+<% end %>

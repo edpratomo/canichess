@@ -112,6 +112,10 @@ Rails.application.routes.draw do
         get  ':id/upload' => 'tournaments_players#upload', as: "upload"
         post ':id/create_preview' => 'tournaments_players#create_preview', as: "create_preview"
         get  ':id/preview' => 'tournaments_players#preview', as: "preview"
+
+        get  ':id/attach_label' => 'tournaments_players#attach_label', as: "attach_label"
+        patch ':id/update_labels' => 'tournaments_players#update_labels', as: "update_labels"
+        delete ':id/:label_idx/delete_label' => 'tournaments_players#delete_label', as: "delete_label"
       end
     end
   end

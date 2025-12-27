@@ -54,7 +54,7 @@ Tournament <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %>
           <td style="vertical-align: middle;"><%= link_to(player.name, admin_tournaments_player_path(player)) %> <%= blacklisted_icon(player) %></td>
           <td style="vertical-align: middle;" class="text-center"><%= player.rating %></td>
           <td style="vertical-align: middle;" class="text-center"><%= render 'edit_link', player: player %></td>
-          <td style="vertical-align: middle;" class="text-center"><%= player.labels.sort.join(",") %></td>
+          <td style="vertical-align: middle;" class="text-center"><%= render 'edit_labels', player: player %></td>
           <td style="vertical-align: middle;" class="text-center"><%= player.points %></td>
 
           <td class="project-actions text-center">

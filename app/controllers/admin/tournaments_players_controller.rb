@@ -1,8 +1,22 @@
 class Admin::TournamentsPlayersController < ApplicationController
-  before_action :set_admin_tournaments_player, only: %i[ show edit update destroy ]
+  before_action :set_admin_tournaments_player, only: %i[ show edit update destroy attach_label update_labels]
   before_action :set_tournament, only: %i[ index_by_tournament index_by_group new upload create_preview preview ]
   before_action :set_group, only: %i[ index_by_group ]
   before_action :redirect_cancel, only: [:create, :update ]
+
+  def attach_label
+    @available_labels = @tournaments_player.tournament.player_labels - @tournaments_player.labels
+
+    render partial: "form_label", locals: { tournaments_player: @tournaments_player, available_labels: @available_labels }
+  end
+
+  def update_labels
+    if admin_tournaments_player_params[:label]
+      @tournaments_player.labels << admin_tournaments_player_params[:label]
+      @tournaments_player.save
+      redirect_to tournament_admin_tournaments_players_url(@tournaments_player.tournament), notice: "Tournaments player was successfully updated."
+    end
+  end
 
   # GET /admin/tournaments_players or /admin/tournaments_players.json
   def index_by_tournament
@@ -172,7 +186,7 @@ class Admin::TournamentsPlayersController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_tournaments_player_params
       #params.fetch(:tournaments_player, {})
-      params.require(:tournaments_player).permit(:blacklisted, :group_id)
+      params.require(:tournaments_player).permit(:blacklisted, :group_id, :label)
     end
 
     def tournament_params

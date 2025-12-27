@@ -11,10 +11,8 @@
         </div>
       </div>
       <div class="card-footer">
-        <div class="form-group">
-          <%= form.submit "Submit", class: "btn btn-primary" %>
-          <%= link_to "Cancel", admin_tournament_path(admin_tournament), type: "button", class: "btn btn-secondary" %>
-        </div>
+        <%= form.submit "Submit", class: "btn btn-primary" %>
+        <%= link_to "Cancel", admin_tournament_path(admin_tournament), type: "button", class: "btn btn-secondary" %>
       </div>
     </div>
   <% end %>

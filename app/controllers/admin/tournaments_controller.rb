@@ -1,7 +1,7 @@
 class Admin::TournamentsController < ApplicationController
   before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players 
                                                  group_show sponsors finalize_round
-                                                 edit_player_labels ]
+                                                 edit_player_labels delete_player_label ]
   before_action :redirect_cancel, only: [:create, :update]
   before_action :set_group, only: [:edit_group, :update_group, :finalize_round, :start, :group_show ]
   before_action :redirect_cancel_players, only: [:update_players]
@@ -13,6 +13,13 @@ class Admin::TournamentsController < ApplicationController
 
   def edit_player_labels
     render partial: 'edit_player_labels', locals: { admin_tournament: @admin_tournament }
+  end
+
+  def delete_player_label
+    @admin_tournament.delete_player_label_at(params[:label_idx].to_i)
+    respond_to do |format|
+      format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament player label was successfully deleted." }
+    end
   end
 
   def update_player_labels
@@ -55,7 +62,7 @@ class Admin::TournamentsController < ApplicationController
       if retval
         if @group
           format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament group was successfully started." }
-        else
+else
           format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
         end
         #format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }

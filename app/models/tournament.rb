@@ -55,6 +55,11 @@ class Tournament < ApplicationRecord
     (((n_boards_per_round * completed_round + boards_finished_current_round) * 100) / (n_boards_per_round * rounds)).floor 
   end
 
+  def delete_player_label_at label_idx
+    player_labels.delete_at(label_idx)
+    save
+  end
+
   def delete_group_boards group
     boards.where(group: group).destroy_all
   end

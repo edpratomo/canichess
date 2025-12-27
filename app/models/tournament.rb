@@ -46,15 +46,6 @@ class Tournament < ApplicationRecord
     (groups.sum {|e| e.completed_round } * 100 / groups.sum {|e| e.rounds }).floor
   end
   
-  def percentage_completion_old
-    return 100 if completed_round == rounds
-    return 0 if current_round == 0
-    n_boards_per_round = boards_per_round
-    total_boards = n_boards_per_round * rounds
-    boards_finished_current_round = boards.where(round: current_round).where.not(result: nil).size
-    (((n_boards_per_round * completed_round + boards_finished_current_round) * 100) / (n_boards_per_round * rounds)).floor 
-  end
-
   def delete_player_label_at label_idx
     player_labels.delete_at(label_idx)
     save

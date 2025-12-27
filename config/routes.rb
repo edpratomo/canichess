@@ -115,7 +115,7 @@ Rails.application.routes.draw do
 
         get  ':id/attach_label' => 'tournaments_players#attach_label', as: "attach_label"
         patch ':id/update_labels' => 'tournaments_players#update_labels', as: "update_labels"
-        delete ':id/:label_idx/delete_label' => 'tournaments_players#delete_label', as: "delete_label"
+        delete ':id/:label_idx/detach_label' => 'tournaments_players#detach_label', as: "detach_label"
       end
     end
   end

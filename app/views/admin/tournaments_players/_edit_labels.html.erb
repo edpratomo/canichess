@@ -1,5 +1,13 @@
 <%= turbo_frame_tag("labels_#{dom_id(player)}") do %>
-  <%= link_to attach_label_admin_tournaments_players_path(player) do %>
-    <i class="fas fa-plus"></i> Attach
+  <%= button_to attach_label_admin_tournaments_players_path(player), method: :get,
+      class: "btn btn-warning btn-sm float-left pr-2" do %>
+    <i class="fas fa-plus"></i> Label
+  <% end %>
+
+  <% player.labels.each_with_index do |label, idx| %>
+    <%= link_to detach_label_admin_tournaments_players_path(player, idx), 
+        class: "pl-1", method: :delete, data: { confirm: "Are you sure you want to detach this label?" } do %>
+      <%= label %> <i class="fas fa-times"></i>
+    <% end %>
   <% end %>
 <% end %>

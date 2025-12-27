@@ -1,5 +1,5 @@
 class Admin::TournamentsPlayersController < ApplicationController
-  before_action :set_admin_tournaments_player, only: %i[ show edit update destroy attach_label update_labels]
+  before_action :set_admin_tournaments_player, only: %i[ show edit update destroy attach_label update_labels detach_label ]
   before_action :set_tournament, only: %i[ index_by_tournament index_by_group new upload create_preview preview ]
   before_action :set_group, only: %i[ index_by_group ]
   before_action :redirect_cancel, only: [:create, :update ]
@@ -16,6 +16,12 @@ class Admin::TournamentsPlayersController < ApplicationController
       @tournaments_player.save
       redirect_to tournament_admin_tournaments_players_url(@tournaments_player.tournament), notice: "Tournaments player was successfully updated."
     end
+  end
+
+  def detach_label
+    @tournaments_player.labels.delete_at(params[:label_idx].to_i)
+    @tournaments_player.save
+    redirect_to tournament_admin_tournaments_players_url(@tournaments_player.tournament), notice: "Label detached."
   end
 
   # GET /admin/tournaments_players or /admin/tournaments_players.json

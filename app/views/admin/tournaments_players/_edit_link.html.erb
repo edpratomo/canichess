@@ -1,0 +1,5 @@
+<%= turbo_frame_tag dom_id(player) do %>
+  <%= link_to edit_admin_tournaments_player_path(player) do %>
+    <i class="fas fa-pencil-alt"></i> <%= player.group.name %>
+  <% end %>
+<% end %>

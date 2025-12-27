@@ -53,12 +53,7 @@ class Admin::TournamentsPlayersController < ApplicationController
     groups = []
     new_players = []
     selected = []
-    #default_group_name = if @tournament.groups.count == 1
-    #  @tournament.groups.first.name
-    #else
-    #  "Default"
-    #end
-
+    
     # tournament has a single group
     default_group = @tournament.groups.first if @tournament.groups.count == 1
 
@@ -134,7 +129,7 @@ class Admin::TournamentsPlayersController < ApplicationController
   def update
     respond_to do |format|
       if @tournaments_player.update(admin_tournaments_player_params)
-        format.html { redirect_to admin_tournaments_player_url(@tournaments_player), notice: "Tournaments player was successfully updated." }
+        format.html { redirect_to tournament_admin_tournaments_players_url(@tournaments_player.tournament), notice: "Tournaments player was successfully updated." }
         format.json { render :show, status: :ok, location: @tournaments_player }
       else
         format.html { render :edit, status: :unprocessable_entity }

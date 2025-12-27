@@ -56,6 +56,7 @@ class Admin::TournamentsPlayersController < ApplicationController
 
   # GET /admin/tournaments_players/1/edit
   def edit
+    render partial: "form", locals: { admin_tournaments_player: @tournaments_player }
   end
 
   # GET upload -> PATCH create_preview -> GET preview -> PATCH update_players

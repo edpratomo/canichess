@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-md-10">
+    <div class="card card-default">
+      <div class="card-body">
+        <div id="actions" class="row">
+          <div class="col-lg-6">
+            <div class="btn-group w-100">
+              <%= form_tag(slow_admin_tournaments_path(tournament, group, round), { method: :patch, class: "w-100", role: "form" }) do %>
+                <%= button_tag disabled: false, data: { confirm: "Are you sure?", disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe },
+                                class: "btn btn-block btn-primary col fileinput-button" do %>
+                  <i class="fas fa-check"></i>
+                  <span>Finalize this Round</span>
+                <% end %>
+              <% end %>
+              <%= form_tag(group_admin_standings_path(tournament, group, round), { method: :get, class: "w-100", role: "form" }) do %>
+                <%= button_tag disabled: !is_round_completed, data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe },
+                                class: "btn btn-block btn-success col start" do %>
+                  <i class="fas fa-chess"></i>
+                  <span>Standings</span>
+                <% end %>
+              <% end %>
+              <%= form_tag(delete_admin_boards_path(tournament, group, round), { method: :delete, class: "w-100", role: "form" }) do %>
+                <%= button_tag disabled: false, data: { disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe },
+                                class: "btn btn-block btn-danger col cancel" do %>
+                  <i class="fas fa-times-circle"></i>
+                  <span>Delete this Round</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

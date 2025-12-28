@@ -1,9 +1,10 @@
 class Admin::TournamentsController < ApplicationController
   before_action :set_admin_tournament, only: %i[ show edit update destroy start update_players 
                                                  group_show sponsors finalize_round
-                                                 edit_player_labels delete_player_label ]
+                                                 edit_player_labels delete_player_label
+                                                 slow_process ]
   before_action :redirect_cancel, only: [:create, :update]
-  before_action :set_group, only: [:edit_group, :update_group, :finalize_round, :start, :group_show ]
+  before_action :set_group, only: [:edit_group, :update_group, :finalize_round, :start, :group_show, :slow_process ]
   before_action :redirect_cancel_players, only: [:update_players]
   before_action :set_sponsors_selection, only: [:edit, :update, :new, :create]
 
@@ -41,6 +42,11 @@ class Admin::TournamentsController < ApplicationController
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def slow_process
+    sleep 5
+    redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament was successfully updated."
   end
 
   def finalize_round

@@ -52,12 +52,9 @@ $(document).on('turbolinks:load', function () {
         console.log("group all_completed? " + data["group"]["all_completed"]);
         console.log("all_completed? " + data["tournament"]["all_completed"]);
         if (data["group"]["all_completed"]) {
-          $("#finalize_enabled").show();
-          $("#finalize_disabled").hide();
+          $("#finalize_button").prop("disabled", false);
         } else if (data["tournament"]["all_completed"]) {
-        //if (data["tournament"]["all_completed"]) {
-          $("#finalize_enabled").show();
-          $("#finalize_disabled").hide();
+          $("#finalize_button").prop("disabled", false);
         }
       },
     });

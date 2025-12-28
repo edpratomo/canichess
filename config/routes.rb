@@ -95,6 +95,8 @@ Rails.application.routes.draw do
 
         get ':id/edit_player_labels' => 'tournaments#edit_player_labels', as: "edit_player_labels"
         delete ':id/:label_idx/delete_player_label' => 'tournaments#delete_player_label', as: "delete_player_label"
+
+        patch ':id/:group_id/:round_id/slow' => 'tournaments#slow_process', as: "slow"
       end
 
       resources :sponsors

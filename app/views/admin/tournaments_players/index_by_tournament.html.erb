@@ -34,7 +34,7 @@ Tournament <%= link_to(@tournament.name, admin_tournament_path(@tournament)) %>
 <div class="col-md-8">
 <div class="card card-primary card-outline">
 <div class="card-body table-responsive p-2">
-  <table id="datatable_with_search" class="table table-bordered table-hover text-nowrap">
+  <table id="datatable_with_search" data-controller="datatable" class="table table-bordered table-hover text-nowrap">
     <thead>
       <tr>
         <th style="width: 1%">#</th>

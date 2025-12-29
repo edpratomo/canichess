@@ -1,5 +1,4 @@
 
-
 <% content_for :page_title do %>Tournaments<% end %>
 <div class="card card-primary card-outline">
   <div class="card-body table-responsive p0">
@@ -7,6 +6,7 @@
   <table class="table table-striped projects text-nowrap">
     <thead>
       <tr>
+        <th style="width: 5%"></th>
         <th style="width: 20%">Name</th>
         <th style="width: 5%"></th>
         <th>Progress</th>
@@ -19,6 +19,7 @@
       <% @admin_tournaments.each do |tournament| %>
         <% percentage = tournament.percentage_completion %>
         <tr>
+          <td style="vertical-align: middle;"><%= image_tag tournament.logo_thumb if tournament.logo.attached? %></td>
           <td><%= link_to tournament.name, admin_tournament_path(tournament) %><%= raw(' <i class="fas fa-solid fa-star text-warning"></i>') if tournament.fp %></td>
           <td></td>
           <td class="project_progress">

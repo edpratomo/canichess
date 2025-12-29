@@ -16,7 +16,7 @@ class Tournament < ApplicationRecord
 
   has_many :groups
   has_one_attached :logo
-
+  
   after_create :create_default_group
   before_destroy :delete_listed_event
 
@@ -26,6 +26,10 @@ class Tournament < ApplicationRecord
     else
      'logo-canichess-transparent.webp' 
     end
+  end
+
+  def logo_thumb
+    logo.variant(resize_to_limit: [50, 50])
   end
 
   def get_results round=nil

@@ -1,10 +1,28 @@
 class RoundRobin < Group
   def rounds
-    boards.pluck(:round).max || 0
+    #boards.pluck(:round).max || 0
+    if tournaments_players.count > 0
+      tournaments_players.count.odd? ? tournaments_players.count : tournaments_players.count - 1
+    else
+      0
+    end
   end
 
   def completed?
     self.completed_round == self.boards.maximum(:round)
+  end
+
+  def delete_round round
+    ActiveRecord::Base.transaction do
+      if round == 1
+        # reset everything if round 1
+        self.boards.delete_all
+      else
+        # delete results only
+        self.boards.where(round: round).update_all(result: nil, walkover: false)
+      end
+      Standing.joins(:tournaments_player).where(round: round, tournaments_players: { group: self }).delete_all
+    end
   end
 
   def current_round

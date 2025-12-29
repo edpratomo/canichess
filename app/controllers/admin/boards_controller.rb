@@ -55,12 +55,7 @@ class Admin::BoardsController < ApplicationController
   end
 
   def delete_by_round
-    ActiveRecord::Base.transaction do
-      # delete_all: bypass callbacks
-      Board.where(group: @group, round: @round).delete_all
-      # delete standings as well
-      Standing.where(tournament: @tournament, round: @group.completed_round).delete_all
-    end
+    @group.delete_round(@round)
     respond_to do |format|
       format.html { redirect_to group_show_admin_tournaments_url(@tournament, @group), notice: "Pairings for group #{@group.name}, round #{@round} were successfully deleted." }
       format.json { head :no_content }

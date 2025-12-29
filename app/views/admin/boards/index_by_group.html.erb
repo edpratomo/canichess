@@ -13,13 +13,11 @@
         <h3 class="card-title">Pairings for Round <%= @round %></h3>
       </div>
       <div class="card-body">
-<!-- <div class="col-lg-6"> -->
         <% if is_round_completed %>
           <%= render 'completed_table', boards: @boards, group: @group %>
         <% else %>
           <%= render 'in_progress_table', boards: @boards, group: @group %>
         <% end %>
-<!-- </div> -->
       </div>
     </div> <!-- ./card -->
   </div>

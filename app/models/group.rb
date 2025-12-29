@@ -1,5 +1,5 @@
 class Group < ApplicationRecord
-  has_many :boards
+  has_many :boards, dependent: :destroy
   has_many :tournaments_players
   has_many :players, through: :tournaments_players
   belongs_to :tournament #, optional: true
@@ -37,6 +37,10 @@ class Group < ApplicationRecord
     raise NotImplementedError, "Subclasses must implement current_round method"
   end
 
+  def delete_round round
+    raise NotImplementedError, "Subclasses must implement delete_round method"
+  end
+  
   def finalize_round round
     raise NotImplementedError, "Subclasses must implement finalize_round method"
   end

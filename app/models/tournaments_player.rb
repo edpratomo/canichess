@@ -13,8 +13,12 @@ class TournamentsPlayer < ApplicationRecord
     black_opps | white_opps
   end
 
-  def games
+  def games_old
     Board.where(tournament: tournament, white: self).or(Board.where(tournament: tournament, black: self)).order(:round)
+  end
+
+  def games
+    Board.where(group: group, white: self).or(Board.where(group: group, black: self)).order(:round)
   end
 
   def playing_black round=nil

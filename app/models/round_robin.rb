@@ -21,7 +21,8 @@ class RoundRobin < Group
         # delete results only
         self.boards.where(round: round).update_all(result: nil, walkover: false)
       end
-      Standing.joins(:tournaments_player).where(round: round, tournaments_players: { group: self }).delete_all
+      #Standing.joins(:tournaments_player).where(round: round, tournaments_players: { group: self }).delete_all
+      Standing.joins(:tournaments_player).where(tournaments_players: { group: self }).where("round >= ?", round - 1).delete_all
     end
   end
 

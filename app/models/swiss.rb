@@ -8,7 +8,8 @@ class Swiss < Group
       # delete_all: bypass callbacks
       self.boards.where(round: round).delete_all
       # delete standings as well
-      Standing.joins(:tournaments_player).where(round: round, tournaments_players: { group: self }).delete_all
+      #Standing.joins(:tournaments_player).where("round >= ?", round - 1, tournaments_players: { group: self }).delete_all
+      Standing.joins(:tournaments_player).where(tournaments_players: { group: self }).where("round >= ?", round - 1).delete_all
     end
   end
 

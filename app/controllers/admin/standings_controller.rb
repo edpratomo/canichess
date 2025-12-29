@@ -1,11 +1,7 @@
 class Admin::StandingsController < ApplicationController
   before_action :set_standing, only: %i[ show edit update destroy ]
-  before_action :set_tournament_round, only: %i[ index_by_round index_by_group ]
+  before_action :set_tournament_round, only: %i[ index_by_group ]
   before_action :set_group, only: %i[ index_by_group ]
-
-  #def index_by_round
-  #  @standings = @tournament.sorted_standings(@round)
-  #end
 
   def index_by_group
     @standings = @group.sorted_standings(@round)

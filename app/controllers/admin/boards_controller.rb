@@ -1,12 +1,8 @@
 class Admin::BoardsController < ApplicationController
   before_action :set_admin_board, only: %i[ show edit update destroy ]
-  before_action :set_tournament_round, only: %i[ index_by_round  delete_by_round index_by_group delete_by_group ]
+  before_action :set_tournament_round, only: %i[ delete_by_round index_by_group delete_by_group ]
   before_action :set_group, only: %i[ index_by_group delete_by_round ]
   #before_action :set_tournament, only: %i[ delete_by_group ]
-
-  def index_by_round
-    @boards = Board.where(tournament: @tournament, round: @round).order(:number)
-  end
 
   # GET /admin/boards or /admin/boards.json
   def index

@@ -12,6 +12,10 @@ class RoundRobin < Group
     self.completed_round == self.boards.maximum(:round)
   end
 
+  def sufficient_players?
+    self.tournaments_players.count > 2
+  end
+
   def delete_round round
     ActiveRecord::Base.transaction do
       if round == 1

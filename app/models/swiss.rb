@@ -3,6 +3,10 @@ class Swiss < Group
     self.completed_round == self.rounds
   end
 
+  def sufficient_players?
+    self.tournaments_players.count >= 2 ** (self.rounds - 1)
+  end
+
   def delete_round round
     ActiveRecord::Base.transaction do
       # delete_all: bypass callbacks

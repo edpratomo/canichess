@@ -1,4 +1,4 @@
-<% if group.current_round == 0 and group.players.size > 0 %>
+<% if group.current_round == 0 and group.sufficient_players? %>
   <%= link_to start_group_admin_tournaments_path(tournament, group), method: :patch, class: "btn btn-primary btn-sm" do %>
     <i class="fas fa-flag-checkered"></i> Start
   <% end %>

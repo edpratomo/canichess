@@ -33,6 +33,10 @@ class Group < ApplicationRecord
     (players.size.to_f / 2).ceil
   end
 
+  def sufficient_players?
+    raise NotImplementedError, "Subclasses must implement sufficient_players? method"
+  end
+
   def current_round
     raise NotImplementedError, "Subclasses must implement current_round method"
   end

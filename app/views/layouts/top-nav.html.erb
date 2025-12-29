@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -68,8 +64,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
-          <%# current_round = @tournament ? @tournament.current_round : 0 %>
-          <%# completed_round = @tournament ? @tournament.completed_round : 0 %>
           <% if @tournament %>
           <%= render 'base/rr_nav', tournament: @tournament, msconfig: @merged_standings_config %>
           <% end %>
@@ -122,7 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       Ad Maiorem Dei Gloriam
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2023, 2024, 2025 <a href="/">Canichess Alumni</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023, 2024, 2025, 2026 <a href="/">Canichess Alumni</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

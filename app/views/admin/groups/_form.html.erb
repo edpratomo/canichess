@@ -8,7 +8,6 @@
     end
   end
 %>
-<%= turbo_frame_tag("groups_#{group.tournament.id}") do %>
   <%= form_with(model: group, url: group.new_record? ? admin_tournament_groups_path(group.tournament) : admin_tournament_group_path(group.tournament, group), html: { multipart: true, class: "form-horizontal", role: "form"}, 
                 data: { turbo_frame: "_top" }) do |form| %>
     <% if group.errors.any? %>
@@ -118,8 +117,7 @@
       </div>
       <div class="card-footer">
         <%= form.submit "Submit", class: "btn btn-primary" %>
-        <%= link_to "Cancel", admin_tournament_path(group.tournament), type: "button", class: "btn btn-secondary" %>
+        <%= link_to "Cancel", group.new_record? ? admin_tournament_path(group.tournament) : group_show_admin_tournaments_path(group.tournament, group), type: "button", class: "btn btn-secondary" %>
       </div>
     </div>
-  <% end %>
 <% end %>

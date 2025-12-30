@@ -1,5 +1,7 @@
 <div class="row">
   <div class="col-md-8">
+    <%= turbo_frame_tag("groups_#{@admin_tournament.id}") do %>
     <%= render 'form', group: @admin_group %>
+    <% end %>
   </div>
 </div>

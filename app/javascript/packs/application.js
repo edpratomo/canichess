@@ -49,11 +49,18 @@ document.addEventListener("turbolinks:load", () => {
 
   bsCustomFileInput.init()
 
-//  $("input[data-bootstrap-switch]").each(function(){
+  // $("input[data-bootstrap-switch]").each(function(){
   $(".data-bootstrap-switch").each(function(){
       $(this).bootstrapSwitch('state', $(this).prop('checked'));
     })
 
+});
+
+document.addEventListener("turbo:frame-load", () => {
+  // This code runs after a turbo-frame finishes loading new content
+  $(".data-bootstrap-switch").each(function(){
+    $(this).bootstrapSwitch('state', $(this).prop('checked'));
+  })
 });
 
 import '../stylesheets/scaffolds';

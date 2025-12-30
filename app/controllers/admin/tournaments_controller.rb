@@ -68,7 +68,7 @@ class Admin::TournamentsController < ApplicationController
       if retval
         if @group
           format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament group was successfully started." }
-else
+        else
           format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }
         end
         #format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Tournament was successfully started." }

@@ -1,7 +1,7 @@
 class TournamentsPlayer < ApplicationRecord
   belongs_to :tournament
   belongs_to :player
-  belongs_to :group, optional: true
+  belongs_to :group #, optional: true
 
   has_many :standings
 
@@ -13,8 +13,28 @@ class TournamentsPlayer < ApplicationRecord
     black_opps | white_opps
   end
 
-  def games_old
-    Board.where(tournament: tournament, white: self).or(Board.where(tournament: tournament, black: self)).order(:round)
+  def result_against opponent
+    board = Board.find_by(group: group, white: self, black: opponent)
+    if board
+      if board.result == 'white'
+        return :won
+      elsif board.result == 'black'
+        return :lost
+      elsif board.result == 'draw'
+        return :draw
+      end
+    else
+      board = Board.find_by(group: group, white: opponent, black: self)
+      if board
+        if board.result == 'white'
+          return :lost
+        elsif board.result == 'black'
+          return :won
+        elsif board.result == 'draw'
+          return :draw
+        end
+      end
+    end
   end
 
   def games

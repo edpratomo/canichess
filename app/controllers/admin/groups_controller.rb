@@ -26,7 +26,7 @@ class Admin::GroupsController < ApplicationController
 
   # POST /admin/groups or /admin/groups.json
   def create
-    @admin_group = Group.new(admin_group_params.merge(tournament: @admin_tournament))
+    @admin_group = Group.new(group_params.merge(tournament: @admin_tournament))
     
     respond_to do |format|
       if @admin_group.save
@@ -44,7 +44,7 @@ class Admin::GroupsController < ApplicationController
   # PATCH/PUT /admin/groups/1 or /admin/groups/1.json
   def update
     respond_to do |format|
-      if @admin_group.update(admin_group_params)
+      if @admin_group.update(group_params)
         format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Group was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_group }
       else
@@ -77,6 +77,20 @@ class Admin::GroupsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_group_params
       params.fetch(:group, {}).permit(:name, :type, :win_point, :draw_point, :bye_point, 
-                                      :rounds, :bipartite_matching, :tournament_id)
+                                      :rounds, :bipartite_matching, :tournament_id, :h2h_swiss)
+    end
+
+    # STI params
+    def group_params(type="Group")
+      params.require(type.underscore.to_sym).
+        permit(:name, :tournament_id, :description, :type, :rounds, 
+               :win_point, :draw_point, :bye_point, :bipartite_matching,
+               :h2h_swiss).tap do |whitelisted|
+        if params[type.underscore.to_sym][:bipartite_matching].to_i > 0
+          whitelisted[:bipartite_matching] = Array.new(params[type.underscore.to_sym][:bipartite_matching].to_i) { |e| e + 1 }
+        else
+          whitelisted[:bipartite_matching] = []
+        end
+      end
     end
 end

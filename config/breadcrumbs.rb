@@ -32,7 +32,7 @@ crumb :standings do |group, round|
 end
 
 crumb :edit_group do |group|
-  link "Editing #{group.name}", edit_group_admin_tournaments_path(group)
+  link "Editing #{group.name}", edit_admin_tournament_group_path(group)
   parent :group, group
 end
 

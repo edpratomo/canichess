@@ -42,10 +42,22 @@ class Admin::GroupsController < ApplicationController
   end
 
   # PATCH/PUT /admin/groups/1 or /admin/groups/1.json
-  def update
+  def update_old
     respond_to do |format|
       if @admin_group.update(group_params)
         format.html { redirect_to admin_tournament_url(@admin_tournament), notice: "Group was successfully updated." }
+        format.json { render :show, status: :ok, location: @admin_group }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @admin_group.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      if @admin_group.update(group_params(@admin_group.type))
+        format.html { redirect_to group_show_admin_tournaments_url(@admin_group.tournament, @admin_group), notice: "Group was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_group }
       else
         format.html { render :edit, status: :unprocessable_entity }

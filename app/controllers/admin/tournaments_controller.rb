@@ -227,7 +227,8 @@ else
     def group_params(type="Group")
       params.require(type.underscore.to_sym).
         permit(:name, :tournament_id, :description, :type, :rounds, 
-               :win_point, :draw_point, :bye_point).tap do |whitelisted|
+               :win_point, :draw_point, :bye_point, :bipartite_matching,
+               :h2h_swiss).tap do |whitelisted|
         if params[type.underscore.to_sym][:bipartite_matching].to_i > 0
           whitelisted[:bipartite_matching] = Array.new(params[type.underscore.to_sym][:bipartite_matching].to_i) { |e| e + 1 }
         else

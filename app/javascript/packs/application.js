@@ -15,6 +15,7 @@ import "channels"
 
 require("moment/locale/id")
 require("tempusdominus-bootstrap-4")
+require("bootstrap-switch")
 import "datatables.net-bs4"
 import "datatables.net-responsive-bs4"
 
@@ -47,6 +48,12 @@ document.addEventListener("turbolinks:load", () => {
   }
 
   bsCustomFileInput.init()
+
+//  $("input[data-bootstrap-switch]").each(function(){
+  $(".data-bootstrap-switch").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
 });
 
 import '../stylesheets/scaffolds';

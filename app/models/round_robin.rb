@@ -182,7 +182,7 @@ class RoundRobin < Group
     (0..2).each do |i|
       next if i < curr_idx
 
-      # find players with same points
+      # find players with same points and same SB scores
       tied_players_idx = ((i+1)..final_stds.size - 1).select do |j|
         final_stds[j].points == final_stds[i].points and final_stds[j].sb == final_stds[i].sb
       end

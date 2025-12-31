@@ -65,6 +65,7 @@ document.addEventListener("turbo:frame-load", () => {
 
 import '../stylesheets/scaffolds';
 import '../stylesheets/application'; // This file will contain your custom CSS
+import '../stylesheets/bracket';
 
 require('admin-lte');
 

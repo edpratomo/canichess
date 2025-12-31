@@ -15,7 +15,7 @@
               <th>Name</th>
               <th class="text-center">Pts</th>
               <% if group.h2h_swiss %>
-              <th class="text-center">TB 0</th>
+                <th class="text-center" colspan="2">TB 0</th>
               <% end %>
               <th class="text-center">TB 1</th>
               <th class="text-center">TB 2</th>
@@ -39,14 +39,23 @@
               <td class="text-center" ><%= standing.points %></td>
               <% if group.is_swiss_system? %>
                 <% if group.h2h_swiss %>
-                <td class="text-center" ><%= standing.h2h_rank ? "##{standing.h2h_rank + 1}" : "" %></td>
+                  <% if standing.h2h_rank %>
+                    <% if standing.h2h_rank == 0 %>
+                      <td class="bracket-cell" rowspan="2">
+                        <div class="bracket"></div>
+                      </td>
+                    <% end %>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                  <td class="text-center" ><%= standing.h2h_rank ? "##{standing.h2h_rank + 1}" : "" %></td>
                 <% end %>
-              <td class="text-center" ><%= standing.median %></td>
-              <td class="text-center" ><%= standing.solkoff %></td>
-              <td class="text-center" ><%= standing.cumulative %></td>
-              <td class="text-center" ><%= standing.opposition_cumulative %></td>
+                <td class="text-center" ><%= standing.median %></td>
+                <td class="text-center" ><%= standing.solkoff %></td>
+                <td class="text-center" ><%= standing.cumulative %></td>
+                <td class="text-center" ><%= standing.opposition_cumulative %></td>
               <% else %>
-              <td class="text-center" ><%= standing.sb %></td>
+                <td class="text-center" ><%= standing.sb %></td>
               <% end %>
               <td class="text-center" ><%= standing.playing_black %></td>
             </tr>

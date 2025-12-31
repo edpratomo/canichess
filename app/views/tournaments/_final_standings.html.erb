@@ -14,6 +14,9 @@
               <th class="text-center" style="width: 2%">#</th>
               <th>Name</th>
               <th class="text-center">Pts</th>
+              <% if group.h2h_swiss %>
+              <th class="text-center">TB 0</th>
+              <% end %>
               <th class="text-center">TB 1</th>
               <th class="text-center">TB 2</th>
               <%# if group.is_swiss_system? %>
@@ -35,6 +38,9 @@
               </td>
               <td class="text-center" ><%= standing.points %></td>
               <% if group.is_swiss_system? %>
+                <% if group.h2h_swiss %>
+                <td class="text-center" ><%= standing.h2h_rank ? "##{standing.h2h_rank + 1}" : "" %></td>
+                <% end %>
               <td class="text-center" ><%= standing.median %></td>
               <td class="text-center" ><%= standing.solkoff %></td>
               <td class="text-center" ><%= standing.cumulative %></td>
@@ -58,6 +64,9 @@
     <div class="card card-primary">
       <div class="card-body pb-0">
         <ul>
+          <% if group.h2h_swiss %>
+          <li>TB 0: Rank Based on Head-to-Head Encounters</li>
+          <% end %>
           <li>TB 1: Modified Median</li>
           <li>TB 2: Solkoff</li>
           <li>TB 3: Cumulative Score</li>

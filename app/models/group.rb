@@ -134,4 +134,49 @@ class Group < ApplicationRecord
     end
   end
 
+    # if a pair never met, return nil
+  def compile_results_among_tied_players standings
+    results = {}
+    standings.combination(2).each do |std1, std2|
+      p1 = std1.tournaments_player
+      p2 = std2.tournaments_player
+
+      res = p1.result_against(p2)
+      return nil if res.nil?
+
+      results[std1] ||= 0
+      results[std2] ||= 0
+      if res == :won
+        results[std1] += win_point
+      elsif res == :lost
+        results[std2] += win_point
+      elsif res == :draw
+        results[std1] += draw_point
+        results[std2] += draw_point
+      end
+    end
+    results
+  end
+
+  def update_h2h round
+    final_stds = self.tournament.standings.joins(tournaments_player: :player).
+                  where('tournaments_players.group_id': self.id, round: round).
+                  order(blacklisted: :asc, points: :desc)
+
+    tied_points = final_stds.inject({}) do |m, std|
+      m[std.points] ||= []
+      m[std.points] << std
+      m
+    end.select {|k, v| v.size > 1 }
+
+    tied_points.each do |points, stds|
+      results = compile_results_among_tied_players(stds)
+      next if results.nil? # a pair never met
+
+      Rails.logger.debug("results: #{results.inspect}")
+      results.each do |std, points|
+        std.update(h2h_points: points, h2h_cluster: std.points)
+      end
+    end
+  end
 end

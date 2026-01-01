@@ -167,33 +167,4 @@ class Swiss < Group
     }
   end
 
-public
-  def update_h2h round
-    final_stds = self.tournament.standings.joins(tournaments_player: :player).
-                  where('tournaments_players.group_id': self.id, round: round).
-                  order(blacklisted: :asc, points: :desc)
-
-    tied_points = final_stds.inject({}) do |m, std|
-      m[std.points] ||= []
-      m[std.points] << std
-      m
-    end.select {|k, v| v.size == 2 }
-    
-    tied_points.each do |points, stds|
-      p1 = stds[0].tournaments_player
-      p2 = stds[1].tournaments_player
-
-      res = p1.result_against(p2)
-      if res == :won
-        stds[0].update!(h2h_rank: 0)
-        stds[1].update!(h2h_rank: 1)
-      elsif res == :lost
-        stds[0].update!(h2h_rank: 1)
-        stds[1].update!(h2h_rank: 0)
-      elsif res == :draw
-        stds[0].update!(h2h_rank: 0)
-        stds[1].update!(h2h_rank: 0)
-      end
-    end
-  end
 end

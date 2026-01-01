@@ -125,7 +125,7 @@ class Swiss < Group
     if self.h2h_swiss
       self.tournament.standings.joins(tournaments_player: :player).
         where('tournaments_players.group_id': self.id, round: round).
-              order(blacklisted: :asc, points: :desc, h2h_rank: :asc, median: :desc, solkoff: :desc, cumulative: :desc, 
+              order(blacklisted: :asc, points: :desc, h2h_points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, 
                     playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
     else
       # 13.1.3.1 Joining Nested Associations (Single Level)

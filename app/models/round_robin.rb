@@ -160,7 +160,7 @@ class RoundRobin < Group
   def sorted_standings round
     self.tournament.standings.joins(tournaments_player: :player).
       where('tournaments_players.group_id': self.id, round: round).
-      order(blacklisted: :asc, points: :desc, sb: :desc, h2h_rank: :asc, wins: :desc,
+      order(blacklisted: :asc, points: :desc, h2h_points: :desc, sb: :desc, wins: :desc,
             playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
   end
 
@@ -172,7 +172,7 @@ class RoundRobin < Group
   end
 
   private
-  def update_h2h round
+  def update_h2h_old round
     final_stds = self.tournament.standings.joins(tournaments_player: :player).
                   where('tournaments_players.group_id': self.id, round: round).
                   order(blacklisted: :asc, points: :desc, sb: :desc)

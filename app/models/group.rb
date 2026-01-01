@@ -175,7 +175,7 @@ class Group < ApplicationRecord
 
       Rails.logger.debug("results: #{results.inspect}")
       results.each do |std, points|
-        std.update(h2h_points: points, h2h_cluster: std.points)
+        std.update(h2h_points: points, h2h_cluster: results.keys.count)
       end
     end
   end

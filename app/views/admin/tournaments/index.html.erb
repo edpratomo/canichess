@@ -34,14 +34,23 @@
             <%= status_badge(tournament) %>
           </td>
           <td class="project-actions text-right">
-            <%= link_to admin_tournament_path(tournament), class: "btn btn-primary btn-sm" do %>
-              <i class="fas fa-folder"></i>View
-            <% end %>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-folder"></i> Group</button>
+              <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <div class="dropdown-menu" role="menu">
+                <% tournament.groups.each do |group| %>
+                  <%= link_to group.name, group_show_admin_tournaments_path(tournament, group), class: "dropdown-item", target: :_blank %>
+                <% end %>
+              </div>
+            </div>
+
             <%= link_to edit_admin_tournament_path(tournament), class: "btn btn-info btn-sm" do %>
-              <i class="fas fa-pencil-alt"></i>Edit
+              <i class="fas fa-pencil-alt"></i> Edit
             <% end %>
             <%= link_to tournament_admin_tournaments_players_path(tournament), class: "btn btn-success btn-sm" do %>
-              <i class="fas fa-pencil-alt"></i>Players
+              <i class="fas fa-pencil-alt"></i> Players
             <% end %>
             <%= link_to admin_tournament_path(tournament), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" do %>
               <i class="fas fa-trash"></i> Delete

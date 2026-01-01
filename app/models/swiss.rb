@@ -167,4 +167,8 @@ class Swiss < Group
     }
   end
 
+  public
+  def update_h2h round
+    super
+  end
 end

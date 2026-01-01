@@ -331,4 +331,8 @@ class RoundRobin < Group
     end
   end
 
+public
+  def update_h2h round
+    super
+  end
 end

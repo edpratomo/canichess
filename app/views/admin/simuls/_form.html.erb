@@ -58,7 +58,7 @@
         <%= form.label :description, class: "control-label col-sm-3" do %>
         Description
         <% end %>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
           <%= form.text_area :description, size: "70x3", class: "form-control", 
                                            placeholder: "Tell us a bit about this simul event" %>
         </div>
@@ -74,23 +74,46 @@
         <%= form.label :location, class: "control-label col-sm-3" do %>
         Location
         <% end %>
-        <div class="col-sm-8">
+        <div class="col-sm-4">
           <%= form.text_area :location, size: "70x3", class: "form-control", placeholder: "Venue for this event" %>
         </div>
       </div>
       <div class="form-group row">
-          <%= form.label :simulgivers, class: "control-label col-sm-3" do %>
-          Simul Givers
-          <% end %>
-          <div class="col-sm-4">
-            <%= form.text_field :simulgivers, class: "form-control" %>
+        <%= form.label :simulgivers, class: "control-label col-sm-3" do %>
+        Simul Givers
+        <% end %>
+        <div class="col-sm-4">
+          <%= form.text_field :simulgivers, class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row ">
+        <%= form.label :playing_color, class: "col-sm-3 control-label" do %>
+        Playing Color
+        <% end %>
+        <div class="col-sm-4">
+          <div class="form-group clearfix">
+            <div class="icheck-primary">
+              <%= form.radio_button :playing_color, "All Play Black" %>
+              <%= form.label "playing_color_all_play_black", "All Play Black" %>
+            </div>
+            <div class="icheck-primary">
+              <%= form.radio_button :playing_color, "All Play White" %>
+              <%= form.label "playing_color_all_play_white", "All Play White" %>
+            </div>
+            <div class="icheck-primary">
+              <%= form.radio_button :playing_color, "Alternate Color" %>
+              <%= form.label "playing_color_switch_color", "Alternate Color" %>
+            </div>
           </div>
+        </div>
       </div>
 
     </div>
     <!-- ./card-body -->
     <div class="card-footer">
       <button type="submit" class="btn btn-primary">Submit</button>
+      <%= link_to "Cancel", admin_simul.new_record? ? admin_simuls_path : admin_simul_path(admin_simul), type: "button", class: "btn btn-secondary" %>
     </div>
     <!-- /.card-footer-->
   </div>

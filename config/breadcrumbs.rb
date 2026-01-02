@@ -36,6 +36,16 @@ crumb :edit_group do |group|
   parent :group, group
 end
 
+crumb :simuls_list do 
+  link "List of Simuls", admin_simuls_path
+  parent :admin
+end
+
+crumb :new_simul do
+  link "Create New Simul", new_admin_simul_path
+  parent :simuls_list
+end
+
 crumb :simul do |simul|
   link simul.name, admin_simul_path(simul)
   parent :admin

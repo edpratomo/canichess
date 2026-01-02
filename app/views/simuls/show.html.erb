@@ -4,11 +4,9 @@
       <div class="card-body">
         <div style="background:transparent !important" class="text-center">
           <% if @simul %>
-            <h1 class="display-6"><%= @simul.name %></h1>
-            <h2 class="display-6">by: <%= @simul.simulgivers %></h1>
-            <% if @simul.description %>
-            <p class="lead"><%= @simul.description %></p>
-            <% end %>
+            <%= render 'show_header', simul: @simul %>
+            <hr>
+            <h3 class="display-6">by: <%= @simul.simulgivers %></h3>
             <hr>
             <%= render 'simul', simul: @simul %>
           <% else %>

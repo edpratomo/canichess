@@ -12,7 +12,7 @@
               <th class="text-center" style="width: 2%">#</th>
               <th>Name</th>
               <th class="text-center">Pts</th>
-              <th class="text-center">TB 1</th>
+              <th class="text-center" colspan="2">TB 1</th>
               <th class="text-center">TB 2</th>
               <th class="text-center">TB 3</th>
               <th class="text-center">TB 4</th>
@@ -36,7 +36,7 @@
                   <span style="padding-right: 10px;" class="text-warning float-right"><%= standing.tournaments_player.end_rating %></span>
                 </td>
                 <td class="text-center"><%= standing.points %></td>
-                <td class="text-center"><%= standing.h2h_points %></td>
+                <%= render 'h2h_bracket', standings: standings, idx: idx %>
                 <td class="text-center"><%= standing.sb %></td>
                 <td class="text-center"><%= standing.wins %></td>
                 <td class="text-center"><%= standing.playing_black %></td>

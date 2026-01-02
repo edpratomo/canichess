@@ -39,7 +39,7 @@
           </li>
           <% if @group.is_swiss_system? %>
           <li class="list-group-item">
-            <b>Head-to-Head as Primary Tiebreak</b> <span class="float-right"><%= @group.h2h_swiss ? "yes" : "no" %></span>
+            <b>Head-to-Head as Primary Tiebreak</b> <span class="float-right"><%= @group.h2h_tb ? "yes" : "no" %></span>
           </li>
           <li class="list-group-item">
             <b>Bipartite Matching</b> <span class="float-right"><%= @group.bipartite_matching.count %></span>

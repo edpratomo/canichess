@@ -89,7 +89,7 @@ class Admin::GroupsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def admin_group_params
       params.fetch(:group, {}).permit(:name, :type, :win_point, :draw_point, :bye_point, 
-                                      :rounds, :bipartite_matching, :tournament_id, :h2h_swiss)
+                                      :rounds, :bipartite_matching, :tournament_id, :h2h_tb)
     end
 
     # STI params
@@ -97,7 +97,7 @@ class Admin::GroupsController < ApplicationController
       params.require(type.underscore.to_sym).
         permit(:name, :tournament_id, :description, :type, :rounds, 
                :win_point, :draw_point, :bye_point, :bipartite_matching,
-               :h2h_swiss).tap do |whitelisted|
+               :h2h_tb).tap do |whitelisted|
         if params[type.underscore.to_sym][:bipartite_matching].to_i > 0
           whitelisted[:bipartite_matching] = Array.new(params[type.underscore.to_sym][:bipartite_matching].to_i) { |e| e + 1 }
         else

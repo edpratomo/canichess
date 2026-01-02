@@ -158,9 +158,11 @@ class RoundRobin < Group
   end
 
   def sorted_standings round
-    self.tournament.standings.joins(tournaments_player: :player).
+    query = self.tournament.standings.joins(tournaments_player: :player).
       where('tournaments_players.group_id': self.id, round: round).
-      order(blacklisted: :asc, points: :desc, h2h_points: :desc, sb: :desc, wins: :desc,
+      order(blacklisted: :asc, points: :desc)
+    query = query.order('h2h_points DESC NULLS LAST') if self.h2h_tb
+    query.order(sb: :desc, wins: :desc,
             playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
   end
 
@@ -168,7 +170,8 @@ class RoundRobin < Group
     return [] unless merged_standings_config
 
     merged_standings_config.merged_standings.joins(:player).
-      order('points DESC, sb DESC, h2h_rank ASC, wins DESC, playing_black DESC, players.name ASC')
+      order('points DESC, ' + self.h2h_tb ? ' h2h_points DESC NULLS LAST, ' : '' + 
+            'sb DESC, wins DESC, playing_black DESC, players.name ASC')
   end
 
   private

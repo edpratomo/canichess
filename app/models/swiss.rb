@@ -101,8 +101,8 @@ class Swiss < Group
         # update total games played by each player
         update_total_games()
 
-        # compute h2h_rank regardless of h2h_swiss setting.
-        # the h2h_swiss only determines if it used for sorting.
+        # compute h2h_rank regardless of h2h_tb setting.
+        # the h2h_tb only determines if it used for sorting.
         update_h2h(round)
       end
     end
@@ -122,25 +122,23 @@ class Swiss < Group
 
   def sorted_standings round=nil
     round ||= completed_round
-    if self.h2h_swiss
-      self.tournament.standings.joins(tournaments_player: :player).
-        where('tournaments_players.group_id': self.id, round: round).
-              order(blacklisted: :asc, points: :desc, h2h_points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, 
-                    playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
-    else
-      # 13.1.3.1 Joining Nested Associations (Single Level)
-      self.tournament.standings.joins(tournaments_player: :player).
-        where('tournaments_players.group_id': self.id, round: round).
-                order(blacklisted: :asc, points: :desc, median: :desc, solkoff: :desc, cumulative: :desc, 
-                      playing_black: :desc, 'tournaments_players.start_rating': :desc, 'players.name': :asc)
-    end
+
+    # 13.1.3.1 Joining Nested Associations (Single Level)
+    query = self.tournament.standings.joins(tournaments_player: :player).
+            where('tournaments_players.group_id': self.id, round: round).
+              order(blacklisted: :asc, points: :desc)
+    query = query.order('h2h_points DESC NULLS LAST') if self.h2h_tb
+    query.order(median: :desc, solkoff: :desc, cumulative: :desc, 
+                playing_black: :desc, 'tournaments_players.start_rating': :desc, 
+                'players.name': :asc)
   end
 
   def sorted_merged_standings
     return [] unless merged_standings_config
 
     merged_standings_config.merged_standings.joins(:player).
-      order('blacklisted ASC, points DESC, median DESC, solkoff DESC, cumulative DESC, playing_black DESC, players.name ASC')
+      order('blacklisted ASC, points DESC, ' + self.h2h_tb ? ' h2h_points DESC NULLS LAST, ' : '' +
+            'median DESC,  solkoff DESC, cumulative DESC, playing_black DESC, players.name ASC')
   end
 
   private

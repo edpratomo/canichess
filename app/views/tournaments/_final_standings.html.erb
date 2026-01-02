@@ -14,7 +14,7 @@
               <th class="text-center" style="width: 2%">#</th>
               <th>Name</th>
               <th class="text-center">Pts</th>
-              <% if group.h2h_swiss %>
+              <% if group.h2h_tb %>
                 <th class="text-center" colspan="2">TB 0</th>
               <% end %>
               <th class="text-center">TB 1</th>
@@ -38,18 +38,8 @@
               </td>
               <td class="text-center" ><%= standing.points %></td>
               <% if group.is_swiss_system? %>
-                <% if group.h2h_swiss %>
-                  <% if standing.h2h_cluster %>
-                    <%# identify the start of h2h cluster %>
-                    <% if idx == 0 or standings[idx - 1].h2h_cluster.nil? or standings[idx - 1].points != standing.points %>
-                      <td class="bracket-cell" rowspan="<%= standing.h2h_cluster %>">
-                        <div class="bracket"></div>
-                      </td>
-                    <% end %>
-                  <% else %>
-                    <td></td>
-                  <% end %>
-                  <td class="text-center" ><%= standing.h2h_points %></td>
+                <% if group.h2h_tb %>
+                  <%= render 'h2h_bracket', standings: standings, idx: idx %>
                 <% end %>
                 <td class="text-center" ><%= standing.median %></td>
                 <td class="text-center" ><%= standing.solkoff %></td>
@@ -74,7 +64,7 @@
     <div class="card card-primary">
       <div class="card-body pb-0">
         <ul>
-          <% if group.h2h_swiss %>
+          <% if group.h2h_tb %>
           <li>TB 0: Head-to-Head Encounters</li>
           <% end %>
           <li>TB 1: Modified Median</li>

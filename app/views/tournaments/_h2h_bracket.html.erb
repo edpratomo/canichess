@@ -1,0 +1,11 @@
+                  <% if standings[idx].h2h_cluster %>
+                    <%# identify the start of h2h cluster %>
+                    <% if idx == 0 or standings[idx - 1].h2h_cluster.nil? or standings[idx - 1].points != standings[idx].points %>
+                      <td class="bracket-cell" rowspan="<%= standings[idx].h2h_cluster %>">
+                        <div class="bracket"></div>
+                      </td>
+                    <% end %>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                  <td class="text-center" ><%= standings[idx].h2h_points %></td>

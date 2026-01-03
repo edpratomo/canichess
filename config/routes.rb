@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       collection do
         patch ':id/start' => 'simuls#start', as: "start"
         patch ':id/update_players' => 'simuls#update_players', as: "update_players"
+        patch ':id/update_colors' => 'simuls#update_colors', as: "update_colors"
       end
     end
   end

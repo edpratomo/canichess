@@ -14,12 +14,22 @@
   <div class="col-sm-2">
     <div class="card">
       <%= button_to upload_admin_simuls_players_path(@simul), form_class: "form-horizontal",
-          method: :get, class: "btn btn-block btn-primary btn-lg float-right" do %>
+          method: :get, class: "btn btn-block btn-success btn-lg float-right" do %>
           <i class="fas fa-upload"></i><span> Upload Players File
       <% end %>
     </div>
   </div>
+
+  <div class="col-sm-3">
+    <div class="card">
+      <%= button_to update_colors_admin_simuls_path(@simul), form_class: "form-horizontal",
+          method: :patch, class: "btn btn-block btn-warning btn-lg float-right" do %>
+          <i class="fas fa-chess-board"></i><span> Assign Playing Colors
+      <% end %>
+    </div>
+  </div>
 </div>
+
 
 <div class="row">
 <div class="col-md-8">

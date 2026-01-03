@@ -1,5 +1,5 @@
 class Admin::SimulsController < ApplicationController
-  before_action :set_admin_simul, only: %i[ show edit update destroy start update_players ]
+  before_action :set_admin_simul, only: %i[ show edit update destroy start update_players update_colors ]
   before_action :redirect_cancel, only: [:create, :update]
   before_action :redirect_cancel_players, only: [:update_players]
 
@@ -33,6 +33,14 @@ class Admin::SimulsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @admin_simul.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def update_colors
+    @admin_simul.assign_colors
+    # redirect
+    respond_to do |format|
+      format.html { redirect_to simul_admin_simuls_players_url(@admin_simul), notice: "Playing colors were successfully updated." }
     end
   end
 

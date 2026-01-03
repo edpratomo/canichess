@@ -23,7 +23,19 @@
               <%= link_to @admin_simul.players.size, simul_admin_simuls_players_path(@admin_simul), class: "float-right" %>
             </li>
             <li class="list-group-item">
+              <b>Front page</b> <span class="float-right"><%= @admin_simul.fp ? "yes" : "no" %></span>
+            </li>
+            <li class="list-group-item">
               <b>Listed on Dropdown menu</b> <span class="float-right"><%= @admin_simul.listed ? "yes" : "no" %></span>
+            </li>
+            <li class="list-group-item">
+              <b>Playing colors</b> <span class="float-right">
+                <% if @admin_simul.playing_color == "alternate_color" %>
+                  alternate color every <%= @admin_simul.alternate_color %> board(s)
+                <% else %>
+                  <%= @admin_simul.playing_color %>
+                <% end %>
+              </span>
             </li>
             <li class="list-group-item">
               <b>Status</b> <span class="float-right"><%= simul_status_badge(@admin_simul) %></span>

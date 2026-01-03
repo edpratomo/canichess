@@ -42,6 +42,10 @@ class Simul < ApplicationRecord
     end
   end
 
+  def logo_thumb
+    logo.variant(resize_to_limit: [50, 50])
+  end
+
   def percentage_completion
     if players.count == 0
       0

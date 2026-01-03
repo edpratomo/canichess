@@ -5,12 +5,19 @@ class SimulsPlayer < ApplicationRecord
   after_commit :broadcast_score, on: :update
   after_commit :broadcast_result, on: :update
 
+  after_commit  :regen_numbers, on: :destroy
+
   def name
     player.name
   end
 
   def swap_number other_player
     self.number, other_player.number = other_player.number, self.number
+  end
+
+  protected
+  def regen_numbers
+    SimulsPlayer.where('simul_id = ? AND number > ?', simul.id, self.number).update_all("number = number - 1")
   end
 
   private

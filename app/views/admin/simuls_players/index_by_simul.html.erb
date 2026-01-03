@@ -5,14 +5,18 @@
 <div class="row">
   <div class="col-sm-2">
     <div class="card">
-      <%= button_to "Add Player", new_admin_simuls_players_path(@simul), form_class: "form-horizontal",
-          method: :get, class: "btn btn-block btn-primary btn-lg float-right" %>
+      <%= button_to new_admin_simuls_players_path(@simul), form_class: "form-horizontal",
+          method: :get, class: "btn btn-block btn-primary btn-lg float-right" do %>
+          <i class="fas fa-plus"></i><span> Add Player
+      <% end %>
     </div>
   </div>
   <div class="col-sm-2">
     <div class="card">
-      <%= button_to "Upload Players File", upload_admin_simuls_players_path(@simul), form_class: "form-horizontal",
-          method: :get, class: "btn btn-block btn-primary btn-lg float-right" %>
+      <%= button_to upload_admin_simuls_players_path(@simul), form_class: "form-horizontal",
+          method: :get, class: "btn btn-block btn-primary btn-lg float-right" do %>
+          <i class="fas fa-upload"></i><span> Upload Players File
+      <% end %>
     </div>
   </div>
 </div>
@@ -35,10 +39,10 @@
     <tbody>
       <% @simuls_players.each_with_index do |player,idx| %>
         <tr>
-          <td><%= player.number %></td>
-          <td><%= player.name %> (ID: <%= player.player.id %> Rtg: <%= player.player.rating %>)</td>
-          <td style="text-align:center;"><%= player.result %></td>
-          <td style="text-align:center;"><%= player.color %></td>
+          <td style="vertical-align: middle;" class="text-right"><%= player.number %></td>
+          <td style="vertical-align: middle;"><%= player.name %> (ID: <%= player.player.id %> Rtg: <%= player.player.rating %>)</td>
+          <td style="vertical-align: middle;" class="text-center"><%= player.result %></td>
+          <td style="vertical-align: middle;" class="text-center"><%= player.color %></td>
           <td class="project-actions text-right">
             <%= link_to admin_simuls_player_path(player), class: "btn btn-primary btn-sm" do %>
               <i class="fas fa-folder"></i>View

@@ -133,8 +133,6 @@ class Admin::SimulsPlayersController < ApplicationController
 
   # DELETE /admin/simuls_players/1 or /admin/simuls_players/1.json
   def destroy
-    @simuls_player.destroy
-
     respond_to do |format|
       if @simuls_player.destroy
         format.html { redirect_to simul_admin_simuls_players_url(@simuls_player.simul),

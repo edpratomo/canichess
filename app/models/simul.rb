@@ -11,8 +11,28 @@ class Simul < ApplicationRecord
   has_many :players, through: :simuls_players
 
   has_one_attached :logo
-  
+
+  after_commit :assign_colors, on: :update, if: :playing_color_changed?
+
   enum status: [ :not_started, :on_going, :completed ]
+
+  def assign_colors
+    unless self.playing_color == 'alternate_color'
+      simuls_players.update_all(color: self.playing_color)
+      return
+    end
+    curr_color = 'black'
+    simuls_players.order(:number).each do |player|
+      player.update(color: curr_color)
+      if player.number % self.alternate_color == 0
+        if curr_color == 'black'
+          curr_color = 'white'
+        else
+          curr_color = 'black'
+        end
+      end
+    end
+  end
 
   def logo_url
     if logo.attached?

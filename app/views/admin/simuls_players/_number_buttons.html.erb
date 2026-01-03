@@ -1,0 +1,9 @@
+<%= form_with model: simul_player, url: admin_simuls_player_path(simul_player), method: :patch, class: "d-inline" do %>
+  <button name="simuls_player[update_number]" value="decrease" class="sort-btn">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <button name="simuls_player[update_number]" value="increase" class="sort-btn">
+    <i class="fas fa-arrow-down"></i>
+  </button>
+<% end %>

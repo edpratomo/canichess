@@ -120,8 +120,14 @@ class Admin::SimulsPlayersController < ApplicationController
 
   # PATCH/PUT /admin/simuls_players/1 or /admin/simuls_players/1.json
   def update
+    inc_or_dec_number = admin_simuls_player_params[:update_number]
+    if inc_or_dec_number
+      @simuls_player.update_number(inc_or_dec_number)
+      redirect_to simul_admin_simuls_players_url(@simuls_player.simul), notice: "Simuls player was successfully updated."
+      return
+    end
     respond_to do |format|
-      if @simuls_player.update(admin_simuls_player_params)
+      if @simuls_player.update(admin_simuls_player_params.except(:update_number))
         format.html { redirect_to admin_simuls_player_url(@simuls_player), notice: "Simuls player was successfully updated." }
         format.json { render :show, status: :ok, location: @simuls_player }
       else
@@ -158,7 +164,7 @@ class Admin::SimulsPlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_simuls_player_params
-      params.require(:simuls_player).permit(:number, :color, :result)
+      params.require(:simuls_player).permit(:number, :color, :result, :update_number)
     end
 
     def simul_params

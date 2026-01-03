@@ -22,6 +22,9 @@ application.register("hello", HelloController)
 import NewPlayerNamesController from "./new_player_names_controller"
 application.register("new-player-names", NewPlayerNamesController)
 
+import OtherFieldController from "./other_field_controller"
+application.register("other-field", OtherFieldController)
+
 import PlayersFilenameController from "./players_filename_controller"
 application.register("players-filename", PlayersFilenameController)
 

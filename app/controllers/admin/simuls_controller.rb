@@ -124,8 +124,13 @@ class Admin::SimulsController < ApplicationController
     def admin_simul_params
       params.fetch(:simul, {}).permit(:name, :logo, :fp, :players_file,
                                        :description, :location, :date, :simulgivers,
+                                       :listed, :playing_color, :alternate_color,
                                        :player_name, :player_id,
-                                       player_names: [], player_ids: {})
+                                       player_names: [], player_ids: {}).tap do |whitelisted|
+                                        if whitelisted[:alternate_color] and !whitelisted[:alternate_color].empty?
+                                          whitelisted[:alternate_color] = whitelisted[:alternate_color].to_i
+                                        end
+                                       end
     end
 
     def redirect_cancel

@@ -45,11 +45,11 @@
       </div>
       <div class="form-group row">
         <%= form.label :logo, class: "control-label col-sm-3" do %>
-        Logo <span class="required">*</span>
+        Logo 
         <% end %>
         <div class="col-sm-4 input-group">
           <div class="custom-file">
-            <%= form.file_field :logo, class: "custom-file-input", required: true %>
+            <%= form.file_field :logo, class: "custom-file-input", required: false %>
             <label class="custom-file-label">Choose file</label>
           </div>
         </div>
@@ -91,19 +91,23 @@
         <%= form.label :playing_color, class: "col-sm-3 control-label" do %>
         Playing Color
         <% end %>
-        <div class="col-sm-4">
+        <div class="col-sm-5" data-controller="other-field">
           <div class="form-group clearfix">
             <div class="icheck-primary">
-              <%= form.radio_button :playing_color, "All Play Black" %>
-              <%= form.label "playing_color_all_play_black", "All Play Black" %>
+              <%= form.radio_button :playing_color, "black", data: { action: "change->other-field#toggle" } %>
+              <%= form.label "playing_color_black", "All Play Black" %>
             </div>
             <div class="icheck-primary">
-              <%= form.radio_button :playing_color, "All Play White" %>
-              <%= form.label "playing_color_all_play_white", "All Play White" %>
+              <%= form.radio_button :playing_color, "white", data: { action: "change->other-field#toggle" } %>
+              <%= form.label "playing_color_white", "All Play White" %>
             </div>
-            <div class="icheck-primary">
-              <%= form.radio_button :playing_color, "Alternate Color" %>
-              <%= form.label "playing_color_switch_color", "Alternate Color" %>
+            <div class="icheck-primary d-flex align-items-center">
+              <%= form.radio_button :playing_color, "alternate_color", data: { action: "change->other-field#toggle" } %>
+              <%= form.label "playing_color_alternate_color", "Alternate Color Every", class: "mb-0 me-2" %>
+              <div class="d-flex align-items-center p-2" style="width: 200px;" data-other-field-target="otherField">
+                <%= form.number_field :alternate_color, class: "form-control", default: 1 %>
+                <span class="ms-2 p-2">board(s)</span>
+              </div>
             </div>
           </div>
         </div>

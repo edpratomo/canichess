@@ -12,7 +12,7 @@ class Simul < ApplicationRecord
 
   has_one_attached :logo
 
-  after_commit :assign_colors, on: :update, if: :playing_color_changed?
+  after_commit :assign_colors, on: :update, if: -> { :playing_color_changed? or :alternate_color_changed? }
 
   enum status: [ :not_started, :on_going, :completed ]
 

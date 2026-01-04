@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      get 'device_tokens/create'
+      post 'device_tokens/create'
     end
   end
-  
+
   namespace :admin do
     resources :sponsors
   end

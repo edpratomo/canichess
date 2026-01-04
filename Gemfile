@@ -103,3 +103,7 @@ gem "view_component", "~> 3.24"
 gem "gretel", "~> 5.1"
 
 gem "turbo-rails", "~> 2.0"
+
+gem "faraday", "~> 2.14"
+
+gem "googleauth", "~> 1.16"

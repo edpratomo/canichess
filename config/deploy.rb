@@ -27,7 +27,7 @@ set :puma_init_active_record, true # Change to false when not using ActiveRecord
 set :puma_systemctl_user, :system
 set :puma_phased_restart, true
 
-append :linked_files, "config/master.key", ".env"
+append :linked_files, "config/master.key", ".env", "config/firebase_service_account.json"
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "public/uploads", "storage"
 
 # Default branch is :master

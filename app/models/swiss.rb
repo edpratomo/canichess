@@ -137,7 +137,7 @@ class Swiss < Group
     return [] unless merged_standings_config
 
     merged_standings_config.merged_standings.joins(:player).
-      order('blacklisted ASC, points DESC, ' + self.h2h_tb ? ' h2h_points DESC NULLS LAST, ' : '' +
+      order('blacklisted ASC, points DESC, ' + (self.h2h_tb ? ' h2h_points DESC NULLS LAST, ' : '') +
             'median DESC,  solkoff DESC, cumulative DESC, playing_black DESC, players.name ASC')
   end
 

@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AndroidButtonController from "./android_button_controller"
+application.register("android-button", AndroidButtonController)
+
 import DatatableController from "./datatable_controller"
 application.register("datatable", DatatableController)
 

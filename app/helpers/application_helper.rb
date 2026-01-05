@@ -161,7 +161,7 @@ EOS
     if group
       return '' if group.current_round == 0
       if group.is_finished?
-        link_to('Check out the Final Standings', group_standings_tournaments_path(tournament, group, group.completed_round), class: "btn btn-primary btn-lg", role: "button")
+        link_to('Check out the Final Standings', group_standings_tournaments_path(tournament, group, group.completed_round), class: "btn btn-primary ", role: "button")
       elsif group.current_round > 0
         link_to("Check out pairings for Round #{group.current_round}", group_pairings_tournaments_path(tournament, group, group.current_round), 
                 class: "btn btn-primary btn-lg", role: "button")

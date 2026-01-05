@@ -15,6 +15,30 @@ class FcmService
     )
   end
 
+  def send_to_topic(topic:, title:, body:, data: {})
+    access_token = fetch_access_token
+
+    payload = {
+      message: {
+        topic: topic,
+        notification: {
+          title: title,
+          body: body
+        },
+        data: data.transform_values(&:to_s)
+      }
+    }
+
+    Faraday.post(
+      "https://fcm.googleapis.com/v1/projects/#{@project_id}/messages:send",
+      payload.to_json,
+      {
+        "Authorization" => "Bearer #{access_token}",
+        "Content-Type" => "application/json"
+      }
+    )
+  end
+
   def send_to_token(token:, title:, body:, data: {})
     access_token = fetch_access_token
 

@@ -107,3 +107,5 @@ gem "turbo-rails", "~> 2.0"
 gem "faraday", "~> 2.14"
 
 gem "googleauth", "~> 1.16"
+
+gem "sidekiq", "~> 7.3"

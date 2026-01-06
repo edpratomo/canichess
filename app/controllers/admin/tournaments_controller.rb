@@ -53,6 +53,23 @@ class Admin::TournamentsController < ApplicationController
     round = params[:round_id].to_i
     respond_to do |format|
       if @group.finalize_round(round)
+        # send out android notification
+        fcm_title = set_fcm_title
+
+        if @group.is_finished?
+          FcmNotificationJob.perform_later(@admin_tournament.id,
+            fcm_title,
+            "Final standings is ready",
+            { url: group_standings_tournaments_path(@admin_tournament, @group, @group.completed_round) }
+          )
+        else
+          FcmNotificationJob.perform_later(@admin_tournament.id, 
+            fcm_title,
+            "Pairings for round #{@group.current_round} is ready",
+            { url: group_pairings_tournaments_path(@admin_tournament, @group, @group.current_round) }
+          )
+        end
+
         format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament was successfully updated." }
         format.json { render :show, status: :ok, location: @admin_tournament }
       else
@@ -66,6 +83,14 @@ class Admin::TournamentsController < ApplicationController
     retval =  @group.start
     respond_to do |format|
       if retval
+        fcm_title = set_fcm_title
+        # send android notification
+        FcmNotificationJob.perform_later(@admin_tournament.id,
+            fcm_title,
+            "Round 1 has started",
+            { url: group_pairings_tournaments_path(@admin_tournament, @group, @group.current_round) }
+          )
+
         if @group
           format.html { redirect_to group_show_admin_tournaments_url(@admin_tournament, @group), notice: "Tournament group was successfully started." }
         else
@@ -248,4 +273,13 @@ class Admin::TournamentsController < ApplicationController
     def set_sponsors_selection
       @sponsors_selection = Sponsor.all.order(:name).pluck(:name, :id)
     end
-end
+
+    def set_fcm_title
+      fcm_title = if @admin_tournament.groups.count > 1
+        "Group: #{@group.name}"
+      else
+        @admin_tournament.name
+      end
+    end
+
+  end

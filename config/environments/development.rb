@@ -83,4 +83,6 @@ Rails.application.configure do
   # ActiveJob
   config.active_job.queue_adapter = :inline
   config.active_job.verbose_enqueue_logs = true
+
+  config.web_console.permissions = '192.168.0.0/16'
 end

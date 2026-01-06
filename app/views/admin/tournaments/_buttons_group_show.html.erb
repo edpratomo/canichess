@@ -1,19 +1,16 @@
 <% enabled = group.current_round == 0 && group.sufficient_players? %>
-<% if enabled %>
-  <%= link_to start_group_admin_tournaments_path(tournament, group), method: :patch, class: "btn btn-primary btn-sm" do %>
-    <i class="fas fa-flag-checkered"></i> Start
+<div class="row" style="display: flex; gap: 0.5rem;">
+  <%= button_to start_group_admin_tournaments_path(tournament, group), disabled: !enabled, method: :patch, 
+                            data: { confirm: "Are you sure?", disable_with: "<i class='fa fa-spinner fa-spin'></i>".html_safe },
+                            class: "btn btn-primary btn-sm" do %>
+    <i class="fas fa-flag fa-checkered"></i> Start
   <% end %>
-<% else %>
-  <%= button_tag class: "btn btn-primary btn-sm", disabled: true do %>
-    <i class="fas fa-flag-checkered"></i> Start
+
+  <%= link_to edit_admin_tournament_group_path(tournament, group), class: "btn btn-info btn-sm" do %>
+    <i class="fas fa-pencil-alt"></i> Edit
   <% end %>
-<% end %>
 
-<%#= link_to edit_group_admin_tournaments_path(group), class: "btn btn-info btn-sm" do %>
-<%= link_to edit_admin_tournament_group_path(tournament, group), class: "btn btn-info btn-sm" do %>
-  <i class="fas fa-pencil-alt"></i> Edit
-<% end %>
-
-<%= link_to group_admin_tournaments_players_path(tournament, group), class: "btn btn-success btn-sm" do %>
-  <i class="fas fa-pencil-alt"></i> Players
-<% end %>
+  <%= link_to group_admin_tournaments_players_path(tournament, group), class: "btn btn-success btn-sm" do %>
+    <i class="fas fa-pencil-alt"></i> Players
+  <% end %>
+</div>

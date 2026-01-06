@@ -1,5 +1,6 @@
 class Simul < ApplicationRecord
   include Eventable
+  include Logo
 
   # polymorphic many-to-many:
   # tournaments <= events_sponsors => sponsors
@@ -12,8 +13,6 @@ class Simul < ApplicationRecord
 
   has_many :simuls_players, dependent: :destroy
   has_many :players, through: :simuls_players
-
-  has_one_attached :logo
 
   after_commit :assign_colors, on: :update, if: -> { :playing_color_changed? or :alternate_color_changed? }
 
@@ -35,18 +34,6 @@ class Simul < ApplicationRecord
         end
       end
     end
-  end
-
-  def logo_url
-    if logo.attached?
-      logo
-    else
-     'logo-canichess-transparent.webp' 
-    end
-  end
-
-  def logo_thumb
-    logo.variant(resize_to_limit: [50, 50])
   end
 
   def percentage_completion

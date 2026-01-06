@@ -1,5 +1,6 @@
 class Tournament < ApplicationRecord
   include Eventable
+  include Logo
 
   # polymorphic many-to-many:
   # tournaments <= events_sponsors => sponsors
@@ -18,22 +19,9 @@ class Tournament < ApplicationRecord
   has_many :players, through: :tournaments_players
 
   has_many :groups
-  has_one_attached :logo
   
   after_create :create_default_group
   before_destroy :delete_listed_event
-
-  def logo_url
-    if logo.attached?
-      logo
-    else
-     'logo-canichess-transparent.webp' 
-    end
-  end
-
-  def logo_thumb
-    logo.variant(resize_to_limit: [50, 50])
-  end
 
   def get_results round=nil
     round ||= current_round

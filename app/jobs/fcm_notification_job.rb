@@ -1,4 +1,6 @@
 class FcmNotificationJob < ApplicationJob
+  sidekiq_options retry: 3
+  
   queue_as :default
 
   def perform(tournament_id, title, body, data)

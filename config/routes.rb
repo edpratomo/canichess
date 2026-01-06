@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      post 'device_tokens/create'
+      resources :event_subscriptions, only: [:create, :destroy]
+      resources :device_tokens, only: [:create, :destroy ]
     end
   end
 

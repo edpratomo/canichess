@@ -8,28 +8,31 @@ export default class extends Controller {
 
   connect() {
     console.log("AndroidButtonController connected")
+
     if (!(window.Android && Android.subscribeToTournament)) {
       this.element.remove()
       return
     }
 
-    this.updateLabel()
+    window.onTournamentSubscriptionChanged = (tournamentId, subscribed) => {
+      if (tournamentId === this.tournamentIdValue) {
+        this.updateLabel(subscribed)
+      }
+    }
+
+    this.updateLabel(Android.isSubscribedToTournament(this.tournamentIdValue))
   }
 
   toggle() {
-    if (this.subscribedValue) {
+    if (Android.isSubscribedToTournament(this.tournamentIdValue)) {
       Android.unsubscribeFromTournament(this.tournamentIdValue)
-      this.subscribedValue = false
     } else {
       Android.subscribeToTournament(this.tournamentIdValue)
-      this.subscribedValue = true
     }
-
-    this.updateLabel()
   }
 
-  updateLabel() {
-    this.element.textContent = this.subscribedValue
+  updateLabel(is_subscribed) {
+    this.element.textContent = is_subscribed // this.subscribedValue
       ? "Stop Notifications"
       : "Notify Me for Updates"
   }

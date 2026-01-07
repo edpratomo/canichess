@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      resources :event_subscriptions, only: [:create, :destroy]
-      resources :device_tokens, only: [:create, :destroy ]
-    end
-  end
-
   namespace :admin do
     resources :sponsors
   end

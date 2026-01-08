@@ -32,13 +32,26 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libffi-dev libpq-dev libyaml-dev node-gyp pkg-config python-is-python3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+RUN mkdir /usr/local/nvm
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 22.11.0
+    
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
 # Install JavaScript dependencies
-ARG NODE_VERSION=22.x
+#ARG NODE_VERSION=22.x
 ARG YARN_VERSION=1.22.22
-ENV PATH=/usr/local/node/bin:$PATH
-RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
-    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
-    npm install -g yarn@$YARN_VERSION && \
+ENV PATH=/usr/local/nvm/versions/node/v22.11.0/bin:$PATH
+
+# This boilerplate code for installing nodejs doesn't work:
+#RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+#    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+
+RUN npm install -g yarn@$YARN_VERSION && \
     rm -rf /tmp/node-build-master
 
 # Install application gems
@@ -59,6 +72,7 @@ COPY . .
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
 
 
@@ -75,10 +89,10 @@ COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /rails /rails
 
 # Run and own only the runtime files as a non-root user for security
-ARG UID=1000 \
-    GID=1000
-RUN groupadd -f -g $GID rails && \
-    useradd -u $UID -g $GID rails --create-home --shell /bin/bash && \
+ARG USER_ID=1000 \
+    GROUP_ID=1000
+RUN groupadd -f -g $GROUP_ID rails && \
+    useradd -u $USER_ID -g $GROUP_ID rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 

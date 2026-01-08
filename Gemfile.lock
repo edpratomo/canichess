@@ -133,6 +133,8 @@ GEM
     crass (1.0.6)
     date (3.4.1)
     diff-lcs (1.5.0)
+    dockerfile-rails (1.7.10)
+      rails (>= 3.0.0)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -438,6 +440,7 @@ DEPENDENCIES
   capistrano3-puma
   capybara (~> 3.40)
   devise!
+  dockerfile-rails (>= 1.7)
   dotenv-rails
   factory_bot_rails
   faker!

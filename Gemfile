@@ -109,3 +109,5 @@ gem "faraday", "~> 2.14"
 gem "googleauth", "~> 1.16"
 
 gem "sidekiq", "~> 7.3"
+
+gem "dockerfile-rails", ">= 1.7", :group => :development

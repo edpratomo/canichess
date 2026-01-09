@@ -24,6 +24,8 @@ class Admin::TournamentsController < ApplicationController
   end
 
   def update_player_labels
+    return false if (!admin_tournament_params[:new_player_label].present? and 
+                     !admin_tournament_params[:delete_player_label].present?)
     @admin_tournament.player_labels << admin_tournament_params[:new_player_label] if admin_tournament_params[:new_player_label].present?
     @admin_tournament.player_labels.delete(admin_tournament_params[:delete_player_label]) if admin_tournament_params[:delete_player_label].present?
     @admin_tournament.save

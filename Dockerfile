@@ -33,8 +33,8 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 RUN mkdir /usr/local/nvm
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 22.11.0
+ENV NVM_DIR=/usr/local/nvm
+ENV NODE_VERSION=22.11.0
     
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash \
     && . $NVM_DIR/nvm.sh \

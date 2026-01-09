@@ -61,12 +61,14 @@ class CreateSponsors < ActiveRecord::Migration[6.1]
         url: "https://www.sasa.co.id/",
         evs: [tr3]
       }
-    ]
+    ] if tr2 & tr3 && sm1
 
-    sponsors.each do |sponsor|
-      sp = Sponsor.create!(name: sponsor[:name], logo: sponsor[:logo], url: sponsor[:url])
-      sponsor[:evs].compact.each do |chess_event|
-        chess_event.sponsors.push(sp)
+    if sponsors
+      sponsors.each do |sponsor|
+        sp = Sponsor.create!(name: sponsor[:name], logo: sponsor[:logo], url: sponsor[:url])
+        sponsor[:evs].compact.each do |chess_event|
+          chess_event.sponsors.push(sp)
+        end
       end
     end
   end

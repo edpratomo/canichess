@@ -45,6 +45,8 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-bind  "unix:///home/edwin/apps/canichess/shared/tmp/sockets/puma.sock"
-state_path "tmp/pids/puma.state"
-activate_control_app "unix:///home/edwin/apps/canichess/shared/tmp/sockets/pumactl.sock"
+unless ENV['DOCKERIZED']
+  bind  "unix:///home/edwin/apps/canichess/shared/tmp/sockets/puma.sock"
+  state_path "tmp/pids/puma.state"
+  activate_control_app "unix:///home/edwin/apps/canichess/shared/tmp/sockets/pumactl.sock"
+end

@@ -13,6 +13,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - DOCKER=yes
       - REDIS_URL=redis://redis-db:6379
       - DATABASE_URL=postgres://root:password@postgres-db/
     secrets:

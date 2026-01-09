@@ -12,6 +12,8 @@ services:
       - ./storage:/rails/storage
     ports:
       - "3000:3000"
+    env_file:
+      - .env.production
     environment:
       - DOCKERIZED=yes
       - REDIS_URL=redis://redis-db:6379

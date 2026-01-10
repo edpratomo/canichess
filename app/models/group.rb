@@ -13,7 +13,7 @@ class Group < ApplicationRecord
   end
 
   def is_finished?
-    completed_round == rounds
+    completed?
   end
 
   def is_swiss_system?
@@ -124,6 +124,10 @@ class Group < ApplicationRecord
 
   def any_board_finished? round
     boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
+  end
+
+  def broadcast_round_finished
+    ActionCable.server.broadcast "round_finished", self.completed?
   end
 
   protected

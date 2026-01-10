@@ -55,6 +55,9 @@ class Admin::TournamentsController < ApplicationController
     round = params[:round_id].to_i
     respond_to do |format|
       if @group.finalize_round(round)
+        # send in-app notification
+        @group.broadcast_round_finished
+
         # send out android notification
         fcm_title = set_fcm_title
 

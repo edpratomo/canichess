@@ -15,6 +15,9 @@ module Canichess
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
+
+    config.autoload_paths << Rails.root.join("app/presenters")
+
     #
     # config.time_zone = "Central Time (US & Canada)"
     config.time_zone = "Jakarta"

@@ -31,6 +31,9 @@ application.register("other-field", OtherFieldController)
 import PlayersFilenameController from "./players_filename_controller"
 application.register("players-filename", PlayersFilenameController)
 
+import RoundFinishedController from "./round_finished_controller"
+application.register("round-finished", RoundFinishedController)
+
 import ScoreboardController from "./scoreboard_controller"
 application.register("scoreboard", ScoreboardController)
 

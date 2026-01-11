@@ -126,8 +126,12 @@ class Group < ApplicationRecord
     boards.where(round:round).where.not(white: nil).where.not(black: nil).where.not(result: nil).size > 0
   end
 
-  def broadcast_round_finished
-    ActionCable.server.broadcast "round_finished", self.completed?
+  def broadcast_round_finished group_presenter
+    ActionCable.server.broadcast "round_finished", {
+      completed: self.completed?,
+      group_id: self.id,
+      url: self.completed? ? group_presenter.final_standings_path : group_presenter.next_round_path
+    }
   end
 
   protected

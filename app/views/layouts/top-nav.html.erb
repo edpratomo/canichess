@@ -21,6 +21,7 @@
 </head>
 
 <body class="hold-transition layout-top-nav dark-mode">
+
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -78,6 +79,8 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <%= render 'base/alert', group: @group %>
+
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">

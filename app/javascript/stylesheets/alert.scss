@@ -1,0 +1,15 @@
+.top-center-alert {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1055;
+  min-width: 300px;
+  text-align: center;
+}
+
+.dark-mode .alert-warning {
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  color: #856404;
+}

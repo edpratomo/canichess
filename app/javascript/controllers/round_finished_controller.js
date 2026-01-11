@@ -25,14 +25,12 @@ export default class extends Controller {
               data.url + '" class="alert-link">Final standings are available</a>'
           } else {
             thisElementMessage.innerHTML = 'Pairings for <a href="' + 
-              data.url + '" class="alert-link">the next round is ready.'
+              data.url + '" class="alert-link">the next round are ready.'
           }
           thisElement.style.display = ""
-
         }
       }
     });
-    
   }
 
   disconnect() {

@@ -18,6 +18,11 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def after_sign_in_path_for(resource)
+    # Replace `users_path` with the desired path, e.g., `products_path`
+    admin_path
+  end
+
   def after_sign_out_path_for(resource_or_scope)
     # Define the path you want users to be redirected to after sign out
     # For example, redirect to the sign-in page:

@@ -45,5 +45,6 @@
   <!-- /.card-body -->
   <div class="card-footer">
     <button type="submit" class="btn btn-primary">Update</button>
+    <%= link_to "Cancel", user.new_record? ? users_path : user_path(user), type: "button", class: "btn btn-secondary" %>
   </div>
 <% end %>

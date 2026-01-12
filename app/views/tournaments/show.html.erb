@@ -8,6 +8,7 @@
             <%= render 'show_header', tournament: @tournament, group: nil %>
             <hr>
             <%= render 'tournament', tournament: @tournament, group: nil %>
+            <%= render 'gmap', eventable: @tournament %>
           <% else %>
             <h1 class="display-6">Hello, fellow Canisians!</h1>
             <%= image_tag("logo-canichess-transparent.png", alt: "Canichess Logo", style: "max-width: 40%; opacity: .8") %>

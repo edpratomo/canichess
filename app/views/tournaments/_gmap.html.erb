@@ -1,0 +1,8 @@
+<div class="map-container">
+  <iframe
+    src="https://www.google.com/maps/embed/v1/place?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&q=<%= URI.encode_www_form_component(eventable.location) %>"
+    allowfullscreen
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>

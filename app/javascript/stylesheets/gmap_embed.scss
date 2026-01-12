@@ -1,0 +1,15 @@
+.map-container {
+  position: relative;
+  width: 100%;
+  max-width: 480px;     /* 👈 cap desktop size */
+  aspect-ratio: 16 / 9; /* modern browsers */
+  margin: 0 auto;      /* center it */
+}
+
+.map-container iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

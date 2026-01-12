@@ -67,6 +67,7 @@ import '../stylesheets/scaffolds';
 import '../stylesheets/application'; // This file will contain your custom CSS
 import '../stylesheets/bracket';
 import '../stylesheets/alert';
+import '../stylesheets/gmap_embed';
 
 require('admin-lte');
 

@@ -1,2 +1,50 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<% @users.each_with_index do |user,idx| %>
+  <% if idx % 3 == 0 %>
+  <div class="row">
+  <% end %>
+          <div class="col-md-4">
+            <!-- Widget: user widget style 2 -->
+            <div class="card card-widget widget-user-2 shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-warning">
+                <div class="widget-user-image">
+                  <img class="img-circle elevation-2" src="<%= user.gravatar_url %>" alt="User Avatar">
+                </div>
+                <!-- /.widget-user-image -->
+                <h4 class="widget-user-username"><%= user.fullname %></h4>
+                  <div style="float: right; margin-right: -0.625rem;">
+                  <%= link_to edit_admin_user_path(user) do %>
+                  <button type="button" class="btn btn-tool">
+                    <i class="fas fa-edit fa-lg"></i>
+                  </button>
+                  <% end %>
+                </div>
+                <h5 class="widget-user-desc"><%= user.username %></h5>
+              </div>
+              <div class="card-footer">
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Email</b> <a class="float-right"><%= user.email %></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Last sign in</b> <a class="float-right"><%= user.last_sign_in_at %></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Created at</b> <a class="float-right"><%= user.created_at %></a>
+                  </li>
+
+                  <li class="list-group-item">
+                    <b>Last modified</b> <a class="float-right"><%= user.updated_at %></a>
+                  </li>
+                </ul>
+              </div> <!-- ./card-footer -->
+            </div> <!-- ./card -->
+          </div> <!-- ./col -->
+  <% if idx % 3 == 2 %>
+  </div> <!-- ./row -->
+  <% end %>
+<% end %>
+<%# if div is not closed %>
+<% if (@users.count - 1) % 3 < 2 %>
+  </div> <!-- ./row -->
+<% end %>

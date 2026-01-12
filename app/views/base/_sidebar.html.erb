@@ -71,6 +71,24 @@
               </p>
             <% end %>
           </li>
+          <li class="nav-header">ADMIN USERS</li>
+            <li class="nav-item">
+            <%= link_to new_admin_user_path, class: "nav-link" do %>
+              <i class="nav-icon far fa-edit"></i>
+              <p>
+                Create New
+              </p>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to admin_users_path, class: "nav-link" do %>
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                List
+              </p>
+            <% end %>
+          </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

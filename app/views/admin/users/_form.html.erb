@@ -1,11 +1,13 @@
-<%= form_with(model: user, url: admin_users_path, html: { method: :post, class: "form-horizontal", role: "form" }) do |form| %>
+<%= form_with(model: user, url: user.new_record? ? admin_users_path : admin_user_path(user), html: { method: user.new_record? ? :post : :put, class: "form-horizontal", role: "form" }) do |form| %>
   <div class="card-body">
-    <div class="form-group row">
-      <%= form.label :username, "User Name", class: "col-sm-4 col-form-label" %>
-      <div class="col-sm-8">
-        <%= form.text_field :username, class: "form-control", placeholder: "Username for login" %>
+    <% if user.new_record? %>
+      <div class="form-group row">
+        <%= form.label :username, "User Name", class: "col-sm-4 col-form-label" %>
+        <div class="col-sm-8">
+          <%= form.text_field :username, class: "form-control", placeholder: "Username for login" %>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <div class="form-group row">
       <%= form.label :fullname, "Full Name", class: "col-sm-4 col-form-label" %>
@@ -39,6 +41,6 @@
   <!-- /.card-body -->
   <div class="card-footer">
     <button type="submit" class="btn btn-primary">Submit</button>
-    <%= link_to "Cancel", new_admin_user_path, type: "button", class: "btn btn-secondary" %>
+    <%= link_to "Cancel", user.new_record? ? new_admin_user_path : admin_users_path, type: "button", class: "btn btn-secondary" %>
   </div>
 <% end %>

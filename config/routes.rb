@@ -123,10 +123,23 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users #, skip: [:registrations]
-  resources :users, only: [:index, :show]
+  devise_for :users, skip: [:registrations]
   
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  as :user do
+    get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+    # we have custom registrations#update in a subclass of Devise::Registrations
+    put 'users' => 'users/registrations#update', :as => 'user_registration'
+    # You can also add the patch and delete routes if needed
+    patch 'users' => 'users/registrations#update', :as => 'update_user_registration'
+    delete 'users' => 'devise/registrations#destroy', :as => 'destroy_user_registration'
+  end
+
+  #  resources :users, only: [:index, :show]
+  namespace :admin do
+    resources :users, only: [:new, :create, :index, :edit, :update, :show]
+  end
+
+# For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "home#index"
 
   get '/admin', to: redirect('/admin/tournaments')  

@@ -1,0 +1,44 @@
+<%= form_with(model: user, url: admin_users_path, html: { method: :post, class: "form-horizontal", role: "form" }) do |form| %>
+  <div class="card-body">
+    <div class="form-group row">
+      <%= form.label :username, "User Name", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8">
+        <%= form.text_field :username, class: "form-control", placeholder: "Username for login" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :fullname, "Full Name", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8">
+        <%= form.text_field :fullname, class: "form-control", placeholder: "Full name" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :email, "Email", class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8">
+        <%= form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email address" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :password, class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8">
+        <%= form.password_field :password, autocomplete: "new-password", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <%= form.label :password_confirmation, class: "col-sm-4 col-form-label" %>
+      <div class="col-sm-8">
+        <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.card-body -->
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <%= link_to "Cancel", new_admin_user_path, type: "button", class: "btn btn-secondary" %>
+  </div>
+<% end %>

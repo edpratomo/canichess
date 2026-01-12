@@ -53,10 +53,6 @@ private
   end
 
   def user_params
-    params.require(:user).permit(:username, :fullname, :email, :password, :password_confirmation).tap do |whitelisted|
-      if whitelisted[:password].empty?
-        whitelisted.delete(:password)
-      end
-    end
+    params.require(:user).permit(:username, :fullname, :email, :password, :password_confirmation)
   end
 end

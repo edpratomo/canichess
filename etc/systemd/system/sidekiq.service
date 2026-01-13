@@ -1,0 +1,34 @@
+# https://github.com/sidekiq/sidekiq/blob/main/examples/systemd/sidekiq.service
+
+[Unit]
+Description=Sidekiq Background Worker
+After=network.target redis.service
+
+[Service]
+# As of v6.0.6, Sidekiq automatically supports systemd's `Type=notify` and watchdog service
+# monitoring.
+Type=notify
+NotifyAccess=all
+# If your Sidekiq process locks up, systemd's watchdog will restart it within seconds.
+WatchdogSec=10
+
+User=edwin
+Group=edwin
+UMask=0002
+WorkingDirectory=/home/edwin/apps/canichess/current
+
+# Greatly reduce Ruby memory fragmentation and heap usage
+# https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/
+Environment=MALLOC_ARENA_MAX=2
+Environment=RAILS_ENV=production
+Environment=REDIS_URL=redis://127.0.0.1:6379/0
+
+ExecStart=/bin/bash -lc 'exec /home/edwin/.rbenv/shims/bundle exec sidekiq -C config/sidekiq.yml'
+# this won't work:
+# -e production -q canichess_production_default'
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

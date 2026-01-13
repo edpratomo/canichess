@@ -51,6 +51,8 @@ class Standing < ApplicationRecord
   end
 
   def merged_standings_config
-    tournaments_player.group.merged_standings_config
+    if tournaments_player and tournaments_player.group
+      tournaments_player.group.merged_standings_config
+    end
   end
 end

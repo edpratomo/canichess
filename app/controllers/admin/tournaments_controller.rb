@@ -223,11 +223,16 @@ class Admin::TournamentsController < ApplicationController
 
   # DELETE /admin/tournaments/1 or /admin/tournaments/1.json
   def destroy
-    @admin_tournament.destroy
-
+    success = @admin_tournament.destroy
+    Rails.logger.debug("tournament.destroy: #{success}")
     respond_to do |format|
-      format.html { redirect_to admin_tournaments_url, notice: "Tournament was successfully destroyed." }
-      format.json { head :no_content }
+      if success
+        format.html { redirect_to admin_tournaments_url, notice: "Tournament was successfully destroyed." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to admin_tournaments_url, alert: "Could not destroy tournament." }
+        format.json { head :no_content }
+      end
     end
   end
 

@@ -5,20 +5,21 @@ class Tournament < ApplicationRecord
   # polymorphic many-to-many:
   # tournaments <= events_sponsors => sponsors
   # simuls      <= events_sponsors => sponsors
-  has_many :events_sponsors, :as => :eventable
-  has_many :sponsors, :through => :events_sponsors, :as => :eventable
+  has_many :events_sponsors, as: :eventable, dependent: :destroy
+  has_many :sponsors, through: :events_sponsors, as: :eventable
 
-  has_many :boards
-  has_many :standings
+  has_many :boards, dependent: :destroy
+  has_many :standings, dependent: :destroy
 
   # many-to-many players
   has_many :tournaments_players, dependent: :destroy
   has_many :players, through: :tournaments_players
 
-  has_many :groups
+  has_many :groups, dependent: :destroy
   
   after_create :create_default_group
-  before_destroy :delete_listed_event
+  before_destroy :check_for_completed_group, prepend: true, if: :rated?
+  #after_destroy :delete_listed_event
 
   def get_results round=nil
     round ||= current_round
@@ -78,5 +79,17 @@ class Tournament < ApplicationRecord
 
   def create_default_group
     Swiss.create!(tournament: self, name: 'Default', rounds: 7)
+  end
+
+  def rated?
+    self.rated
+  end
+
+  def check_for_completed_group
+    if self.groups.any?(&:completed?)
+      errors.add 'Could not delete tournament: tournament is rated and a final standings have been created.'
+      throw :abort
+    end
+    yield
   end
 end

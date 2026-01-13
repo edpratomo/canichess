@@ -2,7 +2,7 @@ module Eventable
   extend ActiveSupport::Concern
 
   included do
-    has_one :listed_event, :as => :eventable
+    has_one :listed_event, as: :eventable, dependent: :destroy
 
     after_create :create_listed_event, if: -> { listed }
     after_commit :create_listed_event, on: :update, if: -> { saved_change_to_listed? and listed and not listed_event}

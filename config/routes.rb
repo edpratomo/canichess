@@ -1,4 +1,9 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  # Mount the Sidekiq Web UI
+  mount Sidekiq::Web => '/sidekiq'
+
   namespace :admin do
     resources :sponsors
   end

@@ -94,7 +94,7 @@ class Admin::TournamentsController < ApplicationController
         # send android notification
         FcmNotificationJob.perform_later(@admin_tournament.id,
             fcm_title,
-            "Round 1 has started",
+            "Pairings for Round 1 are ready",
             { url: group_pairings_tournaments_path(@admin_tournament, @group, @group.current_round) }
           )
 

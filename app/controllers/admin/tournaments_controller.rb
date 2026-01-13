@@ -158,7 +158,7 @@ class Admin::TournamentsController < ApplicationController
     end
     group = Group.find(group_id) if group_id and not group_id.empty?
 
-    if player_id and not player_id.empty?
+    success = if player_id and not player_id.empty?
       @admin_tournament.add_player(id: player_id, group: group)
     elsif player_name and not player_name.empty?
       @admin_tournament.add_player(name: player_name, group: group)
@@ -180,15 +180,7 @@ class Admin::TournamentsController < ApplicationController
       end
     end
 
-    # register players already known in our database
-    registered_players = @admin_tournament.players.inject({}) {|m,o| m[o.id] = true; m}
-    player_ids.map {|e| [e.first.to_i, e[1].to_i]}.reject {|e| registered_players[e.first]}.each do |player_id, group_id|
-      @admin_tournament.add_player(id: player_id, group: Group.find(group_id))
-    end
-    # register new players not in our database
-    player_names.each do |player_name, group_id|
-      @admin_tournament.add_player(name: player_name, group: Group.find(group_id))
-    end
+    success = TournamentPlayerRegistrar.call(@admin_tournament, player_ids, player_names)
 
     # delete sessions
     session.delete(:new_players)
@@ -197,7 +189,15 @@ class Admin::TournamentsController < ApplicationController
 
     # redirect
     respond_to do |format|
-      format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament players were successfully updated." }
+      if success
+        format.html { redirect_to tournament_admin_tournaments_players_url(@admin_tournament), notice: "Tournament players were successfully updated." }
+      else
+        if params_player_names
+          format.html { render :upload_admin_tournaments_players, status: :unprocessable_entity }
+        else
+          format.html { render :new_admin_tournaments_players, status: :unprocessable_entity }
+        end
+      end
     end
   end
 

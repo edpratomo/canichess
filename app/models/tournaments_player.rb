@@ -1,7 +1,7 @@
 class TournamentsPlayer < ApplicationRecord
   belongs_to :tournament
   belongs_to :player
-  belongs_to :group #, optional: true
+  belongs_to :group
 
   has_many :standings
 

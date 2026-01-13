@@ -21,6 +21,10 @@ class Tournament < ApplicationRecord
   before_destroy :check_for_completed_group, prepend: true, if: :rated?
   #after_destroy :delete_listed_event
 
+  def only_group
+    self.groups.first if self.groups.count == 1
+  end
+
   def get_results round=nil
     round ||= current_round
     boards.where(round: round).where.not(result: nil).map {|e|
@@ -54,11 +58,11 @@ class Tournament < ApplicationRecord
     elsif args[:name]
       Player.create!(name: args[:name])
     end
-    players << new_player
-    if args[:group]
-      new_player.tournaments_players.find_by(tournament: self).update!(group: args[:group])
-    end
-    new_player
+    #players << new_player
+
+    group = args[:group] || self.only_group
+    tp = tournaments_players.build(player: new_player, group: group)
+    tp.save
   end
 
   def withdraw_wo_players
@@ -90,6 +94,5 @@ class Tournament < ApplicationRecord
       errors.add 'Could not delete tournament: tournament is rated and a final standings have been created.'
       throw :abort
     end
-    yield
   end
 end

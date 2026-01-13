@@ -66,13 +66,13 @@ class Admin::TournamentsController < ApplicationController
         if @group.is_finished?
           FcmNotificationJob.perform_later(@admin_tournament.id,
             fcm_title,
-            "Final standings is ready",
+            "[#{@group.name}] Final standings is ready ",
             { url: group_standings_tournaments_path(@admin_tournament, @group, @group.completed_round) }
           )
         else
           FcmNotificationJob.perform_later(@admin_tournament.id, 
             fcm_title,
-            "Pairings for round #{@group.current_round} is ready",
+            "[#{@group.name}] Pairings for round #{@group.current_round} is ready",
             { url: group_pairings_tournaments_path(@admin_tournament, @group, @group.current_round) }
           )
         end

@@ -3,9 +3,7 @@
   <p class="lead">Oops! Standings not available yet. Please check again later.</p>
 <% else %>
   <% if @round == @group.rounds %>
-    <%# content_for :page_title do %>
-      <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>
-    <%# end %>
+    <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>
     <% if @group.is_swiss_system? %>
       <%= render 'final_standings', tournament: @tournament, standings: @standings, group: @group, round: @round %>
     <% else %>

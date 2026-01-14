@@ -1,9 +1,10 @@
 <div class="row my-2">
   <div class="col-12 d-flex align-items-center">
+    <% sponsors_half = (tournament.sponsors.count.to_f / 2).ceil %>
     <!-- Left section with centered carousel -->
     <div class="d-none d-md-flex align-items-center justify-content-center" style="flex: 1;">
       <div style="max-width: 200px; min-width: 100px;">
-        <%= render 'base/sponsors_carousel', sponsors: tournament.sponsors %>
+        <%= render 'base/sponsors_carousel', sponsors: tournament.sponsors[0..(sponsors_half - 1)] %>
       </div>
     </div>
 
@@ -36,7 +37,7 @@
     <!-- Right section with centered carousel -->
     <div class="d-none d-md-flex align-items-center justify-content-center" style="flex: 1;">
       <div style="max-width: 200px; min-width: 100px;">
-        <%= render 'base/sponsors_carousel', sponsors: tournament.sponsors %>
+        <%= render 'base/sponsors_carousel', sponsors: tournament.sponsors[sponsors_half..] %>
       </div>
     </div>
   </div>

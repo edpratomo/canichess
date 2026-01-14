@@ -44,5 +44,8 @@ require "capistrano/sidekiq"
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Systemd
 
+install_plugin Capistrano::Sidekiq
+install_plugin Capistrano::Sidekiq::Systemd
+
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

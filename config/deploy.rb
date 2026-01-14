@@ -87,3 +87,6 @@ Rake::Task["puma:reload"].clear_actions if Rake::Task.task_defined?("puma:reload
 
 # Use restart instead
 after 'deploy:publishing', 'puma:restart'
+
+# restart sidekiq
+after "deploy:published", "sidekiq:restart"

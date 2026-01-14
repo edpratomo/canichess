@@ -111,3 +111,5 @@ gem "googleauth", "~> 1.16"
 gem "sidekiq", "~> 7.3"
 
 gem "dockerfile-rails", ">= 1.7", :group => :development
+
+gem "capistrano-sidekiq", "~> 3.2", group: :development

@@ -39,6 +39,7 @@ require "capistrano/bundler"
 require "capistrano/rbenv"
 require 'capistrano/puma'
 require 'capistrano/nvm'
+require "capistrano/sidekiq"
 
 install_plugin Capistrano::Puma
 install_plugin Capistrano::Puma::Systemd

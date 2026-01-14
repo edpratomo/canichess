@@ -81,6 +81,17 @@ set :keep_releases, 3
 #  after :publishing, :restart
 #end
 
+namespace :sidekiq do
+  desc "Restart Sidekiq"
+  task :restart do
+    on roles(:app) do
+      execute :sudo, :systemctl, :restart, :sidekiq
+    end
+  end
+end
+
+after "deploy:published", "sidekiq:restart"
+
 # puma:reload is BROKEN since using systemd unit
 # Skip the default puma:reload
 Rake::Task["puma:reload"].clear_actions if Rake::Task.task_defined?("puma:reload")

@@ -1,0 +1,11 @@
+<div data-controller="gmap"
+  data-gmap-src-value="https://www.google.com/maps/embed/v1/place?key=<%= ENV['GOOGLE_MAPS_API_KEY'] %>&q=<%= URI.encode_www_form_component(eventable.location) %>">
+
+  <!-- optional loader 
+  <div data-gmap-target="loader" class="map-loader">
+    Loading map…
+  </div>
+  -->
+  <!-- iframe container -->
+  <div data-gmap-target="container" class="map-container hidden"></div>
+</div>

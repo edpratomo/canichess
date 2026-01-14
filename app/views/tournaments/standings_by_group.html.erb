@@ -2,9 +2,6 @@
   <% content_for :page_title do %> <%= @tournament.name %> - <small>Standings</small><% end %>
   <p class="lead">Oops! Standings not available yet. Please check again later.</p>
 <% else %>
-  <% title @tournament.name + " - #{@tournament.groups.count > 1 ? @group.name : ''}" %>
-  <% description "Standings after Round #{@round}" %>
-
   <% if @round == @group.rounds %>
     <%# content_for :page_title do %>
       <%= render 'standings_header', tournament: @tournament, group: @group, round: @round %>

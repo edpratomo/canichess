@@ -1,25 +1,42 @@
-<div class="row justify-content-center">
-  <div class="col-auto d-flex align-items-center">
-    <h2><%= image_tag(tournament.logo_url, alt: "Tournament Logo", style: "max-width: 100px; opacity: .8") %></h2>
-    <div class="d-flex flex-column align-items-center ms-3 p-3">
-      <h2 class="mb-1 mt-2"><%= tournament.name %></h2>
-      <h5>Standings after Round <%= round %></h5>
-      <div>
-        <h4>
-          <% if tournament.groups.count > 1 %>
-            <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
-              <%= group.name %> <span class="caret"></span>
-            </a>
-            <div class="dropdown-menu">
-            <% tournament.groups.each do |this_group| %>
-              <%= link_to(this_group.name, 
-                          group_standings_tournaments_path(tournament, this_group, round) + 
-                          (params[:full] && params[:full] == "1" ? "?full=1" : ""),
-                          class: "dropdown-item") %>
+<div class="row my-2">
+  <div class="col-12 d-flex align-items-center">
+    <!-- Left section with centered carousel -->
+    <div class="d-none d-md-flex align-items-center justify-content-center" style="flex: 1;">
+      <div style="max-width: 200px; min-width: 100px;">
+        <%= render 'base/sponsors_carousel', sponsors: tournament.sponsors %>
+      </div>
+    </div>
+
+    <!-- Center: Logo and Title -->
+    <div class="d-flex align-items-center">
+      <h2><%= image_tag(tournament.logo_url, alt: "Tournament Logo", style: "max-width: 100px; opacity: .8") %></h2>
+      <div class="d-flex flex-column align-items-center ms-3 p-3">
+        <h2 class="mb-1 mt-2"><%= tournament.name %></h2>
+        <h5>Standings after Round <%= round %></h5>
+        <div>
+          <h4>
+            <% if tournament.groups.count > 1 %>
+              <a class="nav-link info dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= group.name %> <span class="caret"></span>
+              </a>
+              <div class="dropdown-menu">
+              <% tournament.groups.each do |this_group| %>
+                <%= link_to(this_group.name, 
+                            group_standings_tournaments_path(tournament, this_group, round) + 
+                            (params[:full] && params[:full] == "1" ? "?full=1" : ""),
+                            class: "dropdown-item") %>
+              <% end %>
+              </div>
             <% end %>
-            </div>
-          <% end %>
-        </h4>
+          </h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right section with centered carousel -->
+    <div class="d-none d-md-flex align-items-center justify-content-center" style="flex: 1;">
+      <div style="max-width: 200px; min-width: 100px;">
+        <%= render 'base/sponsors_carousel', sponsors: tournament.sponsors %>
       </div>
     </div>
   </div>

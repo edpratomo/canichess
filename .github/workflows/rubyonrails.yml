@@ -88,6 +88,9 @@ jobs:
       - name: Set up database schema
         run: bin/rails db:schema:load
       
+      - name: Generate RSpec binstub
+        run: bundle binstubs rspec-core
+      
       - name: Run tests
         run: bin/rspec -fd
 

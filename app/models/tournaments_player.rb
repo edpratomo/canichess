@@ -87,7 +87,7 @@ class TournamentsPlayer < ApplicationRecord
 
   def check_already_started
     if group.current_round > 0
-      errors.add 'Tournament already started. Could not delete player.'
+      errors.add :base, 'Tournament already started. Could not delete player.'
       throw :abort
     end
   end

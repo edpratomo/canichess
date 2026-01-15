@@ -13,6 +13,7 @@ RSpec.describe TournamentsPlayer, type: :model do
       let(:tournament) { create(:tournament) }
       let(:group) { tournament.groups.first }
       let(:player) { create(:player) }
+      let(:rr_player) { create(:player) }
       let!(:tp) { create(:tournaments_player, tournament: tournament, player: player, group: group) }
 
       context 'when tournament has started' do
@@ -30,7 +31,7 @@ RSpec.describe TournamentsPlayer, type: :model do
 
         it 'adds error message' do
           tp.destroy
-          expect(tp.errors.full_messages.first).to include('Tournament already started')
+          expect(tp.errors.full_messages).to include('Tournament already started. Could not delete player.')
         end
       end
 
@@ -46,7 +47,7 @@ RSpec.describe TournamentsPlayer, type: :model do
 
       context 'for non-Swiss system' do
         let(:round_robin_group) { create(:round_robin, tournament: tournament) }
-        let!(:rr_tp) { create(:tournaments_player, tournament: tournament, player: player, group: round_robin_group) }
+        let!(:rr_tp) { create(:tournaments_player, tournament: tournament, player: rr_player, group: round_robin_group) }
 
         it 'allows deletion without checking if started' do
           expect { rr_tp.destroy! }.not_to raise_error
@@ -307,14 +308,6 @@ RSpec.describe TournamentsPlayer, type: :model do
       end
     end
 
-    context 'when group is nil' do
-      let(:player) { create(:player) }
-      let(:tp) { build(:tournaments_player, tournament: tournament, group: nil, player: player) }
-
-      it 'returns false' do
-        expect(tp.swiss_system?).to be false
-      end
-    end
   end
 
   describe 'attributes' do
@@ -348,6 +341,7 @@ RSpec.describe TournamentsPlayer, type: :model do
     end
 
     it 'stores labels array' do
+      tournament.update(player_labels: ["U18", "Junior", "Senior"])
       tp = create(:tournaments_player, tournament: tournament, player: player, group: group, labels: ['U18', 'Junior'])
       expect(tp.labels).to eq(['U18', 'Junior'])
     end

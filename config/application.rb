@@ -18,6 +18,8 @@ module Canichess
 
     config.autoload_paths << Rails.root.join("app/presenters")
 
+    config.active_record.schema_format = :sql
+
     #
     # config.time_zone = "Central Time (US & Canada)"
     config.time_zone = "Jakarta"

@@ -4,6 +4,13 @@ class Standing < ApplicationRecord
 
   after_commit :update_merged_standings, on: [:create, :update, :destroy]
 
+  def merged_standings_config
+    if tournaments_player and tournaments_player.group
+      tournaments_player.group.merged_standings_config
+    end
+  end
+
+  private
   def update_merged_standings
     config = self.merged_standings_config
     return unless config
@@ -16,8 +23,9 @@ class Standing < ApplicationRecord
       opposition_cumulative: 0,
       playing_black: 0,
       sb: 0,
-      h2h_rank: 0,
       wins: 0,
+      h2h_points: 0.0,
+      h2h_cluster: 0,
       blacklisted: false
     }
 
@@ -48,11 +56,5 @@ class Standing < ApplicationRecord
       )
 
     merged_standing.update!(new_rec)
-  end
-
-  def merged_standings_config
-    if tournaments_player and tournaments_player.group
-      tournaments_player.group.merged_standings_config
-    end
   end
 end

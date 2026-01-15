@@ -13,7 +13,7 @@ class Admin::SponsorsController < ApplicationController
 
   # GET /admin/sponsors/1 or /admin/sponsors/1.json
   def show
-    @eventables = @admin_sponsor.eventables.order(:created_at)
+    @eventables = @admin_sponsor.eventables.sort_by(&:created_at)
   end
 
   # GET /admin/sponsors/new

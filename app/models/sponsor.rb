@@ -20,8 +20,9 @@ class Sponsor < ActiveRecord::Base
   end
 
   def eventables
-    Tournament.joins(:events_sponsors).where(events_sponsors: {sponsor_id: id}).or(
-      Simul.joins(:events_sponsors).where(events_sponsors: {sponsor_id: id})
-    )
+    #Tournament.joins(:events_sponsors).where(events_sponsors: {sponsor_id: id}).or(
+    #  Simul.joins(:events_sponsors).where(events_sponsors: {sponsor_id: id})
+    #)
+    tournaments + simuls
   end
 end

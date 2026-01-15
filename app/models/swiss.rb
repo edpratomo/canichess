@@ -101,7 +101,7 @@ class Swiss < Group
         # update total games played by each player
         update_total_games()
 
-        # compute h2h_rank regardless of h2h_tb setting.
+        # compute h2h_points regardless of h2h_tb setting.
         # the h2h_tb only determines if it used for sorting.
         update_h2h(round)
       end

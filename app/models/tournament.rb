@@ -25,8 +25,7 @@ class Tournament < ApplicationRecord
     self.groups.first if self.groups.count == 1
   end
 
-  def get_results round=nil
-    round ||= current_round
+  def get_results round
     boards.where(round: round).where.not(result: nil).map {|e|
       {id: e.id, result: e.result, walkover: e.walkover}
     }

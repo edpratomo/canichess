@@ -11,7 +11,8 @@ class Player < ApplicationRecord
 
   def self.fuzzy_search_limit threshold, args
     ActiveRecord::Base.transaction do
-      ActiveRecord::Base.connection.execute("SET pg_trgm.similarity_threshold = #{threshold}")
+      quoted_threshold = ActiveRecord::Base.connection.quote(threshold)
+      ActiveRecord::Base.connection.execute("SET pg_trgm.similarity_threshold = #{quoted_threshold}")
       Player.fuzzy_search(args)
     end
   end
@@ -31,8 +32,11 @@ class Player < ApplicationRecord
 
     # curl -s -X GET 'https://fide-api.vercel.app/player_info/?fide_id=7102909&history=false' -H 'accept: application/json' | jq .
     fide_players.each do |player_id, player_fide_id|
-      rest_url = fide_api + "?fide_id=#{player_fide_id}&history=true"
-      output = %x[curl -s -X GET -H 'accept: application/json' '#{rest_url}']
+      sanitized = /^(\d+)$/.match(player_fide_id)
+      next unless sanitized
+      rest_url = fide_api + "?fide_id=#{sanitized[1]}&history=true"
+      escaped_url = Shellwords.escape(rest_url)
+      output = %x[curl -s -X GET -H 'accept: application/json' '#{escaped_url}']
       if output
         begin
           tmp_obj = JSON.parse(output)

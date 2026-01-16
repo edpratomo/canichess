@@ -20,12 +20,15 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 5.0'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
   gem 'factory_bot_rails'
+  gem "bundler-audit", "~> 0.9.3", require: false
+  gem "brakeman", "~> 7.1"
+  gem "rubocop", "~> 1.82"
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 6.1.5', '>= 6.1.4.4'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
 # Use Puma as the app server
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 5.6.9'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -66,6 +69,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma', require: false
   gem 'capistrano-nvm', require: false
+
+  gem "dockerfile-rails", ">= 1.7"
 end
 
 group :test do
@@ -110,6 +115,6 @@ gem "googleauth", "~> 1.16"
 
 gem "sidekiq", "~> 7.3"
 
-gem "dockerfile-rails", ">= 1.7", :group => :development
+gem 'rexml', '>= 3.3.9'
 
-gem "capistrano-sidekiq", "~> 3.2", group: :development
+gem "concurrent-ruby", "~> 1.1.10"

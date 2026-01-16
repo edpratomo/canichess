@@ -1,0 +1,130 @@
+# This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports:
+          - "6379:6379"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+      REDIS_URL: "redis://localhost:6379"
+      NODE_OPTIONS: "--openssl-legacy-provider"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends -y libpq-dev libvips imagemagick
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.11.0'
+      
+      - name: Install Yarn
+        run: npm install -g yarn@1.22.22
+      
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.8'
+          bundler: '2.2.3'
+          bundler-cache: false
+      
+      - name: Update bundler and install gems
+        run: |
+          gem install bundler:2.2.3
+          bundle update --bundler
+          bundle install --jobs 4 --retry 3
+      
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      
+      - name: Install JavaScript dependencies
+        run: yarn install --frozen-lockfile
+      
+      - name: Precompile assets
+        run: SECRET_KEY_BASE=DUMMY bin/rails assets:precompile
+      
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+      
+      - name: Generate RSpec binstub
+        run: bundle binstubs rspec-core
+      
+      - name: Run tests
+        run: bin/rspec -fd
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.8'
+          bundler: '2.2.3'
+          bundler-cache: false
+      
+      - name: Update bundler and install gems
+        run: |
+          gem install bundler:2.2.3
+          bundle update --bundler
+          bundle install --jobs 4 --retry 3
+      
+      - name: Generate binstubs
+        run: |
+          bundle binstubs bundler-audit brakeman rubocop
+      
+      - name: Security audit dependencies
+        continue-on-error: true
+        run: bin/bundler-audit --update
+      
+      - name: Security audit application code
+        continue-on-error: true
+        run: bin/brakeman -q -w2
+      
+      - name: Lint Ruby files
+        if: false
+        run: bin/rubocop --parallel

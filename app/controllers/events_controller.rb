@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   end
   
   def set_group
-    @group = Group.find_by(params[:group_id])
+    @group = Group.find_by(id: params[:group_id])
   end
 
   def set_round

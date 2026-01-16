@@ -11,17 +11,18 @@
   - Tie breakers: Modified median, Solkoff, Cumulative Score, Cumulative    Opponent's score, Number of games played with black pieces
   - Automatic player withdrawal following a configured number consecutive walkover losses.
   - Bipartite matching for a configured number of initial rounds
-  - Preferred pairings rating difference < 400
+  - Preferred pairings with rating difference < 400
 
 - Round Robin system
   - Tie breakers: Sonneborn-Berger, Number of wins excluding WO wins, Number of games played with black pieces
-- Head to Head (direct) encounters points can be enabled as the first tie breaker, either for swiss or round robin system.
+- Head to Head (direct) encounters results can be enabled as the first tie breaker, either for swiss or round robin system.
 
 - Pairings and standings pages suitable for videotron output, with real time updates.
+- Support for multiple groups in a tournament
 
 ## Chess Simultaneous Displays / Exhibitions
 
-- Support various playing color assignments: all play black, all play white, or alternating color every n boards.
+- Support for various playing color assignments: all play black, all play white, or alternating color every N boards.
 - Total scores and results of each player are updated in real time
 - Results page is suitable for videotron output
 
@@ -32,6 +33,11 @@
 
 ## Players Management
 
-- Players rating are computed at the end of **rated** tournaments
-- Supports tournament or simul players bulk upload, as well as individual input
-- Support player labels in a tournament, e.g. junior, senior, or canisian.
+- Players' ratings are computed at the end of **rated** tournaments
+- Support for tournament or simul players bulk upload, as well as individual input
+- Support for player labels in a tournament, e.g. junior, senior, or canisian, or any custom prize category
+
+## Current Limitations
+
+- No support for team based tournaments
+- A player can only join a single group in a tournament

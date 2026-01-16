@@ -97,6 +97,9 @@ GEM
     bootsnap (1.9.3)
       msgpack (~> 1.0)
     builder (3.2.4)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     byebug (11.1.3)
     capistrano (3.19.2)
       airbrussh (>= 1.0.0)
@@ -113,10 +116,6 @@ GEM
     capistrano-rbenv (2.2.0)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
-    capistrano-sidekiq (3.2.0)
-      capistrano (>= 3.9.0)
-      capistrano-bundler
-      sidekiq (>= 7.0)
     capistrano3-puma (6.0.0)
       capistrano (~> 3.7)
       capistrano-bundler
@@ -435,13 +434,13 @@ DEPENDENCIES
   base64
   bigdecimal
   bootsnap (>= 1.4.4)
+  bundler-audit (~> 0.9.3)
   byebug
   capistrano
   capistrano-bundler
   capistrano-nvm
   capistrano-rails
   capistrano-rbenv
-  capistrano-sidekiq (~> 3.2)
   capistrano3-puma
   capybara (~> 3.40)
   devise!

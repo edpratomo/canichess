@@ -20,6 +20,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 5.0'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
   gem 'factory_bot_rails'
+  gem "bundler-audit", "~> 0.9.3", require: false
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
@@ -66,6 +67,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma', require: false
   gem 'capistrano-nvm', require: false
+
+  gem "dockerfile-rails", ">= 1.7"
 end
 
 group :test do
@@ -109,7 +112,3 @@ gem "faraday", "~> 2.14"
 gem "googleauth", "~> 1.16"
 
 gem "sidekiq", "~> 7.3"
-
-gem "dockerfile-rails", ">= 1.7", :group => :development
-
-gem "capistrano-sidekiq", "~> 3.2", group: :development

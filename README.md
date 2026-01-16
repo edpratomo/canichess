@@ -34,4 +34,4 @@
 
 - Players rating are computed at the end of **rated** tournaments
 - Supports tournament or simul players bulk upload, as well as individual input
-- Support player labels in a tournament
+- Support player labels in a tournament, e.g. junior, senior, or canisian.

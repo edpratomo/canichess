@@ -1,4 +1,5 @@
 [![Ruby on Rails CI](https://github.com/edpratomo/canichess/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/edpratomo/canichess/actions/workflows/rubyonrails.yml)
+[![Docker Image CI](https://github.com/edpratomo/canichess/actions/workflows/docker-image.yml/badge.svg)](https://github.com/edpratomo/canichess/actions/workflows/docker-image.yml)
 
 # README
 

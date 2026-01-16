@@ -26,7 +26,7 @@ group :development, :test do
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
-gem 'rails', '~> 6.1.5', '>= 6.1.4.4'
+gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
 # Use Puma as the app server
 gem 'puma', '~> 5.0'
 # Use SCSS for stylesheets
@@ -114,3 +114,5 @@ gem "faraday", "~> 2.14"
 gem "googleauth", "~> 1.16"
 
 gem "sidekiq", "~> 7.3"
+
+gem 'rexml', '>= 3.3.9'

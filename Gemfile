@@ -21,6 +21,8 @@ group :development, :test do
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
   gem 'factory_bot_rails'
   gem "bundler-audit", "~> 0.9.3", require: false
+  gem "brakeman", "~> 7.1"
+  gem "rubocop", "~> 1.82"
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'

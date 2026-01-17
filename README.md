@@ -35,6 +35,7 @@
 
 - Players' ratings are computed at the end of **rated** tournaments
 - Support for tournament or simul players bulk upload, as well as individual input
+- Tournaments / simuls players registration supports automatic matching with existing players.
 - Support for player labels in a tournament, e.g. junior, senior, or canisian, or any custom prize category
 
 ## Current Limitations

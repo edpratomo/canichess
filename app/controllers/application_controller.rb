@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
+  helper_method :android_webview?
+
   def set_layout
     if current_user
       'application'
@@ -42,5 +44,10 @@ class ApplicationController < ActionController::Base
     elsif request[:access_key] == ENV['ACCESS_KEY']
       cookies.permanent[:access_key] = ENV['ACCESS_KEY']
     end
+  end
+
+  private
+  def android_webview?
+    request.user_agent.to_s.include?("CanichessAndroidWebView/1.0")
   end
 end

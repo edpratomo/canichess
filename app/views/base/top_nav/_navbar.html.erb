@@ -1,0 +1,50 @@
+<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+  <div class="container">
+    <a href="/" class="navbar-brand">
+      <%= image_tag("logo-canichess-transparent.png", alt: "Canichess Logo", class: "brand-image img-circle elevation-3", style: "opacity: .8") %>
+      <span class="brand-text font-weight-light">Canichess Alumni</span>
+    </a>
+
+    <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Events</a>
+          <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+            <% events_dropdown.each_with_index do |ev,idx| %>
+              <% if ev.has_key?(:groups) %>
+                <!-- Desktop: Show dropdown toggle -->
+                <li class="dropdown-submenu dropdown-hover d-none d-md-block">
+                  <a id="dropdownSubMenu_<%= idx %>" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle"><%= ev[:name] %></a>
+                  <ul aria-labelledby="dropdownSubMenu_<%= idx %>" class="dropdown-menu border-0 shadow">
+                    <% ev[:groups].each do |group| %>
+                      <li><a href="<%= group[:url] %>" class="dropdown-item"><%= group[:name] %></a></li>
+                    <% end %>
+                  </ul>
+                </li>
+                
+                <!-- Mobile: Show as regular link to first group -->
+                <li class="d-block d-md-none">
+                  <a href="<%= ev[:groups].first[:url] %>" class="dropdown-item"><%= ev[:name] %></a>
+                </li>
+              <% else %>
+                <li><a href="<%= ev[:url] %>" class="dropdown-item"><%= ev[:name] %></a></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </li>
+
+        <% if tournament %>
+        <%= render 'base/rr_nav', tournament: tournament, msconfig: msconfig %>
+        <% end %>
+        <li class="nav-item">
+          <%= link_to "Contact", contact_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

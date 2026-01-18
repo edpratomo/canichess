@@ -7,6 +7,9 @@ import { application } from "./application"
 import AndroidButtonController from "./android_button_controller"
 application.register("android-button", AndroidButtonController)
 
+import AndroidMenuController from "./android_menu_controller"
+application.register("android-menu", AndroidMenuController)
+
 import DatatableController from "./datatable_controller"
 application.register("datatable", DatatableController)
 

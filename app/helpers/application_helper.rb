@@ -1,4 +1,29 @@
 module ApplicationHelper
+  def generate_menu eventable, group=nil, msconfig=nil
+    menu = [
+      { title: "Events", children: events_dropdown_android },
+    ]
+
+    if eventable.is_a? Tournament
+      menu << { title: "Home", url: tournament_url(eventable) }
+      if group and group.current_round > 0
+        menu << { title: "Pairings",
+                  url: group_pairings_tournaments_url(eventable, group, group.current_round) }
+      else
+        menu << { title: "Pairings", enabled: false, url: '' }
+      end
+      if group and group.completed_round > 0
+        menu << { title: "Standings",
+                  url: group_standings_tournaments_url(eventable, group, group.completed_round) }
+      else
+        menu << { title: "Standings", enabled: false, url: '' }
+      end
+    end
+    menu << { title: "Contact", url: contact_url}
+
+    menu_json = JSON.generate(menu)
+  end
+
   def optional_group_name group
     return '' if group.tournament.groups.count == 1
     "Group: #{group.name}"
@@ -249,6 +274,25 @@ EOS
         end
       else
         {id: eventable.id, name: eventable.name, url: simul_path(eventable)}
+      end
+    end
+  end
+
+  def events_dropdown_android
+    eventables = ListedEvent.all.order(id: :desc).map {|e| e.eventable}
+    eventables.map do |eventable|
+      if eventable.is_a? Tournament
+        if eventable.groups.count > 1
+          {id: eventable.id, title: eventable.name, url: tournament_url(eventable),
+           children: eventable.groups.map do |group|
+             {id: group.id, title: group.name, url: group_show_tournaments_url(eventable, group)}
+           end
+          }
+        else
+          {id: eventable.id, title: eventable.name, url: tournament_url(eventable)}
+        end
+      else
+        {id: eventable.id, title: eventable.name, url: simul_url(eventable)}
       end
     end
   end

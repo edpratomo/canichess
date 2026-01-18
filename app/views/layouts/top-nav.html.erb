@@ -111,4 +111,7 @@
 <!-- ./wrapper -->
 
 </body>
+<script type="application/json" data-controller="android-menu" data-android-menu-target="menuData">
+  <%= raw json_escape(generate_menu(@tournament || @simul, @group)) %>
+</script>
 </html>

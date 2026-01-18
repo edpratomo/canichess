@@ -26,7 +26,7 @@
 
   <!-- Navbar -->
   <% unless android_webview? %>
-    <%= render 'base/top_nav/navbar', tournament: @tournament, msconfig: @merged_standings_config %>
+    <%= render 'base/top_nav/navbar', eventable: @tournament || @simul, group: @group, msconfig: @merged_standings_config %>
   <% end %>
   <!-- /.navbar -->
 

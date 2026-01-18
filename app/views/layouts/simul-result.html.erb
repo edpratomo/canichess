@@ -21,58 +21,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper">
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-    <div class="container">
-      <a href="/" class="navbar-brand">
-        <%= image_tag("logo-canichess-transparent.png", alt: "Canichess Logo", class: "brand-image img-circle elevation-3", style: "opacity: .8") %>
-        <span class="brand-text font-weight-light">Canichess Alumni</span>
-      </a>
-
-      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse order-3" id="navbarCollapse">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Events</a>
-            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-              <% events_dropdown.each do |ev| %>
-              <li><a href="<%= ev[:url] %>" class="dropdown-item"><%= ev[:name] %></a></li>
-              <% end %>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <% if @tournament %>
-            <a href="<%= tournament_path(@tournament) %>" class="nav-link">Home</a>
-            <% elsif @simul %>
-            <a href="<%= simul_path(@simul) %>" class="nav-link">Home</a>
-            <% end %>
-          </li>
-          <% current_round = @tournament ? @tournament.current_round : 0 %>
-          <% completed_round = @tournament ? @tournament.completed_round : 0 %>
-          <li class="nav-item">
-            <% if current_round > 0 %>
-              <%= link_to "Pairings", pairings_tournaments_path(@tournament, current_round), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Pairings</span>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <% if completed_round > 0 %>
-              <%= link_to 'Standings', standings_tournaments_path(@tournament, completed_round), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Standings</span>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Contact", contact_path, class: "nav-link" %>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <% unless android_webview? %>
+    <%= render 'base/top_nav/navbar', eventable: @simul, group: nil, msconfig: nil %>
+  <% end %>
   <!-- /.navbar -->
 
   <!-- Content Wrapper. Contains page content -->
@@ -121,4 +72,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 </body>
+<script type="application/json" data-controller="android-menu" data-android-menu-target="menuData">
+  <%= raw json_escape(generate_menu(@tournament || @simul, @group)) %>
+</script>
 </html>

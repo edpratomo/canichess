@@ -1,33 +1,33 @@
-          <% current_round = @group ? @group.current_round : 0 %>
-          <% completed_round = @group ? @group.completed_round : 0 %>
-          <% groups = tournament.groups %>
+<%# if eventable.is_a? Tournament %>
+          <%# current_round = group ? group.current_round : 0 %>
+          <%# completed_round = group ? group.completed_round : 0 %>
 
-          <li class="nav-item">
-            <% if @tournament %>
-            <a href="<%= tournament_path(@tournament) %>" class="nav-link">Home</a>
-            <% elsif @simul %>
-            <a href="<%= simul_path(@simul) %>" class="nav-link">Home</a>
-            <% end %>
-          <li class="nav-item">
-            <% if @group and @group.current_round > 0 %>
-              <%= link_to "Pairings", group_pairings_tournaments_path(@tournament, @group, current_round), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Pairings</span>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <% if @group and @group.completed_round > 0 %>
-              <%= link_to 'Standings', group_standings_tournaments_path(@tournament, @group, completed_round), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Standings</span>
-            <% end %>
-          </li>
-          <% if msconfig %>
-          <li class="nav-item">
-            <% if msconfig.groups.any?(&:is_finished?) %>
-              <%= link_to 'Overall Standings', merged_standings_tournaments_path(tournament, @group), class: "nav-link" %>
-            <% else %>
-              <span class="nav-link disabled">Overall Standings</span>
-            <% end %>
-          </li>
-          <% end %>
+<li class="nav-item">
+  <% if eventable.is_a? Tournament %>
+  <a href="<%= tournament_path(eventable) %>" class="nav-link">Home</a>
+  <% else %>
+  <a href="<%= simul_path(eventable) %>" class="nav-link">Home</a>
+  <% end %>
+<li class="nav-item">
+  <% if group and group.current_round > 0 %>
+    <%= link_to "Pairings", group_pairings_tournaments_path(eventable, group, group.current_round), class: "nav-link" %>
+  <% else %>
+    <span class="nav-link disabled">Pairings</span>
+  <% end %>
+</li>
+<li class="nav-item">
+  <% if group and group.completed_round > 0 %>
+    <%= link_to 'Standings', group_standings_tournaments_path(eventable, group, group.completed_round), class: "nav-link" %>
+  <% else %>
+    <span class="nav-link disabled">Standings</span>
+  <% end %>
+</li>
+<% if msconfig %>
+<li class="nav-item">
+  <% if msconfig.groups.any?(&:is_finished?) %>
+    <%= link_to 'Overall Standings', merged_standings_tournaments_path(eventable, group), class: "nav-link" %>
+  <% else %>
+    <span class="nav-link disabled">Overall Standings</span>
+  <% end %>
+</li>
+<% end %>

@@ -38,9 +38,8 @@
           </ul>
         </li>
 
-        <% if tournament %>
-        <%= render 'base/rr_nav', tournament: tournament, msconfig: msconfig %>
-        <% end %>
+        <%= render 'base/rr_nav', eventable: eventable, group: group, msconfig: msconfig %>
+
         <li class="nav-item">
           <%= link_to "Contact", contact_path, class: "nav-link" %>
         </li>

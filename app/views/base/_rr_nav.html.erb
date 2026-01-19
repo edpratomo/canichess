@@ -1,11 +1,7 @@
-<%# if eventable.is_a? Tournament %>
-          <%# current_round = group ? group.current_round : 0 %>
-          <%# completed_round = group ? group.completed_round : 0 %>
-
 <li class="nav-item">
   <% if eventable.is_a? Tournament %>
   <a href="<%= tournament_path(eventable) %>" class="nav-link">Home</a>
-  <% else %>
+  <% elsif eventable.is_a? Simul %>
   <a href="<%= simul_path(eventable) %>" class="nav-link">Home</a>
   <% end %>
 <li class="nav-item">

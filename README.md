@@ -7,14 +7,14 @@
 
 ## Chess Tournaments
 
-- Swiss system
-  - Tie breakers: Modified median, Solkoff, Cumulative Score, Cumulative    Opponent's score, Number of games played with black pieces
+- [Swiss system](https://en.wikipedia.org/wiki/Swiss-system_tournament)
+  - Tie breakers: Modified median, [Solkoff](https://en.wikipedia.org/wiki/Buchholz_system), Cumulative Score, Cumulative Opponent's score, Number of games played with black pieces
   - Automatic player withdrawal following a configured number consecutive walkover losses.
-  - Bipartite matching for a configured number of initial rounds
+  - [Bipartite matching](https://www.geeksforgeeks.org/maximum-bipartite-matching/) for a configured number of initial rounds
   - Preferred pairings with rating difference < 400
 
 - Round Robin system
-  - Tie breakers: Sonneborn-Berger, Number of wins excluding WO wins, Number of games played with black pieces
+  - Tie breakers: [Sonneborn-Berger](https://en.wikipedia.org/wiki/Sonneborn%E2%80%93Berger_score), Number of wins excluding WO wins, Number of games played with black pieces
 - Head to Head (direct) encounters results can be enabled as the first tie breaker, either for swiss or round robin system.
 
 - Pairings and standings pages suitable for videotron output, with real time updates.
@@ -33,7 +33,7 @@
 
 ## Players Management
 
-- Players' ratings are computed at the end of **rated** tournaments
+- Players' ratings are computed at the end of **rated** tournaments using [Glicko-2 algorithm](https://github.com/proglottis/glicko2)
 - Support for tournament or simul players bulk upload, as well as individual input
 - Tournaments / simuls players registration supports automatic matching with existing players.
 - Support for player labels in a tournament, e.g. junior, senior, or canisian, or any custom prize category

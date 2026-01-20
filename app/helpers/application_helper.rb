@@ -19,8 +19,9 @@ module ApplicationHelper
         menu << { title: "Standings", enabled: false, url: '' }
       end
     end
-    menu << { title: "Contact", url: contact_url}
-
+    unless android_webview?
+      menu << { title: "Contact", url: contact_url}
+    end
     menu_json = JSON.generate(menu)
   end
 

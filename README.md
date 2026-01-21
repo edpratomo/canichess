@@ -4,6 +4,7 @@
 # Canichess CEO
 
 **Chess Events Organizer** for Canichess Alumni's tournaments and simuls events.
+Written in [Rails 6](https://rubyonrails.org/) with [Postgresql](https://www.postgresql.org/) database.
 
 ## Chess Tournaments
 

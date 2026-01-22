@@ -9,7 +9,7 @@ Written in [Rails 6](https://rubyonrails.org/) with [Postgresql](https://www.pos
 ## Chess Tournaments
 
 - [Swiss system](https://en.wikipedia.org/wiki/Swiss-system_tournament)
-  - Tie breakers: Modified median, [Solkoff](https://en.wikipedia.org/wiki/Buchholz_system), Cumulative Score, Cumulative Opponent's score, Number of games played with black pieces
+  - Tie breakers: [Modified median](https://en.wikipedia.org/wiki/Tie-breaking_in_Swiss-system_tournaments#Modified_Median), [Solkoff](https://en.wikipedia.org/wiki/Buchholz_system), [Cumulative Score](https://en.wikipedia.org/wiki/Tie-breaking_in_Swiss-system_tournaments#Cumulative), [Cumulative Opponent's score](https://en.wikipedia.org/wiki/Tie-breaking_in_Swiss-system_tournaments#Cumulative_opponent's_score), Number of games played with black pieces
   - Automatic player withdrawal following a configured number consecutive walkover losses.
   - [Bipartite matching](https://www.geeksforgeeks.org/maximum-bipartite-matching/) for a configured number of initial rounds
   - Preferred pairings with rating difference < 400
@@ -20,8 +20,9 @@ Written in [Rails 6](https://rubyonrails.org/) with [Postgresql](https://www.pos
 
 - Pairings and standings pages suitable for videotron output, with real time updates.
 - Support for multiple groups in a tournament
+- Configurable points for win, draw, bye
 
-## Chess Simultaneous Displays / Exhibitions
+## [Chess Simultaneous Displays / Exhibitions](https://en.wikipedia.org/wiki/Simultaneous_exhibition)
 
 - Support for various playing color assignments: all play black, all play white, or alternating color every N boards.
 - Total scores and results of each player are updated in real time
@@ -43,3 +44,8 @@ Written in [Rails 6](https://rubyonrails.org/) with [Postgresql](https://www.pos
 
 - No support for team based tournaments
 - A player can only join a single group in a tournament
+
+## Logos Designs
+
+- Canichess Alumni logo by Irwan Mulia CC 94
+- Tournaments logos by Kendy Kusumo CC 90

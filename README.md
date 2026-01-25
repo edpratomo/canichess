@@ -49,3 +49,7 @@ Written in [Rails 6](https://rubyonrails.org/) with [Postgresql](https://www.pos
 
 - Canichess Alumni logo by Irwan Mulia CC 94
 - Tournaments logos by Kendy Kusumo CC 90
+
+## Author
+
+- Edwin Pratomo CC 88

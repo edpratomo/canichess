@@ -32,10 +32,10 @@ RSpec.describe User, type: :model do
     it { is_expected.to validate_presence_of(:password) }
     
     context 'email uniqueness' do
-      let!(:existing_user) { create(:user, email: 'test@example.com') }
+      let!(:existing_user) { create(:user, email: 'existing@example.com') }
       
       it 'validates uniqueness of email' do
-        new_user = build(:user, email: 'test@example.com')
+        new_user = build(:user, email: 'existing@example.com')
         expect(new_user).not_to be_valid
         expect(new_user.errors[:email]).to be_present
       end
@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'gravatar integration' do
-    let(:user) { create(:user, email: 'test@example.com') }
+    let(:user) { create(:user, email: 'gravatar@example.com') }
 
     it 'includes Gravtastic module' do
       expect(User.ancestors.map(&:to_s)).to include('Gravtastic::InstanceMethods')

@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   web:
+    image: ${DOCKER_NAMESPACE}/canichess-web:latest
     build:
       context: .
       args:
@@ -44,6 +45,7 @@ services:
     image: redis
 
   sidekiq:
+    image: ${DOCKER_NAMESPACE}/canichess-sidekiq:latest
     build: .
     command: bundle exec sidekiq
     environment:

@@ -116,3 +116,5 @@ gem "googleauth", "~> 1.16"
 gem "sidekiq", "~> 7.3"
 
 gem 'rexml', '>= 3.3.9'
+
+gem "concurrent-ruby", "~> 1.1.10"

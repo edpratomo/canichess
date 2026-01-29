@@ -14,6 +14,9 @@
 /config/master.key
 /config/credentials/*.key
 
+# Ignore all Firebase config files.
+/config/firebase*.json
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

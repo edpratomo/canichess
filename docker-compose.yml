@@ -50,6 +50,8 @@ services:
     command: bundle exec sidekiq
     secrets:
       - RAILS_MASTER_KEY
+      - source: FIREBASE_SERVICE_ACCOUNT
+        target: /rails/config/firebase_service_account.json
     environment:
       - RAILS_MASTER_KEY_FILE=/run/secrets/RAILS_MASTER_KEY
       - REDIS_URL=redis://redis-db:6379
@@ -63,3 +65,5 @@ services:
 secrets:
   RAILS_MASTER_KEY:
     file: ./config/master.key
+  FIREBASE_SERVICE_ACCOUNT:
+    file: ./config/firebase_service_account.json
